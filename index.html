@@ -293,6 +293,111 @@
             font-size: 1.1rem;
             font-weight: 500;
         }
+
+        /* Estilos para las nuevas secciones */
+        .identity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .logo-section {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .logo-femsa {
+            font-size: 3rem;
+            color: #e31f26;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .slogan {
+            font-size: 1.2rem;
+            color: #3498db;
+            font-style: italic;
+        }
+
+        .colors-section {
+            text-align: center;
+        }
+
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .color-item {
+            text-align: center;
+        }
+
+        .color-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .color-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .mission-card, .vision-card {
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .mission-card {
+            background: linear-gradient(135deg, #e31f26 0%, #c0392b 100%);
+        }
+
+        .vision-card {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+
+        .card-number {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .section-content {
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .highlight {
+            color: #27ae60;
+            font-weight: bold;
+        }
         
         @keyframes fadeInDown {
             from {
@@ -384,6 +489,15 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .identity-grid, .mission-vision-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .color-palette {
+                flex-wrap: wrap;
+            }
         }
     </style>
     <script src="/components/navbar.js"></script>
@@ -402,6 +516,74 @@
     </div>
     
     <div class="container">
+        <!-- Sección Quiénes Somos -->
+        <div class="stats-section">
+            <h2 class="stats-title">QUIÉNES SOMOS</h2>
+            <div style="text-align: center; max-width: 900px; margin: 0 auto; color: #2c3e50; line-height: 1.8; font-size: 1.1rem;">
+                <p style="margin-bottom: 20px;">
+                    En FEMSA somos líderes hemisféricos en la industria de bebidas, comprometidos con la <strong class="highlight">excelencia operacional</strong> y la <strong class="highlight">sostenibilidad</strong>.
+                </p>
+                <p style="margin-bottom: 20px;">
+                    Nuestro Sistema Integrado de Gestión unifica procesos estratégicos, operativos y de apoyo, garantizando la <strong class="highlight">calidad</strong>, <strong class="highlight">seguridad</strong> y <strong class="highlight">cumplimiento</strong> en todas nuestras operaciones hemisféricas.
+                </p>
+                <p>
+                    Creemos en el poder de la <strong class="highlight">integración</strong> para crear valor sostenible, donde cada proceso contribuye a nuestro compromiso de conectar, refrescar y nutrir a las comunidades que servimos.
+                </p>
+            </div>
+        </div>
+
+        <!-- Sección Nuestra Identidad -->
+        <div class="stats-section" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+            <h2 class="stats-title">NUESTRA IDENTIDAD</h2>
+            <div class="identity-grid">
+                <div>
+                    <h3 style="color: #2c3e50; font-size: 1.5rem; margin-bottom: 20px; text-align: center;">LOGO & ESLOGAN</h3>
+                    <div class="logo-section">
+                        <div class="logo-femsa">FEMSA</div>
+                        <div class="slogan">"Conectando. Refrescando. Nutriendo."</div>
+                    </div>
+                </div>
+                <div class="colors-section">
+                    <h3 style="color: #2c3e50; font-size: 1.5rem; margin-bottom: 20px;">COLORES CORPORATIVOS</h3>
+                    <div class="color-palette">
+                        <div class="color-item">
+                            <div class="color-circle" style="background: #e31f26;"></div>
+                            <div class="color-label">Rojo FEMSA</div>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-circle" style="background: #3498db;"></div>
+                            <div class="color-label">Azul Corporativo</div>
+                        </div>
+                        <div class="color-item">
+                            <div class="color-circle" style="background: #27ae60;"></div>
+                            <div class="color-label">Verde Sostenibilidad</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección Misión y Visión -->
+        <div class="stats-section">
+            <h2 class="stats-title">MISIÓN Y VISIÓN</h2>
+            <div class="mission-vision-grid">
+                <div class="mission-card">
+                    <div class="card-number">01</div>
+                    <h3 class="section-title">MISIÓN</h3>
+                    <div class="section-content">
+                        Ser la empresa de bebidas líder que <strong>conecta, refresca y nutre</strong> a las comunidades hemisféricas, a través de un <strong>sistema integrado de gestión</strong> que garantice la excelencia operacional, la sostenibilidad ambiental y el bienestar de nuestros colaboradores y consumidores.
+                    </div>
+                </div>
+                <div class="vision-card">
+                    <div class="card-number">02</div>
+                    <h3 class="section-title">VISIÓN</h3>
+                    <div class="section-content">
+                        Ser la <strong>red hemisférica de bebidas más admirada</strong>, reconocida por nuestro liderazgo en <strong>gestión integrada</strong>, innovación sostenible y compromiso con el desarrollo de las comunidades donde operamos.
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="stats-section">
             <h2 class="stats-title">FEMSA en Cifras 2024</h2>
             <div class="stats-grid">
@@ -590,19 +772,19 @@
             <div class="team-info">
                 <div class="team-member">
                     <strong>Esteban Camilo Parra Jacobo</strong><br>
-                    Líder de Proyecto
+                  
                 </div>
                 <div class="team-member">
                     <strong>Andrés Felipe Galeano Garzón</strong><br>
-                    Especialista en Procesos
+             
                 </div>
                 <div class="team-member">
                     <strong>Santiago Orlando Martínez</strong><br>
-                    Analista de Riesgos
+                
                 </div>
                 <div class="team-member">
                     <strong>Juan Pablo Gómez Barreto</strong><br>
-                    Especialista en Cumplimiento
+                  
                 </div>
             </div>
             <div class="university-info">
