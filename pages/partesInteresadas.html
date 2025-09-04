@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partes Interesadas - FEMSA SIG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #3498db 0%, #e31f26 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #3498db 0%, #e31f26 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .stakeholder-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 30px;
+        }
+        .stakeholder-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stakeholder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .interno { border-left-color: #27ae60; }
+        .externo { border-left-color: #3498db; }
+        .regulador { border-left-color: #e31f26; }
+        .stakeholder-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .stakeholder-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .stakeholder-desc {
+            font-size: 12px;
+            color: #7f8c8d;
+            line-height: 1.5;
+            text-align: left;
+        }
+        .expectativas {
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .expectativas-title {
+            font-weight: bold;
+            color: #e31f26;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+        .matriz-section {
+            background: #f8f9fa;
+            padding: 30px;
+            margin-top: 0;
+        }
+        .matriz-title {
+            color: #e31f26;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .matriz-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .matriz-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .matriz-cell {
+            padding: 10px;
+            border: 1px solid #ecf0f1;
+            text-align: center;
+            font-size: 10px;
+        }
+        .stakeholder-name {
+            text-align: left;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .influencia-alta { background: #e74c3c; color: white; font-weight: bold; }
+        .influencia-media { background: #f39c12; color: white; font-weight: bold; }
+        .influencia-baja { background: #27ae60; color: white; font-weight: bold; }
+        .interes-alto { background: #8e44ad; color: white; font-weight: bold; }
+        .interes-medio { background: #3498db; color: white; font-weight: bold; }
+        .interes-bajo { background: #95a5a6; color: white; font-weight: bold; }
+        .estrategia-cell {
+            font-size: 9px;
+            padding: 8px;
+            line-height: 1.3;
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .legend-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        .legend-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 11px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            border-radius: 3px;
+        }
+        .clasificacion-tags {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 9px;
+            font-weight: bold;
+            color: white;
+        }
+        .tag-interno { background: #27ae60; }
+        .tag-externo { background: #3498db; }
+        .tag-regulador { background: #e31f26; }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PARTES INTERESADAS (STAKEHOLDERS)</h1>
+            <h2>SISTEMA INTEGRADO DE GESTIÓN - FEMSA</h2>
+            <p>Identificación, análisis y estrategias de engagement con grupos de interés</p>
+        </div>
+        
+        <div class="stakeholder-grid">
+            <div class="stakeholder-card interno">
+                <div class="stakeholder-icon">👥</div>
+                <div class="stakeholder-title">Accionistas e Inversionistas</div>
+                <div class="stakeholder-desc">
+                    Propietarios de capital que esperan retornos atractivos y crecimiento sostenible de sus inversiones en FEMSA.
+                </div>
+                <div class="expectativas">
+                    <div class="expectativas-title">EXPECTATIVAS:</div>
+                    • Rentabilidad y sostenibilidad financiera<br>
+                    • Transparencia en governance<br>
+                    • Crecimiento de valor de la acción<br>
+                    • Dividendos consistentes
+                </div>
+                <div class="clasificacion-tags">
+                    <span class="tag tag-interno">INTERNO</span>
+                </div>
+            </div>
+            
+            <div class="stakeholder-card externo">
+                <div class="stakeholder-icon">🛒</div>
+                <div class="stakeholder-title">Clientes y Consumidores</div>
+                <div class="stakeholder-desc">
+                    276 millones de consumidores y 2.2 millones de puntos de venta que demandan productos de calidad, precio justo e innovación.
+                </div>
+                <div class="expectativas">
+                    <div class="expectativas-title">EXPECTATIVAS:</div>
+                    • Calidad consistente de productos<br>
+                    • Precio justo y accesible<br>
+                    • Innovación y productos saludables<br>
+                    • Disponibilidad y servicio
+                </div>
+                <div class="clasificacion-tags">
+                    <span class="tag tag-externo">EXTERNO</span>
+                </div>
+            </div>
+            
+            <div class="stakeholder-card interno">
+                <div class="stakeholder-icon">👨‍💼</div>
+                <div class="stakeholder-title">Empleados</div>
+                <div class="stakeholder-desc">
+                    93,664 colaboradores directos que buscan estabilidad laboral, desarrollo profesional y bienestar integral.
+                </div>
+                <div class="expectativas">
+                    <div class="expectativas-title">EXPECTATIVAS:</div>
+                    • Estabilidad y seguridad laboral<br>
+                    • Desarrollo profesional continuo<br>
+                    • Ambiente de trabajo seguro<br>
+                    • Compensación competitiva
+                </div>
+                <div class="clasificacion-tags">
+                    <span class="tag tag-interno">INTERNO</span>
+                </div>
+            </div>
+            
+            <div class="stakeholder-card externo">
+                <div class="stakeholder-icon">🚚</div>
+                <div class="stakeholder-title">Proveedores</div>
+                <div class="stakeholder-desc">
+                    Red global de proveedores con 93% de gasto en abastecimiento local, requieren relaciones estables y pagos oportunos.
+                </div>
+                <div class="expectativas">
+                    <div class="expectativas-title">EXPECTATIVAS:</div>
+                    • Relaciones comerciales a largo plazo<br>
+                    • Pagos cumplidos y oportunos<br>
+                    • Estabilidad en la demanda<br>
+                    • Desarrollo conjunto de capacidades
+                </div>
+                <div class="clasificacion-tags">
+                    <span class="tag tag-externo">EXTERNO</span>
+                </div>
+            </div>
+            
+            <div class="stakeholder-card regulador">
+                <div class="stakeholder-icon">🏛️</div>
+                <div class="stakeholder-title">Gobierno y Entes Reguladores</div>
+                <div class="stakeholder-desc">
+                    Autoridades en 10 países que establecen marcos regulatorios en salud, seguridad, medio ambiente y fiscales.
+                </div>
+                <div class="expectativas">
+                    <div class="expectativas-title">EXPECTATIVAS:</div>
+                    • Cumplimiento de leyes y regulaciones<br>
+                    • Pago oportuno de impuestos<br>
+                    • Normas de salud y seguridad<br>
+                    • Protección del medio ambiente
+                </div>
+                <div class="clasificacion-tags">
+                    <span class="tag tag-regulador">REGULADOR</span>
+                </div>
+            </div>
+            
+            <div class="stakeholder-card externo">
+                <div class="stakeholder-icon">🏘️</div>
+                <div class="stakeholder-title">Comunidades Locales</div>
+                <div class="stakeholder-desc">
+                    Comunidades en países de operación que esperan impacto positivo en empleo y desarrollo social con 19 planes MARRCO activos.
+                </div>
+                <div class="expectativas">
+                    <div class="expectativas-title">EXPECTATIVAS:</div>
+                    • Impacto positivo en empleo local<br>
+                    • Desarrollo social y económico<br>
+                    • Reducción de impactos ambientales<br>
+                    • Programas de responsabilidad social
+                </div>
+                <div class="clasificacion-tags">
+                    <span class="tag tag-externo">EXTERNO</span>
+                </div>
+            </div>
+            
+            <div class="stakeholder-card externo">
+                <div class="stakeholder-icon">⚔️</div>
+                <div class="stakeholder-title">Competidores</div>
+                <div class="stakeholder-desc">
+                    Empresas del sector que influyen indirectamente en precios, tendencias de mercado y marcos regulatorios.
+                </div>
+                <div class="expectativas">
+                    <div class="expectativas-title">IMPACTO:</div>
+                    • Influencia en precios de mercado<br>
+                    • Establecimiento de tendencias<br>
+                    • Presión por innovación<br>
+                    • Regulaciones indirectas
+                </div>
+                <div class="clasificacion-tags">
+                    <span class="tag tag-externo">EXTERNO</span>
+                </div>
+            </div>
+            
+            <div class="stakeholder-card externo">
+                <div class="stakeholder-icon">🌱</div>
+                <div class="stakeholder-title">ONGs y Grupos Ambientales</div>
+                <div class="stakeholder-desc">
+                    Organizaciones que presionan por sostenibilidad y reducción de huella ambiental, influyendo en certificaciones ESG.
+                </div>
+                <div class="expectativas">
+                    <div class="expectativas-title">EXPECTATIVAS:</div>
+                    • Sostenibilidad ambiental integral<br>
+                    • Reducción de huella de carbono<br>
+                    • Economía circular implementada<br>
+                    • Transparencia en reporting ESG
+                </div>
+                <div class="clasificacion-tags">
+                    <span class="tag tag-externo">EXTERNO</span>
+                </div>
+            </div>
+            
+            <div class="stakeholder-card externo">
+                <div class="stakeholder-icon">📺</div>
+                <div class="stakeholder-title">Medios de Comunicación</div>
+                <div class="stakeholder-desc">
+                    Medios y opinión pública que afectan la reputación corporativa y percepción de marca de FEMSA.
+                </div>
+                <div class="expectativas">
+                    <div class="expectativas-title">IMPACTO:</div>
+                    • Gestión de reputación corporativa<br>
+                    • Transparencia en comunicaciones<br>
+                    • Manejo de crisis de imagen<br>
+                    • Construcción de narrativa positiva
+                </div>
+                <div class="clasificacion-tags">
+                    <span class="tag tag-externo">EXTERNO</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="matriz-section">
+            <div class="matriz-title">MATRIZ DE PODER E INTERÉS DE STAKEHOLDERS</div>
+            
+            <div class="legend">
+                <div class="legend-box">
+                    <div class="legend-title">Niveles de Influencia</div>
+                    <div class="legend-item">
+                        <div class="legend-color influencia-alta"></div>
+                        <span>Alta (9-10): Capacidad de impacto directo en decisiones</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color influencia-media"></div>
+                        <span>Media (6-8): Influencia moderada en operaciones</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color influencia-baja"></div>
+                        <span>Baja (1-5): Impacto limitado en estrategia</span>
+                    </div>
+                </div>
+                
+                <div class="legend-box">
+                    <div class="legend-title">Niveles de Interés</div>
+                    <div class="legend-item">
+                        <div class="legend-color interes-alto"></div>
+                        <span>Alto (9-10): Interés directo en resultados</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color interes-medio"></div>
+                        <span>Medio (6-8): Interés moderado</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color interes-bajo"></div>
+                        <span>Bajo (1-5): Interés limitado o indirecto</span>
+                    </div>
+                </div>
+            </div>
+            
+            <table class="matriz-table">
+                <thead>
+                    <tr>
+                        <th class="matriz-header" style="width: 20%;">STAKEHOLDER</th>
+                        <th class="matriz-header" style="width: 10%;">INFLUENCIA</th>
+                        <th class="matriz-header" style="width: 10%;">INTERÉS</th>
+                        <th class="matriz-header" style="width: 15%;">CLASIFICACIÓN</th>
+                        <th class="matriz-header" style="width: 45%;">ESTRATEGIA DE ENGAGEMENT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="matriz-cell stakeholder-name">Accionistas e Inversionistas</td>
+                        <td class="matriz-cell influencia-alta">10</td>
+                        <td class="matriz-cell interes-alto">10</td>
+                        <td class="matriz-cell">GESTIONAR DE CERCA</td>
+                        <td class="matriz-cell estrategia-cell">Comunicación continua de resultados, transparencia en governance, cumplimiento de metas financieras, reportes trimestrales detallados</td>
+                    </tr>
+                    <tr>
+                        <td class="matriz-cell stakeholder-name">Empleados (93,664)</td>
+                        <td class="matriz-cell influencia-alta">8</td>
+                        <td class="matriz-cell interes-alto">9</td>
+                        <td class="matriz-cell">GESTIONAR DE CERCA</td>
+                        <td class="matriz-cell estrategia-cell">Programas de bienestar, capacitación continua (6.1M horas), seguridad psicológica, desarrollo profesional</td>
+                    </tr>
+                    <tr>
+                        <td class="matriz-cell stakeholder-name">Reguladores/Gobiernos</td>
+                        <td class="matriz-cell influencia-alta">9</td>
+                        <td class="matriz-cell interes-medio">7</td>
+                        <td class="matriz-cell">MANTENER SATISFECHOS</td>
+                        <td class="matriz-cell estrategia-cell">Cumplimiento proactivo de regulaciones, participación en consultas públicas, relaciones institucionales</td>
+                    </tr>
+                    <tr>
+                        <td class="matriz-cell stakeholder-name">Clientes/Consumidores (276M)</td>
+                        <td class="matriz-cell influencia-media">6</td>
+                        <td class="matriz-cell interes-alto">9</td>
+                        <td class="matriz-cell">MANTENER INFORMADOS</td>
+                        <td class="matriz-cell estrategia-cell">Innovación continua, programas de calidad, NPS 92.6%, plataformas digitales Juntos+ y En Tu Hogar</td>
+                    </tr>
+                    <tr>
+                        <td class="matriz-cell stakeholder-name">Proveedores</td>
+                        <td class="matriz-cell influencia-media">6</td>
+                        <td class="matriz-cell interes-alto">8</td>
+                        <td class="matriz-cell">MANTENER INFORMADOS</td>
+                        <td class="matriz-cell estrategia-cell">Evaluación EcoVadis, programas de desarrollo conjunto, pagos oportunos, alianzas estratégicas</td>
+                    </tr>
+                    <tr>
+                        <td class="matriz-cell stakeholder-name">Comunidades Locales</td>
+                        <td class="matriz-cell influencia-media">5</td>
+                        <td class="matriz-cell interes-medio">6</td>
+                        <td class="matriz-cell">MONITOREAR</td>
+                        <td class="matriz-cell estrategia-cell">19 Planes MARRCO, programas WASH (81%), recuperación post-crisis (1,000+ negocios)</td>
+                    </tr>
+                    <tr>
+                        <td class="matriz-cell stakeholder-name">ONGs Ambientales</td>
+                        <td class="matriz-cell influencia-media">6</td>
+                        <td class="matriz-cell interes-alto">8</td>
+                        <td class="matriz-cell">MANTENER INFORMADOS</td>
+                        <td class="matriz-cell estrategia-cell">Reporting ESG transparente, certificaciones ambientales, objetivos Net Zero, economía circular</td>
+                    </tr>
+                    <tr>
+                        <td class="matriz-cell stakeholder-name">Medios de Comunicación</td>
+                        <td class="matriz-cell influencia-media">6</td>
+                        <td class="matriz-cell interes-medio">5</td>
+                        <td class="matriz-cell">MONITOREAR</td>
+                        <td class="matriz-cell estrategia-cell">Comunicación proactiva, manejo de crisis, construcción de narrativa corporativa positiva</td>
+                    </tr>
+                    <tr>
+                        <td class="matriz-cell stakeholder-name">Competidores</td>
+                        <td class="matriz-cell influencia-baja">4</td>
+                        <td class="matriz-cell interes-bajo">3</td>
+                        <td class="matriz-cell">MONITOREAR</td>
+                        <td class="matriz-cell estrategia-cell">Inteligencia competitiva, diferenciación de valor, innovación continua, liderazgo tecnológico</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Sistema Integrado de Gestión - FEMSA</strong></p>
+            <p>Matriz de Stakeholders actualizada 2024 | Universidad Libre - Bogotá</p>
+            <p>Elaborado por: Esteban Camilo Parra, Andrés Felipe Galeano, Santiago Orlando Martínez, Juan Pablo Gómez</p>
+        </div>
+    </div>
+</body>
+</html>

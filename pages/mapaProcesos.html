@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Procesos - FEMSA SIG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #e31f26 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #e31f26 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .mapa-container {
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        .mapa-visual {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .proceso-layer {
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .layer-header {
+            padding: 15px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            font-size: 16px;
+        }
+        .estrategicos { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); }
+        .operativos { background: linear-gradient(135deg, #f39c12 0%, #d68910 100%); }
+        .apoyo { background: linear-gradient(135deg, #27ae60 0%, #229954 100%); }
+        .proceso-boxes {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.95);
+            min-height: 80px;
+        }
+        .proceso-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ecf0f1;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 140px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #2c3e50;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .proceso-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        .arrow {
+            font-size: 24px;
+            color: #3498db;
+            font-weight: bold;
+        }
+        .necesidades-cliente {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            min-height: 200px;
+            position: absolute;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+        }
+        .satisfaccion-cliente {
+            background: linear-gradient(135deg, #8e44ad 0%, #7d3c98 100%);
+            color: white;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            min-height: 200px;
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+        }
+        .mapa-wrapper {
+            position: relative;
+            margin: 0 120px;
+        }
+        .detalle-procesos {
+            margin-top: 30px;
+        }
+        .detalle-section {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .detalle-header {
+            padding: 15px 20px;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+        }
+        .detalle-content {
+            padding: 20px;
+        }
+        .proceso-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .proceso-detalle {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        .proceso-detalle.estrategico { border-left-color: #e74c3c; }
+        .proceso-detalle.operativo { border-left-color: #f39c12; }
+        .proceso-detalle.apoyo { border-left-color: #27ae60; }
+        .proceso-nombre {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .proceso-descripcion {
+            font-size: 12px;
+            color: #7f8c8d;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        .proceso-kpis {
+            font-size: 10px;
+            background: #ecf0f1;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 8px;
+        }
+        .kpi-title {
+            font-weight: bold;
+            color: #e31f26;
+            margin-bottom: 4px;
+        }
+        .interacciones {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .interacciones-title {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .interacciones-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .interaccion-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-top: 4px solid #3498db;
+            text-align: center;
+        }
+        .interaccion-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        .interaccion-desc {
+            font-size: 10px;
+            color: #7f8c8d;
+            line-height: 1.3;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MAPA DE PROCESOS</h1>
+            <h2>SISTEMA INTEGRADO DE GESTIÓN - FEMSA</h2>
+            <p>Representación visual de la cadena de valor y procesos organizacionales</p>
+        </div>
+        
+        <div class="mapa-container">
+            <div class="mapa-visual">
+                <div class="mapa-wrapper">
+                    <div class="necesidades-cliente">
+                        NECESIDADES DEL CLIENTE
+                    </div>
+                    
+                    <div class="satisfaccion-cliente">
+                        SATISFACCIÓN DEL CLIENTE
+                    </div>
+                    
+                    <!-- PROCESOS ESTRATÉGICOS -->
+                    <div class="proceso-layer">
+                        <div class="layer-header estrategicos">
+                            PROCESOS ESTRATÉGICOS
+                        </div>
+                        <div class="proceso-boxes">
+                            <div class="proceso-box">
+                                GESTIÓN DE CALIDAD
+                            </div>
+                            <div class="arrow">➜</div>
+                            <div class="proceso-box">
+                                MEJORAMIENTO CONTINUO
+                            </div>
+                            <div class="arrow">➜</div>
+                            <div class="proceso-box">
+                                SISTEMA DE GESTIÓN SSOMA
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PROCESOS OPERATIVOS -->
+                    <div class="proceso-layer">
+                        <div class="layer-header operativos">
+                            PROCESOS OPERATIVOS
+                        </div>
+                        <div class="proceso-boxes">
+                            <div class="proceso-box">
+                                COMERCIAL Y VENTAS
+                            </div>
+                            <div class="arrow">➜</div>
+                            <div class="proceso-box">
+                                COMPRA Y ALMACENAMIENTO MATERIA PRIMA
+                            </div>
+                            <div class="arrow">➜</div>
+                            <div class="proceso-box">
+                                PRODUCCIÓN
+                            </div>
+                            <div class="arrow">➜</div>
+                            <div class="proceso-box">
+                                ENVASADO Y ETIQUETADO PRODUCTO TERMINADO
+                            </div>
+                            <div class="arrow">➜</div>
+                            <div class="proceso-box">
+                                ALMACENAMIENTO PRODUCTO TERMINADO
+                            </div>
+                            <div class="arrow">➜</div>
+                            <div class="proceso-box">
+                                DISTRIBUCIÓN
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PROCESOS DE APOYO -->
+                    <div class="proceso-layer">
+                        <div class="layer-header apoyo">
+                            PROCESOS DE APOYO
+                        </div>
+                        <div class="proceso-boxes">
+                            <div class="proceso-box">
+                                GESTIÓN HUMANA
+                            </div>
+                            <div class="proceso-box">
+                                GESTIÓN ADMINISTRATIVA
+                            </div>
+                            <div class="proceso-box">
+                                GESTIÓN FINANCIERA
+                            </div>
+                            <div class="proceso-box">
+                                LOGÍSTICA
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detalle-procesos">
+                <!-- PROCESOS ESTRATÉGICOS DETALLE -->
+                <div class="detalle-section">
+                    <div class="detalle-header estrategicos">
+                        PROCESOS ESTRATÉGICOS - DIRECCIÓN Y CONTROL
+                    </div>
+                    <div class="detalle-content">
+                        <div class="proceso-grid">
+                            <div class="proceso-detalle estrategico">
+                                <div class="proceso-nombre">Gestión de Calidad</div>
+                                <div class="proceso-descripcion">
+                                    Establecimiento y mantenimiento de estándares de calidad en todos los productos y servicios, asegurando satisfacción del cliente.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • NPS: 92.6% satisfacción cliente<br>
+                                    • 50,000 encuestas mensuales<br>
+                                    • Certificaciones ISO vigentes
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle estrategico">
+                                <div class="proceso-nombre">Mejoramiento Continuo</div>
+                                <div class="proceso-descripcion">
+                                    Identificación y implementación sistemática de oportunidades de mejora en procesos, productos y servicios.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • US$71.5M ahorros operativos<br>
+                                    • +3 pts precisión pronóstico<br>
+                                    • Proyectos kaizen implementados
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle estrategico">
+                                <div class="proceso-nombre">Sistema de Gestión SSOMA</div>
+                                <div class="proceso-descripcion">
+                                    Integración de Seguridad, Salud Ocupacional y Medio Ambiente para operaciones sostenibles y seguras.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • Estrategia Seguridad 0.0<br>
+                                    • 84% energía renovable<br>
+                                    • 94% plantas cero residuos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PROCESOS OPERATIVOS DETALLE -->
+                <div class="detalle-section">
+                    <div class="detalle-header operativos">
+                        PROCESOS OPERATIVOS - CADENA DE VALOR CORE
+                    </div>
+                    <div class="detalle-content">
+                        <div class="proceso-grid">
+                            <div class="proceso-detalle operativo">
+                                <div class="proceso-nombre">Comercial y Ventas</div>
+                                <div class="proceso-descripcion">
+                                    Gestión de relaciones comerciales, desarrollo de mercados y canales de venta directa e indirecta.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • 2.2M puntos de venta<br>
+                                    • Juntos+ 1.3M usuarios activos<br>
+                                    • +150K nuevos clientes México
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle operativo">
+                                <div class="proceso-nombre">Compra y Almacenamiento</div>
+                                <div class="proceso-descripcion">
+                                    Adquisición estratégica de materias primas y materiales, con enfoque en sostenibilidad y eficiencia.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • 93% gasto abastecimiento local<br>
+                                    • 55% evaluado EcoVadis<br>
+                                    • Optimización costos materias primas
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle operativo">
+                                <div class="proceso-nombre">Producción</div>
+                                <div class="proceso-descripcion">
+                                    Manufactura de bebidas con tecnología avanzada, eficiencia energética y estándares de calidad mundial.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • 4.225M cajas unidad (+4.4%)<br>
+                                    • 56 plantas manufactura<br>
+                                    • 7 nuevas líneas 2024 (+3.5%)
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle operativo">
+                                <div class="proceso-nombre">Envasado y Etiquetado</div>
+                                <div class="proceso-descripcion">
+                                    Proceso automatizado de envasado con materiales sostenibles y etiquetado cumpliendo normativas locales.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • 30% PET reciclado empaques<br>
+                                    • 25.4% formatos personales<br>
+                                    • Eficiencia líneas embotellado
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle operativo">
+                                <div class="proceso-nombre">Almacenamiento</div>
+                                <div class="proceso-descripcion">
+                                    Gestión de inventarios de producto terminado con sistemas digitales y optimización de espacio.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • 256 centros distribución<br>
+                                    • Gestión digital almacenes<br>
+                                    • Rotación óptima inventarios
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle operativo">
+                                <div class="proceso-nombre">Distribución</div>
+                                <div class="proceso-descripcion">
+                                    Red de distribución hemisférica con +14,000 rutas de entrega y plataformas digitales integradas.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • +14,000 rutas entrega<br>
+                                    • 1.4 visitas/semana promedio<br>
+                                    • 276M consumidores atendidos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PROCESOS DE APOYO DETALLE -->
+                <div class="detalle-section">
+                    <div class="detalle-header apoyo">
+                        PROCESOS DE APOYO - SOPORTE ORGANIZACIONAL
+                    </div>
+                    <div class="detalle-content">
+                        <div class="proceso-grid">
+                            <div class="proceso-detalle apoyo">
+                                <div class="proceso-nombre">Gestión Humana</div>
+                                <div class="proceso-descripcion">
+                                    Desarrollo integral del capital humano, bienestar laboral y cultura organizacional centrada en el cliente.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • 93,664 colaboradores directos<br>
+                                    • 6.1M horas capacitación<br>
+                                    • 31.8% mujeres liderazgo
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle apoyo">
+                                <div class="proceso-nombre">Gestión Administrativa</div>
+                                <div class="proceso-descripcion">
+                                    Servicios administrativos, infraestructura corporativa y soporte operacional para todas las unidades.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • Eficiencia procesos admin<br>
+                                    • Digitalización 100% trámites<br>
+                                    • Servicios compartidos
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle apoyo">
+                                <div class="proceso-nombre">Gestión Financiera</div>
+                                <div class="proceso-descripción">
+                                    Planificación financiera, control presupuestario, tesorería y relaciones con inversionistas.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • ROIC mejorado 7° año<br>
+                                    • Flujo operativo Ps. 56.2B<br>
+                                    • Dividendos Ps. 6.08/acción
+                                </div>
+                            </div>
+                            
+                            <div class="proceso-detalle apoyo">
+                                <div class="proceso-nombre">Logística</div>
+                                <div class="proceso-descripcion">
+                                    Optimización de cadena de suministro, transporte y logística inversa para economía circular.
+                                </div>
+                                <div class="proceso-kpis">
+                                    <div class="kpi-title">KPIs Clave:</div>
+                                    • Optimización cost-to-serve<br>
+                                    • 43 centros SUSTENTAPET<br>
+                                    • Eficiencia flota transporte
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="interacciones">
+                <div class="interacciones-title">INTERACCIONES E INTERFACES CRÍTICAS</div>
+                <div class="interacciones-grid">
+                    <div class="interaccion-box">
+                        <div class="interaccion-title">Estratégico ↔ Operativo</div>
+                        <div class="interaccion-desc">
+                            Los procesos estratégicos definen objetivos y estándares que se implementan en la cadena operativa. Feedback continuo de operaciones informa decisiones estratégicas.
+                        </div>
+                    </div>
+                    
+                    <div class="interaccion-box">
+                        <div class="interaccion-title">Operativo ↔ Apoyo</div>
+                        <div class="interaccion-desc">
+                            Procesos de apoyo habilitan y sostienen las operaciones core. RH, finanzas y logística son críticos para eficiencia operacional.
+                        </div>
+                    </div>
+                    
+                    <div class="interaccion-box">
+                        <div class="interaccion-title">Cliente ↔ Todos los Procesos</div>
+                        <div class="interaccion-desc">
+                            Enfoque customer-centric permea todos los niveles. Desde estrategia hasta operaciones y apoyo, todo se orienta a satisfacción del cliente.
+                        </div>
+                    </div>
+                    
+                    <div class="interaccion-box">
+                        <div class="interaccion-title">Digital ↔ Transversal</div>
+                        <div class="interaccion-desc">
+                            Transformación digital impacta todos los procesos: desde analytics estratégicos hasta automatización operativa y servicios de apoyo.
+                        </div>
+                    </div>
+                    
+                    <div class="interaccion-box">
+                        <div class="interaccion-title">Sostenibilidad ↔ Integral</div>
+                        <div class="interaccion-desc">
+                            Consideraciones ESG integradas en todos los procesos: governance estratégico, operaciones limpias y apoyo responsable.
+                        </div>
+                    </div>
+                    
+                    <div class="interaccion-box">
+                        <div class="interaccion-title">Mejora Continua ↔ Sistema</div>
+                        <div class="interaccion-desc">
+                            Cultura de mejora continua alimenta innovación en todos los procesos, generando eficiencias y valor agregado sistemático.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Sistema Integrado de Gestión - FEMSA</strong></p>
+            <p>Mapa de Procesos actualizado 2024 | Universidad Libre - Bogotá</p>
+            <p>Elaborado por: Esteban Camilo Parra, Andrés Felipe Galeano, Santiago Orlando Martínez, Juan Pablo Gómez</p>
+        </div>
+    </div>
+</body>
+</html>

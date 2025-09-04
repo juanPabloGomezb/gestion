@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis del Contexto - Coca-Cola FEMSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 15px;
+            background-color: #f5f5f5;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        .container {
+            background-color: white;
+            border: 2px solid #e31f26;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #e31f26;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .header h2 {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        .external-context, .internal-context {
+            padding: 0;
+        }
+        .section-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+        .subsection {
+            border-bottom: 1px solid #ddd;
+        }
+        .subsection-header {
+            background-color: #34495e;
+            color: white;
+            padding: 8px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .factor-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+        .factor-box {
+            padding: 8px;
+            border: 1px solid #ddd;
+            min-height: 80px;
+        }
+        .positive { background-color: #d5f4e6; border-left: 4px solid #27ae60; }
+        .negative { background-color: #fadbd8; border-left: 4px solid #e74c3c; }
+        .neutral { background-color: #fef9e7; border-left: 4px solid #f39c12; }
+        .capability { background-color: #ebf3fd; border-left: 4px solid #3498db; }
+        .weakness { background-color: #fdedec; border-left: 4px solid #e74c3c; }
+        .factor-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+        .factor-content {
+            font-size: 10px;
+            margin-bottom: 3px;
+        }
+        .impact-level {
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 4px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-top: 3px;
+        }
+        .alto { background-color: #e74c3c; color: white; }
+        .medio { background-color: #f39c12; color: white; }
+        .bajo { background-color: #27ae60; color: white; }
+        .synthesis {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-top: 3px solid #e31f26;
+        }
+        .synthesis h3 {
+            color: #e31f26;
+            margin-top: 0;
+        }
+        .key-insights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .insight-box {
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+        }
+        .insight-title {
+            font-weight: bold;
+            color: #e31f26;
+            margin-bottom: 5px;
+        }
+        .metric {
+            background-color: #3498db;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: bold;
+            margin: 2px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ANÁLISIS DEL CONTEXTO ESTRATÉGICO INTEGRAL</h1>
+            <h2>Coca-Cola FEMSA - Informe Integrado 2024</h2>
+            <p>Análisis multidimensional del entorno operativo en 10 países latinoamericanos</p>
+        </div>
+        
+        <div class="main-grid">
+            <!-- CONTEXTO EXTERNO -->
+            <div class="external-context">
+                <div class="section-header">CONTEXTO EXTERNO</div>
+                
+                <!-- Entorno Macroeconómico -->
+                <div class="subsection">
+                    <div class="subsection-header">ENTORNO MACROECONÓMICO</div>
+                    <div class="factor-grid">
+                        <div class="factor-box positive">
+                            <div class="factor-title">Condiciones Favorables H1 2024</div>
+                            <div class="factor-content">Primera mitad del año con "condiciones macroeconómicas favorables" que impulsaron demanda</div>
+                            <div class="factor-content">• Dinámica política positiva en mercados clave<br>• Fuerte demanda de consumidores<br>• Estabilidad cambiaria relativa</div>
+                            <div class="impact-level alto">IMPACTO ALTO</div>
+                        </div>
+                        
+                        <div class="factor-box negative">
+                            <div class="factor-title">Volatilidad Argentina</div>
+                            <div class="factor-content">Volatilidad extrema que KOF capitalizó para "expandir escala relativa"</div>
+                            <div class="factor-content">• Estrategias de asequibilidad efectivas<br>• Presentaciones personales resilientes<br>• Oportunidad competitiva aprovechada</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                        
+                        <div class="factor-box neutral">
+                            <div class="factor-title">Inflación Diferenciada</div>
+                            <div class="factor-content">Presiones inflacionarias variables por país requieren estrategias localizadas</div>
+                            <div class="factor-content">• México: Inflación controlada<br>• Brasil: Moderada<br>• Colombia: Presión por impuestos</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                        
+                        <div class="factor-box positive">
+                            <div class="factor-title">Integración Regional</div>
+                            <div class="factor-content">Tratados comerciales facilitan operaciones transfronterizas y abastecimiento</div>
+                            <div class="factor-content">• 93% gasto abastecimiento local<br>• Reducción barreras comerciales<br>• Optimización cadena suministro</div>
+                            <div class="impact-level bajo">IMPACTO BAJO</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Industria de Bebidas -->
+                <div class="subsection">
+                    <div class="subsection-header">EVOLUCIÓN INDUSTRIA DE BEBIDAS</div>
+                    <div class="factor-grid">
+                        <div class="factor-box positive">
+                            <div class="factor-title">Crecimiento Sin Azúcar</div>
+                            <div class="factor-content">Coca-Cola Zero Azúcar: +31% volumen, 9.2% participación colas</div>
+                            <div class="factor-content">• Brasil lidera globalmente: +56%<br>• Costa Rica referencia mundial: 21% mezcla<br>• Supera desempeño categoría carbonatada</div>
+                            <div class="impact-level alto">IMPACTO ALTO</div>
+                        </div>
+                        
+                        <div class="factor-box positive">
+                            <div class="factor-title">Formatos Personales</div>
+                            <div class="factor-content">25.4% de mezcla, impulsan mejoras rentabilidad</div>
+                            <div class="factor-content">• Mayor margen por unidad<br>• Resistencia inflacionaria<br>• Preferencia post-pandemia</div>
+                            <div class="impact-level alto">IMPACTO ALTO</div>
+                        </div>
+                        
+                        <div class="factor-box positive">
+                            <div class="factor-title">No Carbonatadas Brasil</div>
+                            <div class="factor-content">Brasil entre top 10 mercados mundiales bebidas no carbonatadas</div>
+                            <div class="factor-content">• Oportunidad diversificación<br>• Márgenes superiores<br>• Crecimiento sostenido demanda</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                        
+                        <div class="factor-box negative">
+                            <div class="factor-title">Competencia Intensificada</div>
+                            <div class="factor-content">Entrada nuevos players locales y presión competitiva en pricing</div>
+                            <div class="factor-content">• Colombia: gap precios post-impuesto<br>• Brasil: competencia local agresiva<br>• México: marcas emergentes</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Marco Regulatorio -->
+                <div class="subsection">
+                    <div class="subsection-header">MARCO REGULATORIO MULTIJURISDICCIONAL</div>
+                    <div class="factor-grid">
+                        <div class="factor-box negative">
+                            <div class="factor-title">Impuesto Colombia 2023</div>
+                            <div class="factor-content">Impuesto especial bebidas amplió brecha precios vs competidores</div>
+                            <div class="factor-content">• Impacto inicial significativo<br>• Adaptación estrategias pricing<br>• Recuperación gradual volumen</div>
+                            <div class="impact-level alto">IMPACTO ALTO</div>
+                        </div>
+                        
+                        <div class="factor-box positive">
+                            <div class="factor-title">Regulaciones Ambientales</div>
+                            <div class="factor-content">Marcos crecientes crean ventaja competitiva para líder sostenibilidad</div>
+                            <div class="factor-content">• 94% plantas cero residuos<br>• 84% energía renovable<br>• Diferenciación vs competencia</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                        
+                        <div class="factor-box neutral">
+                            <div class="factor-title">Complejidad Fiscal</div>
+                            <div class="factor-content">10 sistemas fiscales diferentes requieren expertise especializada</div>
+                            <div class="factor-content">• Compliance multijurisdiccional<br>• Optimización fiscal estructural<br>• Riesgos cambios normativos</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                        
+                        <div class="factor-box positive">
+                            <div class="factor-title">Incentivos Inversión</div>
+                            <div class="factor-content">Programas gubernamentales para manufactura y empleo sostenible</div>
+                            <div class="factor-content">• Beneficios plantas renovables<br>• Incentivos generación empleo<br>• Zonas económicas especiales</div>
+                            <div class="impact-level bajo">IMPACTO BAJO</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Factores Climáticos y Ambientales -->
+                <div class="subsection">
+                    <div class="subsection-header">FACTORES CLIMÁTICOS Y AMBIENTALES</div>
+                    <div class="factor-grid">
+                        <div class="factor-box negative">
+                            <div class="factor-title">Eventos Climáticos Extremos</div>
+                            <div class="factor-content">Inundaciones Rio Grande do Sul, Huracán John Guerrero impactaron operaciones</div>
+                            <div class="factor-content">• Planta Porto Alegre afectada<br>• Interrupciones cadena suministro<br>• Costos recuperación +1,000 negocios</div>
+                            <div class="impact-level alto">IMPACTO ALTO</div>
+                        </div>
+                        
+                        <div class="factor-box positive">
+                            <div class="factor-title">Transición Energética</div>
+                            <div class="factor-content">Disponibilidad creciente energías renovables reduce costos operativos</div>
+                            <div class="factor-content">• México: paneles solares viables<br>• Brasil: hidroeléctrica abundante<br>• Colombia: potencial eólico</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                        
+                        <div class="factor-box negative">
+                            <div class="factor-title">Escasez Hídrica Regional</div>
+                            <div class="factor-content">Estrés hídrico creciente en operaciones intensivas en agua</div>
+                            <div class="factor-content">• Necesidad eficiencia 1.36L/1L<br>• 100% reabastecimiento requerido<br>• Inversiones tratamiento avanzado</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                        
+                        <div class="factor-box positive">
+                            <div class="factor-title">Economía Circular</div>
+                            <div class="factor-content">Demanda consumidor por empaques sostenibles impulsa innovación</div>
+                            <div class="factor-content">• 43 centros SUSTENTAPET<br>• 118,600 ton PET recolectadas<br>• Planta PLANETA operativa</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transformación Digital y Tecnológica -->
+                <div class="subsection">
+                    <div class="subsection-header">TRANSFORMACIÓN DIGITAL ACELERADA</div>
+                    <div class="factor-grid">
+                        <div class="factor-box positive">
+                            <div class="factor-title">Adopción Digital B2B</div>
+                            <div class="factor-content">Aceleración post-pandemia en digitalización puntos venta</div>
+                            <div class="factor-content">• Juntos+ 1.3M usuarios activos<br>• 92.6% satisfacción NPS<br>• 60% base clientes digitalizados</div>
+                            <div class="impact-level alto">IMPACTO ALTO</div>
+                        </div>
+                        
+                        <div class="factor-box positive">
+                            <div class="factor-title">E-commerce D2C</div>
+                            <div class="factor-content">En Tu Hogar 26% transacciones digitales, +600K consumidores</div>
+                            <div class="factor-content">• 70% retención digital<br>• +8 pts penetración digital vs 2023<br>• Modelo escalable regionalmente</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                        
+                        <div class="factor-box positive">
+                            <div class="factor-title">Inteligencia Artificial</div>
+                            <div class="factor-content">Juntos+ Advisor IA transforma efectividad fuerza ventas</div>
+                            <div class="factor-content">• 40% representantes Brasil utilizan<br>• Optimización rutas y portafolio<br>• Mejora 3 pts precisión pronóstico</div>
+                            <div class="impact-level alto">IMPACTO ALTO</div>
+                        </div>
+                        
+                        <div class="factor-box neutral">
+                            <div class="factor-title">Ciberseguridad</div>
+                            <div class="factor-content">Amenazas crecientes requieren inversión continua en protección</div>
+                            <div class="factor-content">• ERP basado nube vulnerable<br>• Datos 2.2M puntos venta<br>• Compliance multijurisdiccional</div>
+                            <div class="impact-level medio">IMPACTO MEDIO</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CONTEXTO INTERNO -->
+            <div class="internal-context">
+                <div class="section-header">CONTEXTO INTERNO</div>
+                
+                <!-- Capacidades Operativas -->
+                <div class="subsection">
+                    <div class="subsection-header">CAPACIDADES OPERATIVAS DISTINTIVAS</div>
+                    <div class="factor-grid">
+                        <div class="factor-box capability">
+                            <div class="factor-title">Red Distribución Líder</div>
+                            <div class="factor-content">"Red distribución más grande Latinoamérica" - ventaja competitiva inigualable</div>
+                            <div class="factor-content">• 256 centros distribución<br>• +14,000 rutas entrega<br>• 1.4 visitas/semana promedio</div>
+                            <div class="impact-level alto">VENTAJA ALTA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">Infraestructura Manufactura</div>
+                            <div class="factor-content">56 plantas, 7 nuevas líneas 2024 (+3.5% capacidad)</div>
+                            <div class="factor-content">• Flexibilidad productiva<br>• Eficiencia energética<br>• Tecnología avanzada embotellado</div>
+                            <div class="impact-level alto">VENTAJA ALTA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">Excelencia Operativa</div>
+                            <div class="factor-content">Ahorros US$71.5M superaron metas cost-to-make, cost-to-serve</div>
+                            <div class="factor-content">• Mejora continua sistemática<br>• Eliminación desperdicios<br>• Optimización procesos</div>
+                            <div class="impact-level medio">VENTAJA MEDIA</div>
+                        </div>
+                        
+                        <div class="factor-box weakness">
+                            <div class="factor-title">Dependencia Combustibles</div>
+                            <div class="factor-content">Flota +14,000 vehículos vulnerable volatilidad precios combustibles</div>
+                            <div class="factor-content">• Costos logísticos variables<br>• Impacto ambiental<br>• Necesidad electrificación</div>
+                            <div class="impact-level medio">DEBILIDAD MEDIA</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Capital Financiero -->
+                <div class="subsection">
+                    <div class="subsection-header">FORTALEZA FINANCIERA</div>
+                    <div class="factor-grid">
+                        <div class="factor-box capability">
+                            <div class="factor-title">Generación Flujo Efectivo</div>
+                            <div class="factor-content">Flujo operación ajustado Ps. 56.2 mil millones (+21.1%)</div>
+                            <div class="factor-content">• Capacidad autofinanciamiento<br>• Flexibilidad inversiones<br>• Resistencia crisis</div>
+                            <div class="impact-level alto">VENTAJA ALTA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">ROIC Consistente</div>
+                            <div class="factor-content">Retorno capital invertido mejorado 7° año consecutivo</div>
+                            <div class="factor-content">• Disciplina asignación capital<br>• Eficiencia operativa<br>• Creación valor sostenible</div>
+                            <div class="impact-level alto">VENTAJA ALTA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">Capacidad Inversión</div>
+                            <div class="factor-content">Inversión récord Ps. 25.3 mil millones (9% ingresos)</div>
+                            <div class="factor-content">• Expansión capacidad<br>• Modernización tecnológica<br>• Infraestructura sostenible</div>
+                            <div class="impact-level medio">VENTAJA MEDIA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">Distribución Dividendos</div>
+                            <div class="factor-content">Ps. 6.08/acción mantiene atractivo inversionistas</div>
+                            <div class="factor-content">• Política dividendos estable<br>• Retorno atractivo accionistas<br>• Señal confianza futuro</div>
+                            <div class="impact-level bajo">VENTAJA BAJA</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Capital Humano -->
+                <div class="subsection">
+                    <div class="subsection-header">CAPITAL HUMANO Y CULTURA</div>
+                    <div class="factor-grid">
+                        <div class="factor-box capability">
+                            <div class="factor-title">Escala Talento</div>
+                            <div class="factor-content">93,664 colaboradores directos, generación 6.1M horas capacitación</div>
+                            <div class="factor-content">• Masa crítica especializada<br>• Conocimiento mercados locales<br>• Experiencia acumulada</div>
+                            <div class="impact-level alto">VENTAJA ALTA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">Diversidad e Inclusión</div>
+                            <div class="factor-content">31.8% mujeres liderazgo, meta 40% para 2030</div>
+                            <div class="factor-content">• Modelo JEDI implementado<br>• Programas inclusión específicos<br>• Cultura equitativa</div>
+                            <div class="impact-level medio">VENTAJA MEDIA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">Seguridad Psicológica</div>
+                            <div class="factor-content">12,900+ colaboradores, 62 puntos efectividad, mejora 3 pts retos</div>
+                            <div class="factor-content">• Ambiente trabajo seguro<br>• Expresión opiniones libre<br>• Innovación y creatividad</div>
+                            <div class="impact-level medio">VENTAJA MEDIA</div>
+                        </div>
+                        
+                        <div class="factor-box weakness">
+                            <div class="factor-title">Retención Talento Digital</div>
+                            <div class="factor-content">Competencia por talento tecnológico en mercados emergentes</div>
+                            <div class="factor-content">• Escasez perfiles especializados<br>• Competencia salarios tech<br>• Atracción nuevas generaciones</div>
+                            <div class="impact-level medio">DEBILIDAD MEDIA</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Capacidades Tecnológicas y Digitales -->
+                <div class="subsection">
+                    <div class="subsection-header">CAPACIDADES TECNOLÓGICAS</div>
+                    <div class="factor-grid">
+                        <div class="factor-box capability">
+                            <div class="factor-title">Plataformas B2B</div>
+                            <div class="factor-content">Juntos+ líder regional: 1.3M usuarios activos, 7 mercados</div>
+                            <div class="factor-content">• Primera plataforma escala regional<br>• 92.6% satisfacción cliente<br>• Premia Juntos+ 1.1M activos</div>
+                            <div class="impact-level alto">VENTAJA ALTA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">Centro Digital y Analítica</div>
+                            <div class="factor-content">Transformación operaciones, mejora 3 pts precisión pronóstico</div>
+                            <div class="factor-content">• IA integrada operaciones<br>• Analytics avanzados<br>• Automatización procesos</div>
+                            <div class="impact-level medio">VENTAJA MEDIA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">E-commerce D2C</div>
+                            <div class="factor-content">En Tu Hogar modelo escalable: 70% retención, +600K base</div>
+                            <div class="factor-content">• Capacidad omnicanal<br>• Logística última milla<br>• Experiencia digital diferenciada</div>
+                            <div class="impact-level medio">VENTAJA MEDIA</div>
+                        </div>
+                        
+                        <div class="factor-box weakness">
+                            <div class="factor-title">Integración Sistemas Legacy</div>
+                            <div class="factor-content">Migración ERP nube en proceso, riesgos transición</div>
+                            <div class="factor-content">• Complejidad integración<br>• Riesgos operativos temporales<br>• Inversión continua requerida</div>
+                            <div class="impact-level bajo">DEBILIDAD BAJA</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portafolio y Marca -->
+                <div class="subsection">
+                    <div class="subsection-header">PORTAFOLIO Y CAPACIDADES COMERCIALES</div>
+                    <div class="factor-grid">
+                        <div class="factor-box capability">
+                            <div class="factor-title">Alianza Coca-Cola</div>
+                            <div class="factor-content">Marco Cooperación ampliado, >40% crecimiento volumen sistema global</div>
+                            <div class="factor-content">• Acceso portafolio mundial<br>• Innovación conjunta<br>• Escala negociación global</div>
+                            <div class="impact-level alto">VENTAJA ALTA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">Liderazgo Sin Azúcar</div>
+                            <div class="factor-content">Coca-Cola Zero Azúcar +31%, Brasil líder global +56%</div>
+                            <div class="factor-content">• Anticipación tendencias salud<br>• Expertise formulación<br>• Posicionamiento premium</div>
+                            <div class="impact-level alto">VENTAJA ALTA</div>
+                        </div>
+                        
+                        <div class="factor-box capability">
+                            <div class="factor-title">Portafolio Multicategoría</div>
+                            <div class="factor-content">US$228M (+50% crecimiento), meta 5% ingresos</div>
+                            <div class="factor-content">• Diversificación riesgos<br>• Aprovechamiento distribución<br>• Nuevas fuentes crecimiento</div>
+                            <div class="impact-level medio">VENTAJA MEDIA</div>
+                        </div>
+                        
+                        <div class="factor-box weakness">
+                            <div class="factor-title">Dependencia Core Colas</div>
+                            <div class="factor-content">Concentración >90% ingresos en bebidas carbonatadas tradicionales</div>
+                            <div class="factor-content">• Riesgo cambio preferencias<br>• Vulnerabilidad regulaciones azúcar<br>• Limitación crecimiento</div>
+                            <div class="impact-level medio">DEBILIDAD MEDIA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="synthesis">
+            <h3>SÍNTESIS ESTRATÉGICA: NAVEGANDO COMPLEJIDAD MULTIDIMENSIONAL</h3>
+            
+            <div class="key-insights">
+                <div class="insight-box">
+                    <div class="insight-title">🎯 POSICIONAMIENTO COMPETITIVO</div>
+                    <p>KOF ha construido ventajas competitivas sostenibles a través de su red de distribución hemisférica, capacidades digitales diferenciadas y alianza estratégica con TCCC que son extremadamente difíciles de replicar.</p>
+                    <span class="metric">14.2% crecimiento ingresos</span>
+                    <span class="metric">21.5% crecimiento utilidad</span>
+                    <span class="metric">7° año ROIC mejorado</span>
+                </div>
+                
+                <div class="insight-box">
+                    <div class="insight-title">⚡ AGILIDAD ADAPTATIVA</div>
+                    <p>La empresa demuestra capacidad excepcional para capitalizar volatilidad (Argentina), responder a crisis climáticas y acelerar transformación digital, convirtiendo desafíos en oportunidades competitivas.</p>
+                    <span class="metric">4,500 empleos protegidos</span>
+                    <span class="metric">1.3M usuarios Juntos+</span>
+                    <span class="metric">70% retención digital</span>
+                </div>
+                
+                <div class="insight-box">
+                    <div class="insight-title">🌱 LIDERAZGO FUTURO</div>
+                    <p>La anticipación de tendencias (sin azúcar +31%, multicategoría +50%, sostenibilidad integral) posiciona a KOF para liderar la próxima evolución de la industria de bebidas en Latinoamérica.</p>
+                    <span class="metric">84% energía renovable</span>
+                    <span class="metric">100% agua reabastecida</span>
+                    <span class="metric">94% plantas cero residuos</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; padding: 10px; background-color: #fff; border: 1px solid #e31f26;">
+                <strong>Implicaciones Estratégicas:</strong> El análisis revela una empresa que ha logrado alineación estratégica excepcional entre capacidades internas y oportunidades externas, manteniendo crecimiento rentable mientras navega volatilidad estructural. Las inversiones en digitalización (Ps. 25.3 mil millones), sostenibilidad y desarrollo humano no son costos sino habilitadores de ventaja competitiva futura en un mercado de 276 millones de consumidores crecientemente exigentes y digitalmente conectados.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

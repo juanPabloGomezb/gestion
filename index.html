@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal SIG - FEMSA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e31f26 0%, #1a237e 50%, #27ae60 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,0 1000,80 0,100"/></svg>');
+            background-size: cover;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--card-color), var(--card-color-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .dashboard-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--card-color);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .card-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .card-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .card-features li {
+            padding: 5px 0;
+            color: #34495e;
+            font-size: 0.9rem;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .card-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--card-color);
+            font-weight: bold;
+        }
+        
+        .card-action {
+            background: linear-gradient(135deg, var(--card-color), var(--card-color-light));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .card-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Colores específicos para cada card */
+        .card-dofa {
+            --card-color: #e74c3c;
+            --card-color-light: #c0392b;
+        }
+        
+        .card-stakeholders {
+            --card-color: #3498db;
+            --card-color-light: #2980b9;
+        }
+        
+        .card-procesos {
+            --card-color: #f39c12;
+            --card-color-light: #d68910;
+        }
+        
+        .card-roles {
+            --card-color: #9b59b6;
+            --card-color-light: #8e44ad;
+        }
+        
+        .card-riesgos {
+            --card-color: #e67e22;
+            --card-color-light: #d35400;
+        }
+        
+        .card-objetivos {
+            --card-color: #27ae60;
+            --card-color-light: #229954;
+        }
+        
+        .card-alcance {
+            --card-color: #34495e;
+            --card-color-light: #2c3e50;
+        }
+        
+        .card-kpis {
+            --card-color: #1abc9c;
+            --card-color-light: #16a085;
+        }
+        
+        .card-legal {
+            --card-color: #e31f26;
+            --card-color-light: #c41e3a;
+        }
+        
+        .card-cambio {
+            --card-color: #95a5a6;
+            --card-color-light: #7f8c8d;
+        }
+        
+        .stats-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .stats-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e31f26;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .footer-info {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+        }
+        
+        .team-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .team-member {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .university-info {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-elements::before,
+        .floating-elements::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-elements::before {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-elements::after {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+    <script src="/components/navbar.js"></script>
+
+</head>
+
+<body>
+    <div class="floating-elements"></div>
+    
+    <div class="header">
+        <div class="header-content">
+            <h1>PORTAL SIG FEMSA</h1>
+            <h2>Sistema Integrado de Gestión</h2>
+            <p>Plataforma digital unificada para la gestión estratégica, operativa y de cumplimiento de Fomento Económico Mexicano S.A.B. de C.V.</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="stats-section">
+            <h2 class="stats-title">FEMSA en Cifras 2024</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">Ps. 279.8B</span>
+                    <span class="stat-label">Ingresos Totales</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">93,664</span>
+                    <span class="stat-label">Colaboradores</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">10</span>
+                    <span class="stat-label">Países de Operación</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">276M</span>
+                    <span class="stat-label">Consumidores Atendidos</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2.2M</span>
+                    <span class="stat-label">Puntos de Venta</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">84%</span>
+                    <span class="stat-label">Energía Renovable</span>
+                </div>
+            </div>
+        </div>
+        
+       <div class="dashboard-grid">
+    <div class="dashboard-card card-dofa">
+        <div class="card-icon">📊</div>
+        <div class="card-title">Análisis DOFA</div>
+        <div class="card-description">
+            Diagnóstico estratégico integral que identifica fortalezas, oportunidades, debilidades y amenazas de FEMSA.
+        </div>
+        <ul class="card-features">
+            <li>Análisis de posición competitiva</li>
+            <li>Identificación de ventajas sostenibles</li>
+            <li>Estrategias derivadas FO, DO, FA, DA</li>
+            <li>Marco para toma de decisiones</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/dofa.html'">Acceder al Análisis DOFA</button>
+    </div>
+
+    <div class="dashboard-card card-stakeholders">
+        <div class="card-icon">👥</div>
+        <div class="card-title">Partes Interesadas</div>
+        <div class="card-description">
+            Mapeo completo de stakeholders con estrategias de engagement diferenciadas por nivel de influencia e interés.
+        </div>
+        <ul class="card-features">
+            <li>19 grupos de stakeholders identificados</li>
+            <li>Matriz de poder e interés</li>
+            <li>Estrategias de comunicación</li>
+            <li>Métricas de engagement</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/partesInteresadas.html'">Ver Matriz de Stakeholders</button>
+    </div>
+
+    <div class="dashboard-card card-procesos">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">Mapa de Procesos</div>
+        <div class="card-description">
+            Representación visual de la cadena de valor organizacional desde procesos estratégicos hasta operativos y de apoyo.
+        </div>
+        <ul class="card-features">
+            <li>Procesos estratégicos de dirección</li>
+            <li>Cadena operativa de valor</li>
+            <li>Procesos de apoyo habilitadores</li>
+            <li>Interfaces e interacciones críticas</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/mapaProcesos.html'">Explorar Mapa de Procesos</button>
+    </div>
+
+    <div class="dashboard-card card-roles">
+        <div class="card-icon">👨‍💼</div>
+        <div class="card-title">Matriz de Roles y Responsabilidades</div>
+        <div class="card-description">
+            Definición clara de roles, responsabilidades y autoridades para la implementación efectiva del SIG.
+        </div>
+        <ul class="card-features">
+            <li>Estructura organizacional SIG</li>
+            <li>Autoridades y responsabilidades</li>
+            <li>Líneas de reporte claras</li>
+            <li>Segregación de funciones</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/rolesYResponsabilidades.html'">Consultar Matriz de Roles</button>
+    </div>
+
+    <div class="dashboard-card card-riesgos">
+        <div class="card-icon">⚠️</div>
+        <div class="card-title">Matriz de Riesgos y Oportunidades</div>
+        <div class="card-description">
+            Identificación, evaluación y gestión proactiva de riesgos estratégicos y oportunidades de mejora.
+        </div>
+        <ul class="card-features">
+            <li>Riesgos estratégicos y operativos</li>
+            <li>Evaluación de probabilidad e impacto</li>
+            <li>Medidas de mitigación</li>
+            <li>Monitoreo continuo</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/matrizRiengosOportunidades.html'">Gestionar Riesgos</button>
+    </div>
+
+    <div class="dashboard-card card-objetivos">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Planes de Acción para Objetivos</div>
+        <div class="card-description">
+            Roadmap detallado para el logro de objetivos integrados con cronogramas, responsables y métricas de seguimiento.
+        </div>
+        <ul class="card-features">
+            <li>Objetivos SMART definidos</li>
+            <li>Planes de acción específicos</li>
+            <li>Cronogramas y milestones</li>
+            <li>Asignación de responsabilidades</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/planesDeAccionObjetivos.html'">Ver Planes de Acción</button>
+    </div>
+
+    <div class="dashboard-card card-alcance">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Alcance de Sistemas Integrados</div>
+        <div class="card-description">
+            Definición precisa del alcance, cobertura y límites del Sistema Integrado de Gestión de FEMSA.
+        </div>
+        <ul class="card-features">
+            <li>Sistemas incluidos (ISO 9001, 14001, 45001)</li>
+            <li>Procesos críticos cubiertos</li>
+            <li>Ubicaciones y exclusiones</li>
+            <li>Criterios de aplicabilidad</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/alcanceSistemaIntegradosGestion.html'">Definir Alcance</button>
+    </div>
+
+    <div class="dashboard-card card-kpis">
+        <div class="card-icon">📈</div>
+        <div class="card-title">Indicadores de Desempeño (KPIs)</div>
+        <div class="card-description">
+            Dashboard integral de métricas financieras, operativas, sostenibilidad y calidad para monitoreo del desempeño.
+        </div>
+        <ul class="card-features">
+            <li>KPIs financieros y operativos</li>
+            <li>Métricas de sostenibilidad</li>
+            <li>Indicadores de calidad</li>
+            <li>Tableros de control en tiempo real</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/IndicadoresKpi.html'">Monitorear KPIs</button>
+    </div>
+
+    <div class="dashboard-card card-legal">
+        <div class="card-icon">⚖️</div>
+        <div class="card-title">Matriz de Requisitos Legales</div>
+        <div class="card-description">
+            Registro actualizado de normativas aplicables con evidencias de cumplimiento y responsables de seguimiento.
+        </div>
+        <ul class="card-features">
+            <li>Normativas laborales y ambientales</li>
+            <li>Requisitos de seguridad y salud</li>
+            <li>Evidencias de cumplimiento</li>
+            <li>Actualizaciones regulatorias</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/requisitosLegales.html'">Verificar Cumplimiento</button>
+    </div>
+
+    <div class="dashboard-card card-cambio">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">Metodología de Gestión del Cambio</div>
+        <div class="card-description">
+            Framework estructurado para gestionar transformaciones organizacionales y operativas de manera efectiva.
+        </div>
+        <ul class="card-features">
+            <li>Proceso de gestión de cambios</li>
+            <li>Evaluación de impactos</li>
+            <li>Plan de comunicación</li>
+            <li>Seguimiento y control</li>
+        </ul>
+        <button class="card-action" onclick="location.href='/pages/metodologiaGestionCambio.html'">Gestionar Cambios</button>
+    </div>
+</div>
+
+        
+        <div class="footer-info">
+            <h3>Equipo de Desarrollo SIG</h3>
+            <div class="team-info">
+                <div class="team-member">
+                    <strong>Esteban Camilo Parra Jacobo</strong><br>
+                    Líder de Proyecto
+                </div>
+                <div class="team-member">
+                    <strong>Andrés Felipe Galeano Garzón</strong><br>
+                    Especialista en Procesos
+                </div>
+                <div class="team-member">
+                    <strong>Santiago Orlando Martínez</strong><br>
+                    Analista de Riesgos
+                </div>
+                <div class="team-member">
+                    <strong>Juan Pablo Gómez Barreto</strong><br>
+                    Especialista en Cumplimiento
+                </div>
+            </div>
+            <div class="university-info">
+                <strong>Universidad Libre - Bogotá</strong><br>
+                Sistemas Integrados de Gestión | 2025
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Efectos de interactividad
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.dashboard-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Animación de números en las estadísticas
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const observerOptions = {
+                threshold: 0.7
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateNumber(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            statNumbers.forEach(stat => observer.observe(stat));
+        });
+        
+        function animateNumber(element) {
+            const finalNumber = element.textContent;
+            const duration = 2000;
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                if (finalNumber.includes('Ps.')) {
+                    element.textContent = 'Ps. ' + (279.8 * progress).toFixed(1) + 'B';
+                } else if (finalNumber.includes('M')) {
+                    const num = parseFloat(finalNumber.replace('M', ''));
+                    element.textContent = (num * progress).toFixed(0) + 'M';
+                } else if (finalNumber.includes('%')) {
+                    const num = parseFloat(finalNumber.replace('%', ''));
+                    element.textContent = (num * progress).toFixed(0) + '%';
+                } else {
+                    const num = parseFloat(finalNumber.replace(/[^0-9.]/g, ''));
+                    element.textContent = (num * progress).toLocaleString();
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    element.textContent = finalNumber;
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes de Acción - FEMSA SIG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #27ae60 0%, #3498db 50%, #9b59b6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #27ae60 0%, #3498db 50%, #9b59b6 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .metodologia-section {
+            background: #f8f9fa;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #27ae60;
+        }
+        .metodologia-title {
+            color: #27ae60;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .smart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .smart-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .smart-s { border-left-color: #e74c3c; }
+        .smart-m { border-left-color: #f39c12; }
+        .smart-a { border-left-color: #3498db; }
+        .smart-r { border-left-color: #9b59b6; }
+        .smart-t { border-left-color: #27ae60; }
+        .smart-letter {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .smart-word {
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .smart-desc {
+            font-size: 10px;
+            color: #7f8c8d;
+            line-height: 1.3;
+        }
+        .objetivos-section {
+            margin-top: 30px;
+        }
+        .objetivo-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-left: 5px solid;
+        }
+        .objetivo-seguridad { border-left-color: #e74c3c; }
+        .objetivo-ambiental { border-left-color: #27ae60; }
+        .objetivo-digital { border-left-color: #3498db; }
+        .objetivo-sostenibilidad { border-left-color: #f39c12; }
+        .objetivo-organizacional { border-left-color: #9b59b6; }
+        .objetivo-header {
+            background: linear-gradient(135deg, var(--objetivo-color), var(--objetivo-color-light));
+            color: white;
+            padding: 20px;
+        }
+        .objetivo-seguridad { --objetivo-color: #e74c3c; --objetivo-color-light: #ec7063; }
+        .objetivo-ambiental { --objetivo-color: #27ae60; --objetivo-color-light: #58d68d; }
+        .objetivo-digital { --objetivo-color: #3498db; --objetivo-color-light: #5dade2; }
+        .objetivo-sostenibilidad { --objetivo-color: #f39c12; --objetivo-color-light: #f8c471; }
+        .objetivo-organizacional { --objetivo-color: #9b59b6; --objetivo-color-light: #bb8fce; }
+        .objetivo-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .objetivo-meta {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .objetivo-content {
+            padding: 25px;
+        }
+        .plan-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .plan-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .plan-section-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .plan-section-content {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #34495e;
+        }
+        .actividades-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+        .actividades-list li {
+            padding: 5px 0;
+            padding-left: 15px;
+            position: relative;
+            font-size: 11px;
+        }
+        .actividades-list li:before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--objetivo-color);
+            font-size: 8px;
+        }
+        .cronograma {
+            background: white;
+            border: 1px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        .cronograma-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2px;
+            margin-bottom: 10px;
+        }
+        .timeline-header {
+            background: #2c3e50;
+            color: white;
+            padding: 5px 2px;
+            text-align: center;
+            font-size: 8px;
+            font-weight: bold;
+        }
+        .timeline-cell {
+            height: 20px;
+            border-radius: 3px;
+        }
+        .fase-planificacion { background: #3498db; }
+        .fase-implementacion { background: #f39c12; }
+        .fase-monitoreo { background: #27ae60; }
+        .fase-evaluacion { background: #9b59b6; }
+        .kpis-section {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .kpis-title {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .kpis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        .kpi-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            border-top: 3px solid #3498db;
+        }
+        .kpi-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 3px;
+        }
+        .kpi-label {
+            font-size: 9px;
+            color: #7f8c8d;
+        }
+        .responsables {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .responsables-title {
+            font-weight: bold;
+            color: #f57c00;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .responsables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .responsable-item {
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 10px;
+        }
+        .responsable-rol {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 3px;
+        }
+        .responsable-nombre {
+            color: #7f8c8d;
+        }
+        .dashboard-section {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 15px;
+        }
+        .dashboard-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .dashboard-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .dashboard-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #3498db;
+        }
+        .dashboard-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        .dashboard-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .dashboard-progress-bar {
+            height: 100%;
+            background: #27ae60;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PLANES DE ACCIÓN PARA OBJETIVOS</h1>
+            <h2>SISTEMA INTEGRADO DE GESTIÓN - FEMSA</h2>
+            <p>Roadmap detallado para el logro de objetivos integrados con cronogramas, responsables y métricas de seguimiento</p>
+        </div>
+        
+        <div class="content">
+            <div class="metodologia-section">
+                <div class="metodologia-title">METODOLOGÍA SMART PARA DEFINICIÓN DE OBJETIVOS</div>
+                
+                <div class="smart-grid">
+                    <div class="smart-card smart-s">
+                        <div class="smart-letter" style="color: #e74c3c;">S</div>
+                        <div class="smart-word">ESPECÍFICO</div>
+                        <div class="smart-desc">
+                            Objetivos claros, concretos y bien definidos que indican exactamente qué se quiere lograr
+                        </div>
+                    </div>
+                    
+                    <div class="smart-card smart-m">
+                        <div class="smart-letter" style="color: #f39c12;">M</div>
+                        <div class="smart-word">MEDIBLE</div>
+                        <div class="smart-desc">
+                            Con indicadores cuantificables que permiten monitorear progreso y evaluar resultados
+                        </div>
+                    </div>
+                    
+                    <div class="smart-card smart-a">
+                        <div class="smart-letter" style="color: #3498db;">A</div>
+                        <div class="smart-word">ALCANZABLE</div>
+                        <div class="smart-desc">
+                            Realistas y factibles con los recursos disponibles y capacidades organizacionales
+                        </div>
+                    </div>
+                    
+                    <div class="smart-card smart-r">
+                        <div class="smart-letter" style="color: #9b59b6;">R</div>
+                        <div class="smart-word">RELEVANTE</div>
+                        <div class="smart-desc">
+                            Alineados con la estrategia empresarial y objetivos del Sistema Integrado de Gestión
+                        </div>
+                    </div>
+                    
+                    <div class="smart-card smart-t">
+                        <div class="smart-letter" style="color: #27ae60;">T</div>
+                        <div class="smart-word">TEMPORAL</div>
+                        <div class="smart-desc">
+                            Con plazos definidos y cronogramas específicos para su cumplimiento
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="objetivos-section">
+                <!-- OBJETIVO 1: SEGURIDAD LABORAL -->
+                <div class="objetivo-card objetivo-seguridad">
+                    <div class="objetivo-header">
+                        <div class="objetivo-title">🛡️ REDUCIR INCIDENTES LABORALES EN PLANTA EN 20%</div>
+                        <div class="objetivo-meta">Meta: Disminuir tasa de incidentes de 0.85 a 0.68 por cada 200,000 horas trabajadas</div>
+                    </div>
+                    
+                    <div class="objetivo-content">
+                        <div class="plan-grid">
+                            <div class="plan-section">
+                                <div class="plan-section-title">📋 PLAN DE ACCIÓN DETALLADO</div>
+                                <div class="plan-section-content">
+                                    <strong>Estrategia Principal:</strong> Fortalecer capacitaciones en seguridad y supervisión activa mediante Estrategia de Seguridad 0.0
+                                </div>
+                                <ul class="actividades-list">
+                                    <li>Implementar Reglas para Salvar Vidas obligatorias</li>
+                                    <li>Capacitación intensiva con simuladores última generación</li>
+                                    <li>Supervisión activa y participación del liderazgo</li>
+                                    <li>Digitalización sistemas de seguridad</li>
+                                    <li>Estandarización procesos críticos</li>
+                                    <li>Enfoque especializado en contratistas</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plan-section">
+                                <div class="plan-section-title">🎯 RECURSOS Y PRESUPUESTO</div>
+                                <div class="plan-section-content">
+                                    <strong>Inversión Total:</strong> US$2.5 millones
+                                    <br><br>
+                                    <strong>Distribución:</strong><br>
+                                    • Simuladores y tecnología: 40%<br>
+                                    • Capacitación personal: 30%<br>
+                                    • Sistemas digitales: 20%<br>
+                                    • Equipos de protección: 10%
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="cronograma">
+                            <div class="cronograma-title">CRONOGRAMA DE IMPLEMENTACIÓN (12 MESES)</div>
+                            <div class="timeline">
+                                <div class="timeline-header">E</div>
+                                <div class="timeline-header">F</div>
+                                <div class="timeline-header">M</div>
+                                <div class="timeline-header">A</div>
+                                <div class="timeline-header">M</div>
+                                <div class="timeline-header">J</div>
+                                <div class="timeline-header">J</div>
+                                <div class="timeline-header">A</div>
+                                <div class="timeline-header">S</div>
+                                <div class="timeline-header">O</div>
+                                <div class="timeline-header">N</div>
+                                <div class="timeline-header">D</div>
+                                
+                                <div class="timeline-cell fase-planificacion"></div>
+                                <div class="timeline-cell fase-planificacion"></div>
+                                <div class="timeline-cell fase-implementacion"></div>
+                                <div class="timeline-cell fase-implementacion"></div>
+                                <div class="timeline-cell fase-implementacion"></div>
+                                <div class="timeline-cell fase-implementacion"></div>
+                                <div class="timeline-cell fase-implementacion"></div>
+                                <div class="timeline-cell fase-implementacion"></div>
+                                <div class="timeline-cell fase-monitoreo"></div>
+                                <div class="timeline-cell fase-monitoreo"></div>
+                                <div class="timeline-cell fase-evaluacion"></div>
+                                <div class="timeline-cell fase-evaluacion"></div>
+                            </div>
+                            <div style="font-size: 10px; color: #7f8c8d;">
+                                🔵 Planificación | 🟡 Implementación | 🟢 Monitoreo | 🟣 Evaluación
+                            </div>
+                        </div>
+                        
+                        <div class="responsables">
+                            <div class="responsables-title">RESPONSABLES ASIGNADOS</div>
+                            <div class="responsables-grid">
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Líder Principal</div>
+                                    <div class="responsable-nombre">Gerente SGSST</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Apoyo Técnico</div>
+                                    <div class="responsable-nombre">Coordinador SST</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Supervisión</div>
+                                    <div class="responsable-nombre">Jefes de Planta</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Aprobación</div>
+                                    <div class="responsable-nombre">Gerente General</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="kpis-section">
+                            <div class="kpis-title">INDICADORES DE SEGUIMIENTO</div>
+                            <div class="kpis-grid">
+                                <div class="kpi-item">
+                                    <div class="kpi-value">0.68</div>
+                                    <div class="kpi-label">Meta Tasa Incidentes</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">100%</div>
+                                    <div class="kpi-label">Colaboradores Capacitados</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">95%</div>
+                                    <div class="kpi-label">Cumplimiento Reglas</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">12</div>
+                                    <div class="kpi-label">Auditorías Mensuales</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- OBJETIVO 2: GESTIÓN AMBIENTAL -->
+                <div class="objetivo-card objetivo-ambiental">
+                    <div class="objetivo-header">
+                        <div class="objetivo-title">💧 DISMINUIR CONSUMO DE AGUA EN 15%</div>
+                        <div class="objetivo-meta">Meta: Reducir ratio de 1.36L a 1.16L agua por litro de bebida producida</div>
+                    </div>
+                    
+                    <div class="objetivo-content">
+                        <div class="plan-grid">
+                            <div class="plan-section">
+                                <div class="plan-section-title">📋 PLAN DE ACCIÓN DETALLADO</div>
+                                <div class="plan-section-content">
+                                    <strong>Estrategia Principal:</strong> Implementar tecnologías de reutilización y recirculación de agua en procesos productivos
+                                </div>
+                                <ul class="actividades-list">
+                                    <li>Sistemas de recirculación en líneas de embotellado</li>
+                                    <li>Tecnologías de tratamiento y purificación avanzada</li>
+                                    <li>Monitoreo en tiempo real del consumo hídrico</li>
+                                    <li>Capacitación en uso eficiente del agua</li>
+                                    <li>Mantenimiento preventivo sistemas hídricos</li>
+                                    <li>Auditorías hídricas especializadas</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plan-section">
+                                <div class="plan-section-title">🎯 RECURSOS Y PRESUPUESTO</div>
+                                <div class="plan-section-content">
+                                    <strong>Inversión Total:</strong> US$4.2 millones
+                                    <br><br>
+                                    <strong>Distribución:</strong><br>
+                                    • Tecnología recirculación: 50%<br>
+                                    • Sistemas tratamiento: 30%<br>
+                                    • Monitoreo digital: 15%<br>
+                                    • Capacitación: 5%
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="responsables">
+                            <div class="responsables-title">RESPONSABLES ASIGNADOS</div>
+                            <div class="responsables-grid">
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Líder Principal</div>
+                                    <div class="responsable-nombre">Coordinador Ambiental</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Apoyo Técnico</div>
+                                    <div class="responsable-nombre">Ing. Procesos</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Monitoreo</div>
+                                    <div class="responsable-nombre">Analista Ambiental</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Implementación</div>
+                                    <div class="responsable-nombre">Jefes Mantenimiento</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="kpis-section">
+                            <div class="kpis-title">INDICADORES DE SEGUIMIENTO</div>
+                            <div class="kpis-grid">
+                                <div class="kpi-item">
+                                    <div class="kpi-value">1.16L</div>
+                                    <div class="kpi-label">Meta Ratio Agua</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">100%</div>
+                                    <div class="kpi-label">Agua Reabastecida</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">85%</div>
+                                    <div class="kpi-label">Eficiencia Recirculación</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">24/7</div>
+                                    <div class="kpi-label">Monitoreo Continuo</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- OBJETIVO 3: TRANSFORMACIÓN DIGITAL -->
+                <div class="objetivo-card objetivo-digital">
+                    <div class="objetivo-header">
+                        <div class="objetivo-title">📱 AUMENTAR VENTAS DIGITALES EN 30%</div>
+                        <div class="objetivo-meta">Meta: Incrementar participación de canales digitales del 26% al 34% en En Tu Hogar</div>
+                    </div>
+                    
+                    <div class="objetivo-content">
+                        <div class="plan-grid">
+                            <div class="plan-section">
+                                <div class="plan-section-title">📋 PLAN DE ACCIÓN DETALLADO</div>
+                                <div class="plan-section-content">
+                                    <strong>Estrategia Principal:</strong> Desarrollo de plataforma propia y alianzas con marketplaces para expansión omnicanal
+                                </div>
+                                <ul class="actividades-list">
+                                    <li>Optimización plataforma En Tu Hogar by Coca-Cola</li>
+                                    <li>Expansión Juntos+ a 80% base de clientes</li>
+                                    <li>Implementación IA Juntos+ Advisor regionalmente</li>
+                                    <li>Desarrollo app móvil nativa mejorada</li>
+                                    <li>Integración con marketplaces principales</li>
+                                    <li>Programas de retención digital avanzados</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plan-section">
+                                <div class="plan-section-title">🎯 RECURSOS Y PRESUPUESTO</div>
+                                <div class="plan-section-content">
+                                    <strong>Inversión Total:</strong> US$8.5 millones
+                                    <br><br>
+                                    <strong>Distribución:</strong><br>
+                                    • Desarrollo tecnológico: 45%<br>
+                                    • Marketing digital: 25%<br>
+                                    • Integraciones: 20%<br>
+                                    • Capacitación equipos: 10%
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="responsables">
+                            <div class="responsables-title">RESPONSABLES ASIGNADOS</div>
+                            <div class="responsables-grid">
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Líder Principal</div>
+                                    <div class="responsable-nombre">Gerente Comercial/TI</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Desarrollo</div>
+                                    <div class="responsable-nombre">Director Digital</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Marketing</div>
+                                    <div class="responsable-nombre">Gerente E-commerce</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Analytics</div>
+                                    <div class="responsable-nombre">Centro Digital</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="kpis-section">
+                            <div class="kpis-title">INDICADORES DE SEGUIMIENTO</div>
+                            <div class="kpis-grid">
+                                <div class="kpi-item">
+                                    <div class="kpi-value">34%</div>
+                                    <div class="kpi-label">Meta Ventas Digitales</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">800K</div>
+                                    <div class="kpi-label">Meta Usuarios Activos</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">75%</div>
+                                    <div class="kpi-label">Retención Digital</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">95%</div>
+                                    <div class="kpi-label">Satisfacción NPS</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- OBJETIVO 4: ECONOMÍA CIRCULAR -->
+                <div class="objetivo-card objetivo-sostenibilidad">
+                    <div class="objetivo-header">
+                        <div class="objetivo-title">♻️ IMPLEMENTAR ECONOMÍA CIRCULAR EN EMPAQUES</div>
+                        <div class="objetivo-meta">Meta: Alcanzar 40% de contenido reciclado en empaques y recolectar 150,000 ton PET</div>
+                    </div>
+                    
+                    <div class="objetivo-content">
+                        <div class="plan-grid">
+                            <div class="plan-section">
+                                <div class="plan-section-title">📋 PLAN DE ACCIÓN DETALLADO</div>
+                                <div class="plan-section-content">
+                                    <strong>Estrategia Principal:</strong> Sustituir envases plásticos por reciclables y expandir alianzas de recolección SUSTENTAPET
+                                </div>
+                                <ul class="actividades-list">
+                                    <li>Expansión de 43 a 60 centros SUSTENTAPET</li>
+                                    <li>Incrementar capacidad planta PLANETA México</li>
+                                    <li>Desarrollo proveedores PET reciclado</li>
+                                    <li>Programas educación consumidor</li>
+                                    <li>Alianzas municipios recolección</li>
+                                    <li>Certificación empaques sostenibles</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plan-section">
+                                <div class="plan-section-title">🎯 RECURSOS Y PRESUPUESTO</div>
+                                <div class="plan-section-content">
+                                    <strong>Inversión Total:</strong> US$12.3 millones
+                                    <br><br>
+                                    <strong>Distribución:</strong><br>
+                                    • Centros SUSTENTAPET: 40%<br>
+                                    • Tecnología reciclaje: 35%<br>
+                                    • Logística recolección: 15%<br>
+                                    • Educación consumidor: 10%
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="responsables">
+                            <div class="responsables-title">RESPONSABLES ASIGNADOS</div>
+                            <div class="responsables-grid">
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Líder Principal</div>
+                                    <div class="responsable-nombre">Gerente Sostenibilidad</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Operaciones</div>
+                                    <div class="responsable-nombre">Director SUSTENTAPET</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Desarrollo</div>
+                                    <div class="responsable-nombre">Ing. Empaques</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Alianzas</div>
+                                    <div class="responsable-nombre">Gerente Relaciones</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="kpis-section">
+                            <div class="kpis-title">INDICADORES DE SEGUIMIENTO</div>
+                            <div class="kpis-grid">
+                                <div class="kpi-item">
+                                    <div class="kpi-value">40%</div>
+                                    <div class="kpi-label">PET Reciclado</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">150K</div>
+                                    <div class="kpi-label">Toneladas Recolectadas</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">60</div>
+                                    <div class="kpi-label">Centros SUSTENTAPET</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">99%</div>
+                                    <div class="kpi-label">Desviación Rellenos</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- OBJETIVO 5: CLIMA ORGANIZACIONAL -->
+                <div class="objetivo-card objetivo-organizacional">
+                    <div class="objetivo-header">
+                        <div class="objetivo-title">👥 MEJORAR CLIMA ORGANIZACIONAL EN 10%</div>
+                        <div class="objetivo-meta">Meta: Incrementar satisfacción interna del 92.6% al 95% en encuestas NPS</div>
+                    </div>
+                    
+                    <div class="objetivo-content">
+                        <div class="plan-grid">
+                            <div class="plan-section">
+                                <div class="plan-section-title">📋 PLAN DE ACCIÓN DETALLADO</div>
+                                <div class="plan-section-content">
+                                    <strong>Estrategia Principal:</strong> Programas de bienestar integral y formación en liderazgo para crear ambiente de seguridad psicológica
+                                </div>
+                                <ul class="actividades-list">
+                                    <li>Expansión programas seguridad psicológica</li>
+                                    <li>Capacitación liderazgo transformacional</li>
+                                    <li>Implementación modelo JEDI completo</li>
+                                    <li>Programas bienestar y balance vida-trabajo</li>
+                                    <li>Reconocimiento y desarrollo profesional</li>
+                                    <li>Comunicación interna efectiva</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="plan-section">
+                                <div class="plan-section-title">🎯 RECURSOS Y PRESUPUESTO</div>
+                                <div class="plan-section-content">
+                                    <strong>Inversión Total:</strong> US$3.8 millones
+                                    <br><br>
+                                    <strong>Distribución:</strong><br>
+                                    • Programas bienestar: 35%<br>
+                                    • Capacitación liderazgo: 30%<br>
+                                    • Herramientas digitales: 20%<br>
+                                    • Reconocimiento: 15%
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="responsables">
+                            <div class="responsables-title">RESPONSABLES ASIGNADOS</div>
+                            <div class="responsables-grid">
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Líder Principal</div>
+                                    <div class="responsable-nombre">Gerente RRHH</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Desarrollo</div>
+                                    <div class="responsable-nombre">Director Talento</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Bienestar</div>
+                                    <div class="responsable-nombre">Coord. Bienestar</div>
+                                </div>
+                                <div class="responsable-item">
+                                    <div class="responsable-rol">Medición</div>
+                                    <div class="responsable-nombre">Analista Org.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="kpis-section">
+                            <div class="kpis-title">INDICADORES DE SEGUIMIENTO</div>
+                            <div class="kpis-grid">
+                                <div class="kpi-item">
+                                    <div class="kpi-value">95%</div>
+                                    <div class="kpi-label">Meta Satisfacción</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">70</div>
+                                    <div class="kpi-label">Puntos Efectividad</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">15K</div>
+                                    <div class="kpi-label">Colaboradores Incluidos</div>
+                                </div>
+                                <div class="kpi-item">
+                                    <div class="kpi-value">85%</div>
+                                    <div class="kpi-label">Retención Talento</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <div class="dashboard-title">TABLERO DE CONTROL - PROGRESO OBJETIVOS SIG</div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">75%</div>
+                        <div class="dashboard-label">Progreso Seguridad Laboral</div>
+                        <div class="dashboard-progress">
+                            <div class="dashboard-progress-bar" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">68%</div>
+                        <div class="dashboard-label">Progreso Eficiencia Hídrica</div>
+                        <div class="dashboard-progress">
+                            <div class="dashboard-progress-bar" style="width: 68%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">82%</div>
+                        <div class="dashboard-label">Progreso Ventas Digitales</div>
+                        <div class="dashboard-progress">
+                            <div class="dashboard-progress-bar" style="width: 82%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">71%</div>
+                        <div class="dashboard-label">Progreso Economía Circular</div>
+                        <div class="dashboard-progress">
+                            <div class="dashboard-progress-bar" style="width: 71%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">89%</div>
+                        <div class="dashboard-label">Progreso Clima Organizacional</div>
+                        <div class="dashboard-progress">
+                            <div class="dashboard-progress-bar" style="width: 89%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">77%</div>
+                        <div class="dashboard-label">Promedio General SIG</div>
+                        <div class="dashboard-progress">
+                            <div class="dashboard-progress-bar" style="width: 77%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Sistema Integrado de Gestión - FEMSA</strong></p>
+            <p>Planes de Acción para Objetivos actualizados 2024 | Universidad Libre - Bogotá</p>
+            <p>Elaborado por: Esteban Camilo Parra, Andrés Felipe Galeano, Santiago Orlando Martínez, Juan Pablo Gómez</p>
+        </div>
+    </div>
+</body>
+</html>

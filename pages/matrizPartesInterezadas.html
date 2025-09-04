@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz de Partes Interesadas Ampliada - Coca-Cola FEMSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            background-color: #f5f5f5;
+            font-size: 12px;
+        }
+        .container {
+            background-color: white;
+            border: 2px solid #000;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 2px solid #000;
+            background-color: #e31f26;
+            color: white;
+        }
+        .logo {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e31f26;
+            font-weight: bold;
+            font-size: 10px;
+            text-align: center;
+            margin-right: 15px;
+        }
+        .title {
+            flex: 1;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .company-info {
+            display: flex;
+            border-bottom: 2px solid #000;
+            background-color: #f0f0f0;
+        }
+        .company-info div {
+            padding: 8px;
+            border-right: 1px solid #000;
+            text-align: center;
+            font-weight: bold;
+        }
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        .section-header {
+            background-color: #e31f26;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            padding: 8px;
+            border: 1px solid #000;
+        }
+        .sub-header {
+            background-color: #FFD700;
+            text-align: center;
+            font-weight: bold;
+            padding: 6px;
+            border: 1px solid #000;
+        }
+        .scale-header {
+            background-color: #FFD700;
+            text-align: center;
+            font-size: 9px;
+            padding: 4px;
+            border: 1px solid #000;
+        }
+        .stakeholder-row {
+            background-color: #FFE4E1;
+        }
+        .stakeholder-name {
+            padding: 6px;
+            border: 1px solid #000;
+            font-weight: bold;
+            text-align: left;
+            font-size: 10px;
+        }
+        .value-cell {
+            padding: 4px;
+            border: 1px solid #000;
+            text-align: center;
+            font-weight: bold;
+            min-width: 35px;
+        }
+        .description-cell {
+            padding: 4px;
+            border: 1px solid #000;
+            text-align: left;
+            font-size: 9px;
+            line-height: 1.2;
+        }
+        .alta { background-color: #ff6b6b; color: white; }
+        .media { background-color: #feca57; }
+        .baja { background-color: #48dbfb; }
+        .total { background-color: #e31f26; color: white; font-weight: bold; }
+        .zero { background-color: #ffffff; }
+        
+        .legend {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #000;
+            font-size: 10px;
+        }
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .legend-item {
+            padding: 5px;
+            border: 1px solid #000;
+            text-align: center;
+            font-weight: bold;
+        }
+        .strategy-box {
+            margin: 5px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">KOF<br>2024</div>
+            <div class="title">MATRIZ DE PARTES INTERESADAS AMPLIADA<br>COCA-COLA FEMSA</div>
+        </div>
+        
+        <div class="company-info">
+            <div style="width: 150px;">EMPRESA:</div>
+            <div style="width: 200px;">COCA-COLA FEMSA</div>
+            <div style="width: 120px;">PAÍSES:</div>
+            <div style="width: 50px;">10</div>
+            <div style="width: 120px;">EMPLEADOS:</div>
+            <div style="width: 100px;">93,664</div>
+            <div style="width: 150px;">INGRESOS 2024:</div>
+            <div style="flex: 1;">Ps. 279.8 mil millones</div>
+        </div>
+        
+        <table class="main-table">
+            <tr>
+                <td colspan="10" class="section-header">VARIABLES DE PRIORIZACIÓN - ANÁLISIS INTEGRADO 2024</td>
+            </tr>
+            <tr>
+                <td rowspan="3" class="sub-header" style="width: 25px;">N°</td>
+                <td rowspan="3" class="sub-header" style="width: 140px;">PARTES INTERESADAS</td>
+                <td colspan="4" class="sub-header">IMPORTANCIA</td>
+                <td colspan="4" class="sub-header">INFLUENCIA</td>
+                <td rowspan="3" class="sub-header" style="width: 200px;">EVIDENCIA DEL INFORME 2024</td>
+            </tr>
+            <tr>
+                <td class="scale-header">Alta<br>(10-8)</td>
+                <td class="scale-header">Media<br>(7-5)</td>
+                <td class="scale-header">Baja<br>(4-1)</td>
+                <td class="scale-header">Total</td>
+                <td class="scale-header">Alta<br>(10-8)</td>
+                <td class="scale-header">Media<br>(7-5)</td>
+                <td class="scale-header">Baja<br>(4-1)</td>
+                <td class="scale-header">Total</td>
+            </tr>
+            
+            <!-- Stakeholders Primarios -->
+            <tr class="stakeholder-row">
+                <td class="value-cell">1</td>
+                <td class="stakeholder-name">Accionistas e Inversionistas</td>
+                <td class="value-cell alta">10</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">10</td>
+                <td class="value-cell alta">10</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">10</td>
+                <td class="description-cell">Dividendos Ps. 6.08/acción, utilidad neta +21.5%, ROIC mejorado 7° año consecutivo</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">2</td>
+                <td class="stakeholder-name">The Coca-Cola Company</td>
+                <td class="value-cell alta">10</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">10</td>
+                <td class="value-cell alta">9</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">9</td>
+                <td class="description-cell">Marco de Cooperación ampliado, >40% crecimiento volumen global sistema, innovación portafolio core</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">3</td>
+                <td class="stakeholder-name">Colaboradores (93,664)</td>
+                <td class="value-cell alta">9</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">9</td>
+                <td class="value-cell alta">8</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">8</td>
+                <td class="description-cell">6.1M horas capacitación, protección 4,500 empleos emergencias, 31.8% mujeres liderazgo</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">4</td>
+                <td class="stakeholder-name">Puntos de Venta (2.2M)</td>
+                <td class="value-cell alta">9</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">9</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">6</td>
+                <td class="description-cell">Juntos+ 1.3M usuarios activos, 92.6% satisfacción, Premia Juntos+ 1.1M clientes activos</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">5</td>
+                <td class="stakeholder-name">Alta Dirección y CEO</td>
+                <td class="value-cell alta">10</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">10</td>
+                <td class="value-cell alta">10</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">10</td>
+                <td class="description-cell">Comité Sostenibilidad presidido por CEO Ian Craig, integración todas direcciones ejecutivas</td>
+            </tr>
+            
+            <!-- Stakeholders Secundarios Críticos -->
+            <tr class="stakeholder-row">
+                <td class="value-cell">6</td>
+                <td class="stakeholder-name">Consumidores (276M)</td>
+                <td class="value-cell alta">8</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">8</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell baja">3</td>
+                <td class="value-cell total">3</td>
+                <td class="description-cell">276M consumidores atendidos, En Tu Hogar +600K usuarios, 26% transacciones digitales</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">7</td>
+                <td class="stakeholder-name">Reguladores/Gobiernos</td>
+                <td class="value-cell alta">9</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">9</td>
+                <td class="value-cell alta">9</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">9</td>
+                <td class="description-cell">Impuesto especial Colombia 2023, regulaciones ambientales, 10 marcos regulatorios</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">8</td>
+                <td class="stakeholder-name">Proveedores Locales</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">7</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">7</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">6</td>
+                <td class="description-cell">93% gasto abastecimiento local, 55% evaluado bajo metodología sostenibilidad EcoVadis</td>
+            </tr>
+            
+            <!-- Stakeholders Emergentes Estratégicos -->
+            <tr class="stakeholder-row">
+                <td class="value-cell">9</td>
+                <td class="stakeholder-name">Socios Comerciales Multicategoría</td>
+                <td class="value-cell alta">8</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">8</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">7</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">7</td>
+                <td class="description-cell">US$228M (1.5% ventas), crecimiento >50%, meta 5% ingresos multicategoría</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">10</td>
+                <td class="stakeholder-name">Organizaciones ESG</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">7</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">7</td>
+                <td class="value-cell alta">8</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">8</td>
+                <td class="description-cell">S&P Global Sustainability Yearbook 5° año, EcoVadis, FTSE4Good, influencia acceso capitales</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">11</td>
+                <td class="stakeholder-name">Comunidades Locales</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">5</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">5</td>
+                <td class="description-cell">19 Planes MARRCO activos, 81% programas WASH, recuperación +1,000 pequeños negocios</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">12</td>
+                <td class="stakeholder-name">Sindicatos</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">7</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">7</td>
+                <td class="description-cell">Negociaciones colectivas, participación programas seguridad, relaciones laborales 10 países</td>
+            </tr>
+            
+            <!-- Stakeholders de Soporte -->
+            <tr class="stakeholder-row">
+                <td class="value-cell">13</td>
+                <td class="stakeholder-name">Medios de Comunicación</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">5</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">5</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">6</td>
+                <td class="description-cell">Gestión reputacional, comunicación crisis climáticas, transparencia informe integrado</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">14</td>
+                <td class="stakeholder-name">ONGs Ambientales</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">5</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">5</td>
+                <td class="description-cell">100% agua reabastecida, 84% energía renovable, 94% plantas cero residuos</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">15</td>
+                <td class="stakeholder-name">Instituciones Financieras</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">7</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">7</td>
+                <td class="value-cell alta">8</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">8</td>
+                <td class="description-cell">Financiamiento inversiones Ps. 25.3 mil millones, rating crediticio, bonos sustentables</td>
+            </tr>
+            
+            <!-- Stakeholders Específicos del Informe -->
+            <tr class="stakeholder-row">
+                <td class="value-cell">16</td>
+                <td class="stakeholder-name">Centros SUSTENTAPET</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">5</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">5</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell baja">4</td>
+                <td class="value-cell total">4</td>
+                <td class="description-cell">43 centros en 10 países, 118,600 ton PET recolectadas, economía circular integrada</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">17</td>
+                <td class="stakeholder-name">Universidades e Instituciones Educativas</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">5</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">5</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell baja">4</td>
+                <td class="value-cell total">4</td>
+                <td class="description-cell">Programas capacitación 6.1M horas, desarrollo talento, investigación sostenibilidad</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">18</td>
+                <td class="stakeholder-name">Competidores Industria</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell baja">4</td>
+                <td class="value-cell total">4</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">6</td>
+                <td class="description-cell">Competencia precios Colombia post-impuesto, benchmarking industria, share wars</td>
+            </tr>
+            
+            <tr class="stakeholder-row">
+                <td class="value-cell">19</td>
+                <td class="stakeholder-name">Aliados Tecnológicos</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">6</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell media">5</td>
+                <td class="value-cell zero"></td>
+                <td class="value-cell total">5</td>
+                <td class="description-cell">ERP nube, IA Juntos+ Advisor, Centro Digital y Analítica, transformación tecnológica</td>
+            </tr>
+        </table>
+        
+        <div class="legend">
+            <div style="font-weight: bold; margin-bottom: 10px;">ESTRATEGIAS DE ENGAGEMENT POR CUADRANTE:</div>
+            
+            <div class="legend-grid">
+                <div class="strategy-box" style="background-color: #ff6b6b; color: white;">
+                    <strong>GESTIONAR DE CERCA</strong><br>
+                    (Alta Importancia/Alta Influencia)<br>
+                    • Accionistas e Inversionistas<br>
+                    • The Coca-Cola Company<br>
+                    • Alta Dirección<br>
+                    • Reguladores/Gobiernos
+                </div>
+                
+                <div class="strategy-box" style="background-color: #feca57;">
+                    <strong>MANTENER SATISFECHOS</strong><br>
+                    (Alta Importancia/Media Influencia)<br>
+                    • Colaboradores<br>
+                    • Consumidores<br>
+                    • Socios Multicategoría<br>
+                    • Organizaciones ESG
+                </div>
+                
+                <div class="strategy-box" style="background-color: #48dbfb;">
+                    <strong>MANTENER INFORMADOS</strong><br>
+                    (Media Importancia/Media Influencia)<br>
+                    • Puntos de Venta<br>
+                    • Proveedores Locales<br>
+                    • Instituciones Financieras<br>
+                    • Sindicatos
+                </div>
+                
+                <div class="strategy-box" style="background-color: #f1f2f6;">
+                    <strong>MONITOREAR</strong><br>
+                    (Baja Importancia/Baja Influencia)<br>
+                    • Centros SUSTENTAPET<br>
+                    • Universidades<br>
+                    • Competidores<br>
+                    • Aliados Tecnológicos
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; font-size: 10px;">
+                <strong>Fuente:</strong> Informe Integrado Coca-Cola FEMSA 2024 - Análisis basado en evidencia cuantitativa y cualitativa del desempeño empresarial
+            </div>
+        </div>
+    </div>
+</body>
+</html>

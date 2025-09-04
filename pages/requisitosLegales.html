@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz Legal - FEMSA SIG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #e31f26 0%, #c41e3a 50%, #8b0000 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #e31f26 0%, #c41e3a 50%, #8b0000 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .info-section {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #e31f26;
+        }
+        .info-title {
+            color: #e31f26;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-top: 4px solid #e31f26;
+            text-align: center;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #e31f26;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            color: #2c3e50;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .categorias-section {
+            margin-bottom: 30px;
+        }
+        .categorias-title {
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .categorias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .categoria-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease;
+        }
+        .categoria-card:hover {
+            transform: translateY(-5px);
+        }
+        .categoria-laboral { border-left-color: #3498db; }
+        .categoria-sst { border-left-color: #e74c3c; }
+        .categoria-ambiental { border-left-color: #27ae60; }
+        .categoria-sanitaria { border-left-color: #f39c12; }
+        .categoria-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .categoria-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+        }
+        .categoria-desc {
+            font-size: 12px;
+            color: #7f8c8d;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        .categoria-count {
+            background: #ecf0f1;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 11px;
+            color: #2c3e50;
+        }
+        .matriz-section {
+            margin-top: 30px;
+        }
+        .matriz-title {
+            color: #e31f26;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .matriz-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            font-size: 10px;
+        }
+        .matriz-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            font-weight: bold;
+            padding: 12px 6px;
+            text-align: center;
+            font-size: 10px;
+        }
+        .matriz-cell {
+            padding: 8px 6px;
+            border: 1px solid #ecf0f1;
+            font-size: 9px;
+            vertical-align: top;
+        }
+        .norma-name {
+            font-weight: bold;
+            color: #2c3e50;
+            background: #f8f9fa;
+        }
+        .year-cell {
+            text-align: center;
+            font-weight: bold;
+            color: #e31f26;
+        }
+        .article-cell {
+            text-align: center;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .description-cell {
+            line-height: 1.3;
+            color: #34495e;
+        }
+        .evidence-cell {
+            line-height: 1.3;
+            color: #27ae60;
+            font-style: italic;
+        }
+        .responsible-cell {
+            line-height: 1.3;
+            color: #9b59b6;
+            font-weight: bold;
+        }
+        .status-cell {
+            text-align: center;
+        }
+        .status-si {
+            background: #d5f4e6;
+            color: #27ae60;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .status-no {
+            background: #fadbd8;
+            color: #e74c3c;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .compliance-section {
+            background: #e8f4fd;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .compliance-title {
+            color: #1976d2;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .compliance-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 4px solid #1976d2;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #7f8c8d;
+        }
+        .actualizacion-section {
+            background: #fff8e1;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .actualizacion-title {
+            color: #f57c00;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .proceso-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .step-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f57c00;
+            text-align: center;
+        }
+        .step-number {
+            background: #f57c00;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 10px;
+            font-size: 12px;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        .step-desc {
+            font-size: 10px;
+            color: #7f8c8d;
+            line-height: 1.3;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MATRIZ DE REQUISITOS LEGALES APLICABLES</h1>
+            <h2>SISTEMA INTEGRADO DE GESTIÓN - FEMSA</h2>
+            <p>Registro actualizado de normativas aplicables con evidencias de cumplimiento y responsables</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-section">
+                <div class="info-title">INFORMACIÓN DEL DOCUMENTO</div>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">FECHA DE ELABORACIÓN</div>
+                        <div class="info-value">DD 23 / MM 06 / AA 2024</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">FECHA DE ACTUALIZACIÓN</div>
+                        <div class="info-value">DD 23 / MM 06 / AA 2025</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">CÓDIGO DOCUMENTO</div>
+                        <div class="info-value">RAP1/2024</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">EMPRESA</div>
+                        <div class="info-value">Coca Cola FEMSA Colombia</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">ALCANCE</div>
+                        <div class="info-value">Operaciones Colombia</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">ESTADO</div>
+                        <div class="info-value">VIGENTE</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="categorias-section">
+                <div class="categorias-title">CATEGORÍAS DE REQUISITOS LEGALES</div>
+                
+                <div class="categorias-grid">
+                    <div class="categoria-card categoria-laboral">
+                        <div class="categoria-icon">⚖️</div>
+                        <div class="categoria-name">NORMATIVAS LABORALES</div>
+                        <div class="categoria-desc">
+                            Legislación relacionada con derechos de trabajadores, seguridad social, contratación y relaciones laborales en Colombia.
+                        </div>
+                        <div class="categoria-count">
+                            <strong>3 normativas principales</strong><br>
+                            Constitución, Ley 828, Código Trabajo
+                        </div>
+                    </div>
+                    
+                    <div class="categoria-card categoria-sst">
+                        <div class="categoria-icon">🛡️</div>
+                        <div class="categoria-name">SEGURIDAD Y SALUD LABORAL</div>
+                        <div class="categoria-desc">
+                            Regulaciones de seguridad y salud en el trabajo, prevención de riesgos laborales y gestión de emergencias.
+                        </div>
+                        <div class="categoria-count">
+                            <strong>5 normativas clave</strong><br>
+                            Ley 9, Decreto 1072, Resoluciones SST
+                        </div>
+                    </div>
+                    
+                    <div class="categoria-card categoria-ambiental">
+                        <div class="categoria-icon">🌱</div>
+                        <div class="categoria-name">NORMATIVAS AMBIENTALES</div>
+                        <div class="categoria-desc">
+                            Legislación ambiental para protección de recursos naturales, gestión de residuos y sostenibilidad.
+                        </div>
+                        <div class="categoria-count">
+                            <strong>En desarrollo</strong><br>
+                            Normativas específicas en proceso
+                        </div>
+                    </div>
+                    
+                    <div class="categoria-card categoria-sanitaria">
+                        <div class="categoria-icon">🏥</div>
+                        <div class="categoria-name">NORMATIVAS SANITARIAS</div>
+                        <div class="categoria-desc">
+                            Regulaciones sanitarias para industria de alimentos y bebidas, bioseguridad y protocolos COVID-19.
+                        </div>
+                        <div class="categoria-count">
+                            <strong>2 resoluciones activas</strong><br>
+                            Resolución 666, investigación accidentes
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="matriz-section">
+                <div class="matriz-title">MATRIZ DETALLADA DE REQUISITOS LEGALES</div>
+                
+                <table class="matriz-table">
+                    <thead>
+                        <tr>
+                            <th class="matriz-header" style="width: 12%;">NORMA</th>
+                            <th class="matriz-header" style="width: 6%;">AÑO</th>
+                            <th class="matriz-header" style="width: 20%;">DISPOSICIÓN QUE REGULA</th>
+                            <th class="matriz-header" style="width: 8%;">ART. APLICABLE</th>
+                            <th class="matriz-header" style="width: 25%;">DESCRIPCIÓN DEL REQUISITO</th>
+                            <th class="matriz-header" style="width: 15%;">EVIDENCIA DE CUMPLIMIENTO</th>
+                            <th class="matriz-header" style="width: 10%;">RESPONSABLE</th>
+                            <th class="matriz-header" style="width: 4%;">EVIDENCIA ACTUALIZADA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="matriz-cell norma-name">Constitución Política Colombiana</td>
+                            <td class="matriz-cell year-cell">1991</td>
+                            <td class="matriz-cell description-cell">El Congreso expedirá el estatuto del trabajo</td>
+                            <td class="matriz-cell article-cell">Art. 53</td>
+                            <td class="matriz-cell description-cell">
+                                Cumplir principios fundamentales: Pago adecuado trabajadores, remuneración mínima vital y móvil, proporcional a cantidad y calidad trabajo. Estado garantiza pago oportuno y reajuste periódico pensiones legales.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Soporte pagos nóminas, pensión, entre otros</td>
+                            <td class="matriz-cell responsible-cell">Empleador</td>
+                            <td class="matriz-cell status-cell"><span class="status-si">SÍ</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="matriz-cell norma-name">Ley 828</td>
+                            <td class="matriz-cell year-cell">2003</td>
+                            <td class="matriz-cell description-cell">Expiden normas para control a la Evasión del Sistema de Seguridad Social</td>
+                            <td class="matriz-cell article-cell">Art. 1-11</td>
+                            <td class="matriz-cell description-cell">
+                                Obligación del empleador tener afiliado a trabajadores al sistema de seguridad social integral.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Soporte pagos Seguridad Social Integral</td>
+                            <td class="matriz-cell responsible-cell">Gerente Recursos Humanos</td>
+                            <td class="matriz-cell status-cell"><span class="status-si">SÍ</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="matriz-cell norma-name">Ley 9</td>
+                            <td class="matriz-cell year-cell">1979</td>
+                            <td class="matriz-cell description-cell">Mejorar y conservar la salud de los trabajadores en su puesto de trabajo</td>
+                            <td class="matriz-cell article-cell">Art. 37,80,84</td>
+                            <td class="matriz-cell description-cell">
+                                Cumplir y mejorar el bienestar de los trabajadores en su puesto de trabajo.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Soporte documentado en plan de acción</td>
+                            <td class="matriz-cell responsible-cell">Gerente SGSST</td>
+                            <td class="matriz-cell status-cell"><span class="status-si">SÍ</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="matriz-cell norma-name">Decreto 1072</td>
+                            <td class="matriz-cell year-cell">2015</td>
+                            <td class="matriz-cell description-cell">Implementación del SGSST</td>
+                            <td class="matriz-cell article-cell">Art. 2.2.4.6.25</td>
+                            <td class="matriz-cell description-cell">
+                                Plan de prevención, preparación y respuesta ante emergencias.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Plan emergencias impreso o digital</td>
+                            <td class="matriz-cell responsible-cell">SST</td>
+                            <td class="matriz-cell status-cell"><span class="status-si">SÍ</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="matriz-cell norma-name">Decreto 2157</td>
+                            <td class="matriz-cell year-cell">2017</td>
+                            <td class="matriz-cell description-cell">Adopta directrices para elaboración plan gestión riesgo desastres</td>
+                            <td class="matriz-cell article-cell">Todo decreto</td>
+                            <td class="matriz-cell description-cell">
+                                Elaborar plan gestión riesgos desastres, establecer responsabilidades, tener recursos necesarios para implementación.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Documentación técnica soporte medidas intervención correctiva</td>
+                            <td class="matriz-cell responsible-cell">Empleador</td>
+                            <td class="matriz-cell status-cell"><span class="status-si">SÍ</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="matriz-cell norma-name">Decreto 2463</td>
+                            <td class="matriz-cell year-cell">2001</td>
+                            <td class="matriz-cell description-cell">Reglamenta integración, financiación y funcionamiento juntas Calificación invalidez</td>
+                            <td class="matriz-cell article-cell">Todo decreto</td>
+                            <td class="matriz-cell description-cell">
+                                Calificación grado pérdida capacidad laboral. Integración, financiación grado invalidez.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Soporte juntas elaboradas evaluación casos</td>
+                            <td class="matriz-cell responsible-cell">EPS y ARL</td>
+                            <td class="matriz-cell status-cell"><span class="status-si">SÍ</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="matriz-cell norma-name">Resolución 1409</td>
+                            <td class="matriz-cell year-cell">2015</td>
+                            <td class="matriz-cell description-cell">Reglamento seguridad protección caída trabajos alturas</td>
+                            <td class="matriz-cell article-cell">Art. 3</td>
+                            <td class="matriz-cell description-cell">
+                                Cumplir SGSST programa contra caídas en alturas.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Programa protección trabajador contra caída alturas</td>
+                            <td class="matriz-cell responsible-cell">Gerente SGSST</td>
+                            <td class="matriz-cell status-cell"><span class="status-si">SÍ</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="matriz-cell norma-name">Resolución 2400</td>
+                            <td class="matriz-cell year-cell">1972</td>
+                            <td class="matriz-cell description-cell">Disposición vivienda, higiene y seguridad establecimientos trabajo</td>
+                            <td class="matriz-cell article-cell">Título II Cap. IV, Título III Cap. II y IV</td>
+                            <td class="matriz-cell description-cell">
+                                Promover y mantener ambiente ocupacional en condiciones adecuadas higiene y seguridad. Iluminación, ruidos y vibraciones.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Programas implementación verificación higiene y seguridad</td>
+                            <td class="matriz-cell responsible-cell">Gerente SGSST</td>
+                            <td class="matriz-cell status-cell"><span class="status-no">NO</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="matriz-cell norma-name">Resolución 666</td>
+                            <td class="matriz-cell year-cell">2020</td>
+                            <td class="matriz-cell description-cell">Adopta protocolo general bioseguridad para mitigar, controlar pandemia</td>
+                            <td class="matriz-cell article-cell">Toda resolución</td>
+                            <td class="matriz-cell description-cell">
+                                Cumplir protocolo general bioseguridad para mitigar, controlar manejo adecuado pandemia Coronavirus COVID-19.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Documentación física o digital cumplimiento establecido</td>
+                            <td class="matriz-cell responsible-cell">Gerente SGSST</td>
+                            <td class="matriz-cell status-cell"><span class="status-si">SÍ</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="matriz-cell norma-name">Resolución 1401</td>
+                            <td class="matriz-cell year-cell">2007</td>
+                            <td class="matriz-cell description-cell">Reglamenta investigación incidentes y accidentes trabajo</td>
+                            <td class="matriz-cell article-cell">Toda resolución</td>
+                            <td class="matriz-cell description-cell">
+                                Cumplir adecuadamente investigación si hay incidente o accidente trabajo que lo requiera.
+                            </td>
+                            <td class="matriz-cell evidence-cell">Soporte reuniones comités investigación casos</td>
+                            <td class="matriz-cell responsible-cell">Gerente SGSST</td>
+                            <td class="matriz-cell status-cell"><span class="status-no">NO</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="compliance-section">
+                <div class="compliance-title">ESTADÍSTICAS DE CUMPLIMIENTO</div>
+                
+                <div class="compliance-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Normativas Identificadas</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Con Evidencia Actualizada</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">80%</div>
+                        <div class="stat-label">Nivel de Cumplimiento</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Requieren Actualización</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Responsables Asignados</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Normativas Críticas OK</div>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <strong style="color: #1976d2;">Análisis de Cumplimiento:</strong> FEMSA Colombia mantiene un nivel de cumplimiento del 80% en normativas identificadas. Las dos normativas pendientes de actualización (Resolución 2400 y 1401) están programadas para completarse en el primer trimestre 2025. Todas las normativas críticas relacionadas con seguridad social, SGSST y bioseguridad mantienen cumplimiento al 100%.
+                </div>
+            </div>
+            
+            <div class="actualizacion-section">
+                <div class="actualizacion-title">PROCESO DE ACTUALIZACIÓN NORMATIVA</div>
+                
+                <div class="proceso-steps">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-title">MONITOREO REGULATORIO</div>
+                        <div class="step-desc">
+                            Seguimiento continuo de cambios normativos a través de fuentes oficiales, gremios y asesores legales especializados.
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-title">EVALUACIÓN DE IMPACTO</div>
+                        <div class="step-desc">
+                            Análisis del impacto de nuevas normativas en operaciones, procesos y sistemas de gestión existentes.
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-title">ACTUALIZACIÓN MATRIZ</div>
+                        <div class="step-desc">
+                            Incorporación de nuevos requisitos legales en la matriz con asignación de responsables y plazos de implementación.
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-title">IMPLEMENTACIÓN</div>
+                        <div class="step-desc">
+                            Desarrollo e implementación de procedimientos, controles y evidencias necesarias para cumplimiento.
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <div class="step-title">VERIFICACIÓN</div>
+                        <div class="step-desc">
+                            Auditoría interna y externa para verificar efectividad del cumplimiento de nuevos requisitos legales.
+                        </div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">6</div>
+                        <div class="step-title">MANTENIMIENTO</div>
+                        <div class="step-desc">
+                            Revisión periódica trimestral de la matriz y actualización de evidencias de cumplimiento.
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center;">
+                    <strong style="color: #f57c00;">Frecuencia de Revisión:</strong> Trimestral para normativas críticas | Semestral para normativas generales | Inmediata para cambios regulatorios significativos
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Sistema Integrado de Gestión - FEMSA</strong></p>
+            <p>Matriz de Requisitos Legales actualizada 2024 | Universidad Libre - Bogotá</p>
+            <p>Elaborado por: Esteban Camilo Parra, Andrés Felipe Galeano, Santiago Orlando Martínez, Juan Pablo Gómez</p>
+        </div>
+    </div>
+</body>
+</html>

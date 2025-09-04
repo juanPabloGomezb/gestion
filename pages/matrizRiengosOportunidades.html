@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz de Riesgos - FEMSA SIG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #e74c3c 0%, #f39c12 50%, #27ae60 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #f39c12 50%, #27ae60 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .metodologia-section {
+            background: #f8f9fa;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #e74c3c;
+        }
+        .metodologia-title {
+            color: #e74c3c;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .metodologia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .etapa-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .etapa-1 { border-left-color: #3498db; }
+        .etapa-2 { border-left-color: #f39c12; }
+        .etapa-3 { border-left-color: #e74c3c; }
+        .etapa-4 { border-left-color: #27ae60; }
+        .etapa-numero {
+            background: linear-gradient(135deg, var(--etapa-color), var(--etapa-color-light));
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .etapa-1 { --etapa-color: #3498db; --etapa-color-light: #5dade2; }
+        .etapa-2 { --etapa-color: #f39c12; --etapa-color-light: #f8c471; }
+        .etapa-3 { --etapa-color: #e74c3c; --etapa-color-light: #ec7063; }
+        .etapa-4 { --etapa-color: #27ae60; --etapa-color-light: #58d68d; }
+        .etapa-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .etapa-desc {
+            font-size: 12px;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+        .matriz-section {
+            margin-top: 30px;
+        }
+        .matriz-title {
+            color: #e74c3c;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .risk-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .category-estrategico { border-left-color: #e74c3c; }
+        .category-operacional { border-left-color: #f39c12; }
+        .category-financiero { border-left-color: #3498db; }
+        .category-cumplimiento { border-left-color: #9b59b6; }
+        .category-reputacional { border-left-color: #e67e22; }
+        .category-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .risk-list {
+            list-style: none;
+            padding: 0;
+        }
+        .risk-item {
+            margin-bottom: 8px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+        .risk-name {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 3px;
+        }
+        .matriz-evaluacion {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .evaluacion-title {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: 80px repeat(5, 1fr);
+            grid-template-rows: 40px repeat(5, 60px);
+            gap: 2px;
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .matrix-header {
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 10px;
+            text-align: center;
+        }
+        .matrix-cell {
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 10px;
+            border-radius: 3px;
+        }
+        .prob-muy-alta { background: #8b0000; color: white; }
+        .prob-alta { background: #dc143c; color: white; }
+        .prob-media { background: #ff6347; }
+        .prob-baja { background: #ffa500; }
+        .prob-muy-baja { background: #ffd700; }
+        .impacto-critico { background: #8b0000; color: white; }
+        .impacto-mayor { background: #dc143c; color: white; }
+        .impacto-moderado { background: #ff6347; }
+        .impacto-menor { background: #ffa500; }
+        .impacto-insignificante { background: #ffd700; }
+        .riesgo-extremo { background: #8b0000; color: white; }
+        .riesgo-alto { background: #dc143c; color: white; }
+        .riesgo-medio { background: #ff6347; }
+        .riesgo-bajo { background: #ffa500; }
+        .riesgo-muy-bajo { background: #90ee90; }
+        .tabla-riesgos {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .tabla-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            font-weight: bold;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 11px;
+        }
+        .tabla-cell {
+            padding: 10px 8px;
+            border: 1px solid #ecf0f1;
+            font-size: 10px;
+            vertical-align: top;
+        }
+        .riesgo-nombre {
+            font-weight: bold;
+            color: #2c3e50;
+            background: #f8f9fa;
+        }
+        .prob-cell {
+            text-align: center;
+            font-weight: bold;
+        }
+        .medidas-cell {
+            line-height: 1.3;
+            color: #34495e;
+        }
+        .oportunidades-section {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .oportunidades-title {
+            color: #27ae60;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .oportunidades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .oportunidad-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+        .oportunidad-title {
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .oportunidad-desc {
+            font-size: 11px;
+            color: #2c3e50;
+            line-height: 1.3;
+        }
+        .monitoreo-section {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .monitoreo-title {
+            color: #3498db;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .kpi-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 4px solid #3498db;
+        }
+        .kpi-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+        .kpi-label {
+            font-size: 11px;
+            color: #7f8c8d;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MATRIZ DE RIESGOS Y OPORTUNIDADES</h1>
+            <h2>SISTEMA INTEGRADO DE GESTIÓN - FEMSA</h2>
+            <p>Identificación, evaluación y gestión proactiva de riesgos estratégicos y oportunidades de mejora</p>
+        </div>
+        
+        <div class="content">
+            <div class="metodologia-section">
+                <div class="metodologia-title">METODOLOGÍA DE GESTIÓN DE RIESGOS</div>
+                
+                <div class="metodologia-grid">
+                    <div class="etapa-card etapa-1">
+                        <div class="etapa-numero">1</div>
+                        <div class="etapa-title">IDENTIFICACIÓN</div>
+                        <div class="etapa-desc">
+                            Identificación sistemática de riesgos estratégicos, operacionales, financieros, de cumplimiento y reputacionales que pueden afectar el logro de objetivos del SIG.
+                        </div>
+                    </div>
+                    
+                    <div class="etapa-card etapa-2">
+                        <div class="etapa-numero">2</div>
+                        <div class="etapa-title">EVALUACIÓN</div>
+                        <div class="etapa-desc">
+                            Análisis de probabilidad de ocurrencia e impacto potencial de cada riesgo identificado, utilizando matriz de 5x5 para clasificación de severidad.
+                        </div>
+                    </div>
+                    
+                    <div class="etapa-card etapa-3">
+                        <div class="etapa-numero">3</div>
+                        <div class="etapa-title">TRATAMIENTO</div>
+                        <div class="etapa-desc">
+                            Definición e implementación de medidas de mitigación: evitar, transferir, mitigar o aceptar riesgos según su nivel de criticidad.
+                        </div>
+                    </div>
+                    
+                    <div class="etapa-card etapa-4">
+                        <div class="etapa-numero">4</div>
+                        <div class="etapa-title">MONITOREO</div>
+                        <div class="etapa-desc">
+                            Seguimiento continuo de la efectividad de controles implementados y revisión periódica de la matriz de riesgos.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="matriz-section">
+                <div class="matriz-title">CATEGORIZACIÓN DE RIESGOS IDENTIFICADOS</div>
+                
+                <div class="risk-categories">
+                    <div class="category-card category-estrategico">
+                        <div class="category-title">🎯 RIESGOS ESTRATÉGICOS</div>
+                        <ul class="risk-list">
+                            <li class="risk-item">
+                                <div class="risk-name">Cambios en patrones de consumo</div>
+                                Reducción demanda bebidas azucaradas por tendencias de salud
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Competencia intensificada</div>
+                                Entrada de nuevos competidores globales y locales
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Volatilidad macroeconómica</div>
+                                Inestabilidad política y económica en mercados de operación
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="category-card category-operacional">
+                        <div class="category-title">⚙️ RIESGOS OPERACIONALES</div>
+                        <ul class="risk-list">
+                            <li class="risk-item">
+                                <div class="risk-name">Disrupciones cadena suministro</div>
+                                Interrupciones por eventos climáticos o crisis proveedores
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Fallas tecnológicas</div>
+                                Interrupciones en sistemas críticos de producción y distribución
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Accidentes laborales</div>
+                                Incidentes que afecten seguridad de colaboradores
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="category-card category-financiero">
+                        <div class="category-title">💰 RIESGOS FINANCIEROS</div>
+                        <ul class="risk-list">
+                            <li class="risk-item">
+                                <div class="risk-name">Riesgo cambiario</div>
+                                Fluctuaciones en tipos de cambio que afecten resultados
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Volatilidad precios materias primas</div>
+                                Incrementos significativos en costos de insumos clave
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Liquidez y crédito</div>
+                                Dificultades de acceso a financiamiento en mercados locales
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="category-card category-cumplimiento">
+                        <div class="category-title">⚖️ RIESGOS DE CUMPLIMIENTO</div>
+                        <ul class="risk-list">
+                            <li class="risk-item">
+                                <div class="risk-name">Cambios regulatorios</div>
+                                Nuevas normativas ambientales y sanitarias más restrictivas
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Incumplimiento legal</div>
+                                Violaciones inadvertidas de normativas locales
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Sanciones fiscales</div>
+                                Penalizaciones por interpretaciones tributarias incorrectas
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="category-card category-reputacional">
+                        <div class="category-title">📢 RIESGOS REPUTACIONALES</div>
+                        <ul class="risk-list">
+                            <li class="risk-item">
+                                <div class="risk-name">Crisis de imagen</div>
+                                Eventos que afecten percepción pública de marca
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Activismo ambiental</div>
+                                Presión de ONGs por prácticas de sostenibilidad
+                            </li>
+                            <li class="risk-item">
+                                <div class="risk-name">Redes sociales</div>
+                                Propagación viral de contenido negativo no controlado
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="matriz-evaluacion">
+                <div class="evaluacion-title">MATRIZ DE EVALUACIÓN DE RIESGOS</div>
+                
+                <div class="risk-matrix">
+                    <div class="matrix-header"></div>
+                    <div class="matrix-header">MUY BAJO<br>(1)</div>
+                    <div class="matrix-header">BAJO<br>(2)</div>
+                    <div class="matrix-header">MEDIO<br>(3)</div>
+                    <div class="matrix-header">ALTO<br>(4)</div>
+                    <div class="matrix-header">MUY ALTO<br>(5)</div>
+                    
+                    <div class="matrix-cell prob-muy-alta">MUY ALTA<br>(5)</div>
+                    <div class="matrix-cell riesgo-medio">MEDIO</div>
+                    <div class="matrix-cell riesgo-alto">ALTO</div>
+                    <div class="matrix-cell riesgo-alto">ALTO</div>
+                    <div class="matrix-cell riesgo-extremo">EXTREMO</div>
+                    <div class="matrix-cell riesgo-extremo">EXTREMO</div>
+                    
+                    <div class="matrix-cell prob-alta">ALTA<br>(4)</div>
+                    <div class="matrix-cell riesgo-bajo">BAJO</div>
+                    <div class="matrix-cell riesgo-medio">MEDIO</div>
+                    <div class="matrix-cell riesgo-alto">ALTO</div>
+                    <div class="matrix-cell riesgo-alto">ALTO</div>
+                    <div class="matrix-cell riesgo-extremo">EXTREMO</div>
+                    
+                    <div class="matrix-cell prob-media">MEDIA<br>(3)</div>
+                    <div class="matrix-cell riesgo-muy-bajo">MUY BAJO</div>
+                    <div class="matrix-cell riesgo-bajo">BAJO</div>
+                    <div class="matrix-cell riesgo-medio">MEDIO</div>
+                    <div class="matrix-cell riesgo-alto">ALTO</div>
+                    <div class="matrix-cell riesgo-alto">ALTO</div>
+                    
+                    <div class="matrix-cell prob-baja">BAJA<br>(2)</div>
+                    <div class="matrix-cell riesgo-muy-bajo">MUY BAJO</div>
+                    <div class="matrix-cell riesgo-muy-bajo">MUY BAJO</div>
+                    <div class="matrix-cell riesgo-bajo">BAJO</div>
+                    <div class="matrix-cell riesgo-medio">MEDIO</div>
+                    <div class="matrix-cell riesgo-alto">ALTO</div>
+                    
+                    <div class="matrix-cell prob-muy-baja">MUY BAJA<br>(1)</div>
+                    <div class="matrix-cell riesgo-muy-bajo">MUY BAJO</div>
+                    <div class="matrix-cell riesgo-muy-bajo">MUY BAJO</div>
+                    <div class="matrix-cell riesgo-muy-bajo">MUY BAJO</div>
+                    <div class="matrix-cell riesgo-bajo">BAJO</div>
+                    <div class="matrix-cell riesgo-medio">MEDIO</div>
+                </div>
+            </div>
+            
+            <table class="tabla-riesgos">
+                <thead>
+                    <tr>
+                        <th class="tabla-header" style="width: 20%;">RIESGO IDENTIFICADO</th>
+                        <th class="tabla-header" style="width: 8%;">PROB.</th>
+                        <th class="tabla-header" style="width: 8%;">IMPACTO</th>
+                        <th class="tabla-header" style="width: 10%;">NIVEL</th>
+                        <th class="tabla-header" style="width: 25%;">CAUSA POTENCIAL</th>
+                        <th class="tabla-header" style="width: 29%;">MEDIDAS DE MITIGACIÓN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="tabla-cell riesgo-nombre">Eventos climáticos extremos</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">4</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">4</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">ALTO</td>
+                        <td class="tabla-cell">Inundaciones en Rio Grande do Sul, huracán John Guerrero afectaron operaciones 2024</td>
+                        <td class="tabla-cell medidas-cell">• Planes de continuidad por ubicación<br>• Fondo de emergencias establecido<br>• Sistemas resistentes al clima<br>• Diversificación geográfica</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="tabla-cell riesgo-nombre">Cambios regulatorios fiscales</td>
+                        <td class="tabla-cell prob-cell riesgo-medio">3</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">4</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">ALTO</td>
+                        <td class="tabla-cell">Impuesto especial bebidas Colombia 2023 amplió brecha precios competidores</td>
+                        <td class="tabla-cell medidas-cell">• Monitoreo regulatorio proactivo<br>• Estrategias de pricing adaptativas<br>• Lobby responsable<br>• Portafolio diversificado</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="tabla-cell riesgo-nombre">Ciberseguridad y datos</td>
+                        <td class="tabla-cell prob-cell riesgo-medio">3</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">4</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">ALTO</td>
+                        <td class="tabla-cell">Migración ERP nube, datos 2.2M puntos venta, amenazas crecientes</td>
+                        <td class="tabla-cell medidas-cell">• Inversión en ciberseguridad<br>• Protocolos de backup<br>• Capacitación colaboradores<br>• Compliance multijurisdiccional</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="tabla-cell riesgo-nombre">Retención talento digital</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">4</td>
+                        <td class="tabla-cell prob-cell riesgo-medio">3</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">ALTO</td>
+                        <td class="tabla-cell">Competencia por perfiles especializados, transformación digital acelerada</td>
+                        <td class="tabla-cell medidas-cell">• Programas retención diferenciados<br>• Capacitación 6.1M horas anuales<br>• Compensación competitiva<br>• Desarrollo profesional</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="tabla-cell riesgo-nombre">Volatilidad tipos cambio</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">4</td>
+                        <td class="tabla-cell prob-cell riesgo-medio">3</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">ALTO</td>
+                        <td class="tabla-cell">Operaciones en 10 países, Argentina con volatilidad extrema capitalizada</td>
+                        <td class="tabla-cell medidas-cell">• Coberturas cambiarias<br>• Estrategias de asequibilidad<br>• Abastecimiento local 93%<br>• Diversificación geográfica</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="tabla-cell riesgo-nombre">Escasez hídrica regional</td>
+                        <td class="tabla-cell prob-cell riesgo-medio">3</td>
+                        <td class="tabla-cell prob-cell riesgo-medio">3</td>
+                        <td class="tabla-cell prob-cell riesgo-medio">MEDIO</td>
+                        <td class="tabla-cell">Estrés hídrico creciente, operaciones intensivas en agua</td>
+                        <td class="tabla-cell medidas-cell">• Eficiencia 1.36L agua/litro bebida<br>• 100% reabastecimiento<br>• Tecnologías reutilización<br>• Inversiones tratamiento</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="tabla-cell riesgo-nombre">Fallas sistemas críticos</td>
+                        <td class="tabla-cell prob-cell riesgo-bajo">2</td>
+                        <td class="tabla-cell prob-cell riesgo-alto">4</td>
+                        <td class="tabla-cell prob-cell riesgo-medio">MEDIO</td>
+                        <td class="tabla-cell">Dependencia sistemas ERP, automatización producción</td>
+                        <td class="tabla-cell medidas-cell">• Redundancia sistemas críticos<br>• Planes contingencia<br>• Mantenimiento preventivo<br>• Backup automatizado</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="oportunidades-section">
+                <div class="oportunidades-title">MATRIZ DE OPORTUNIDADES IDENTIFICADAS</div>
+                
+                <div class="oportunidades-grid">
+                    <div class="oportunidad-card">
+                        <div class="oportunidad-title">Liderazgo Bebidas Sin Azúcar</div>
+                        <div class="oportunidad-desc">
+                            Coca-Cola Zero Azúcar +31% crecimiento, anticipando tendencias salud. Oportunidad de capturar mayor share en categoría creciente con Brasil líder global +56%.
+                        </div>
+                    </div>
+                    
+                    <div class="oportunidad-card">
+                        <div class="oportunidad-title">Expansión Digital B2B</div>
+                        <div class="oportunidad-desc">
+                            Juntos+ 1.3M usuarios activos (60% base), oportunidad escalar a 80% digitalización clientes y expandir servicios financieros digitales integrados.
+                        </div>
+                    </div>
+                    
+                    <div class="oportunidad-card">
+                        <div class="oportunidad-title">Diversificación Multicategoría</div>
+                        <div class="oportunidad-desc">
+                            US$228M actual (1.5% ventas) con crecimiento +50%, meta 5% ingresos 2027. Aprovechamiento red distribución para nuevas categorías.
+                        </div>
+                    </div>
+                    
+                    <div class="oportunidad-card">
+                        <div class="oportunidad-title">Sostenibilidad como Ventaja</div>
+                        <div class="oportunidad-desc">
+                            84% energía renovable, 94% plantas cero residuos. Oportunidad diferenciación competitiva en mercados con regulaciones ambientales crecientes.
+                        </div>
+                    </div>
+                    
+                    <div class="oportunidad-card">
+                        <div class="oportunidad-title">Consolidación M&A</div>
+                        <div class="oportunidad-desc">
+                            Experiencia exitosa en fusiones, solidez financiera Ps. 56.2B flujo operativo. Oportunidad consolidar mercados retail y adquirir capacidades digitales.
+                        </div>
+                    </div>
+                    
+                    <div class="oportunidad-card">
+                        <div class="oportunidad-title">Innovación IA y Analytics</div>
+                        <div class="oportunidad-desc">
+                            Juntos+ Advisor IA con 40% adopción Brasil, +3 pts precisión pronóstico. Oportunidad optimizar operaciones y crear nuevos modelos de negocio.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="monitoreo-section">
+                <div class="monitoreo-title">INDICADORES DE MONITOREO DE RIESGOS</div>
+                
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-value">98.5%</div>
+                        <div class="kpi-label">Cumplimiento Normativo</div>
+                    </div>
+                    
+                    <div class="kpi-card">
+                        <div class="kpi-value">0.85</div>
+                        <div class="kpi-label">Índice Frecuencia Accidentes</div>
+                    </div>
+                    
+                    <div class="kpi-card">
+                        <div class="kpi-value">7°</div>
+                        <div class="kpi-label">Años ROIC Mejorado</div>
+                    </div>
+                    
+                    <div class="kpi-card">
+                        <div class="kpi-value">100%</div>
+                        <div class="kpi-label">Agua Reabastecida</div>
+                    </div>
+                    
+                    <div class="kpi-card">
+                        <div class="kpi-value">4,500</div>
+                        <div class="kpi-label">Empleos Protegidos Crisis</div>
+                    </div>
+                    
+                    <div class="kpi-card">
+                        <div class="kpi-value">92.6%</div>
+                        <div class="kpi-label">Satisfacción Cliente NPS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Sistema Integrado de Gestión - FEMSA</strong></p>
+            <p>Matriz de Riesgos y Oportunidades actualizada 2024 | Universidad Libre - Bogotá</p>
+            <p>Elaborado por: Esteban Camilo Parra, Andrés Felipe Galeano, Santiago Orlando Martínez, Juan Pablo Gómez</p>
+        </div>
+    </div>
+</body>
+</html>

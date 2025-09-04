@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alcance SIG - FEMSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 50%, #1a252f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 50%, #1a252f 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .definicion-section {
+            background: #f8f9fa;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #2c3e50;
+        }
+        .definicion-title {
+            color: #2c3e50;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .proposito-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .proposito-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2c3e50;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .proposito-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .proposito-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .proposito-desc {
+            font-size: 12px;
+            color: #7f8c8d;
+            line-height: 1.4;
+            text-align: center;
+        }
+        .sistemas-section {
+            margin-top: 30px;
+        }
+        .sistemas-title {
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .sistemas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .sistema-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .sistema-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .iso-9001 { border-left-color: #3498db; }
+        .iso-14001 { border-left-color: #27ae60; }
+        .iso-45001 { border-left-color: #e74c3c; }
+        .iso-50001 { border-left-color: #f39c12; }
+        .sistema-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .sistema-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-right: 15px;
+            font-size: 12px;
+            text-align: center;
+        }
+        .iso-9001 .sistema-logo { background: #3498db; }
+        .iso-14001 .sistema-logo { background: #27ae60; }
+        .iso-45001 .sistema-logo { background: #e74c3c; }
+        .iso-50001 .sistema-logo { background: #f39c12; }
+        .sistema-info {
+            flex: 1;
+        }
+        .sistema-nombre {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .sistema-norma {
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+        .sistema-desc {
+            font-size: 12px;
+            color: #34495e;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        .sistema-elementos {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .elementos-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+        .elementos-list {
+            font-size: 10px;
+            color: #7f8c8d;
+            line-height: 1.3;
+        }
+        .cobertura-section {
+            background: #e8f4fd;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .cobertura-title {
+            color: #3498db;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .cobertura-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .cobertura-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 4px solid #3498db;
+        }
+        .cobertura-card-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .cobertura-content {
+            font-size: 12px;
+            color: #34495e;
+            line-height: 1.4;
+        }
+        .ubicaciones-section {
+            background: #e8f5e8;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .ubicaciones-title {
+            color: #27ae60;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .ubicaciones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .ubicacion-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            text-align: center;
+        }
+        .ubicacion-tipo {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .ubicacion-cantidad {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .ubicacion-desc {
+            font-size: 10px;
+            color: #7f8c8d;
+        }
+        .exclusiones-section {
+            background: #fadbd8;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .exclusiones-title {
+            color: #e74c3c;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .exclusiones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        .exclusion-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+        .exclusion-title {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .exclusion-desc {
+            font-size: 11px;
+            color: #2c3e50;
+            line-height: 1.3;
+        }
+        .aplicabilidad-section {
+            background: #fff8e1;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .aplicabilidad-title {
+            color: #f57c00;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .criterios-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .criterios-header {
+            background: linear-gradient(135deg, #f57c00 0%, #ff9800 100%);
+            color: white;
+            font-weight: bold;
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .criterios-cell {
+            padding: 10px 8px;
+            border: 1px solid #ecf0f1;
+            font-size: 11px;
+            vertical-align: top;
+        }
+        .criterio-name {
+            font-weight: bold;
+            color: #2c3e50;
+            background: #f8f9fa;
+        }
+        .criterio-desc {
+            line-height: 1.4;
+            color: #34495e;
+        }
+        .documento-section {
+            background: #f0f7ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .documento-title {
+            color: #1976d2;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .documento-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e3f2fd;
+        }
+        .documento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .documento-item {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .documento-label {
+            font-weight: bold;
+            color: #1976d2;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .documento-value {
+            color: #2c3e50;
+            font-size: 11px;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ALCANCE DE SISTEMAS INTEGRADOS DE GESTIÓN</h1>
+            <h2>FOMENTO ECONÓMICO MEXICANO S.A.B. DE C.V. (FEMSA)</h2>
+            <p>Definición precisa del alcance, cobertura y límites del Sistema Integrado de Gestión</p>
+        </div>
+        
+        <div class="content">
+            <div class="definicion-section">
+                <div class="definicion-title">PROPÓSITO Y ALCANCE DEL SIG FEMSA</div>
+                
+                <div class="proposito-grid">
+                    <div class="proposito-card">
+                        <div class="proposito-icon">🎯</div>
+                        <div class="proposito-title">OBJETIVO PRINCIPAL</div>
+                        <div class="proposito-desc">
+                            Asegurar la excelencia operacional, la sostenibilidad ambiental, el bienestar laboral y el cumplimiento regulatorio, alineado con la estrategia corporativa de liderazgo en la industria de bebidas.
+                        </div>
+                    </div>
+                    
+                    <div class="proposito-card">
+                        <div class="proposito-icon">🌐</div>
+                        <div class="proposito-title">ÁMBITO DE APLICACIÓN</div>
+                        <div class="proposito-desc">
+                            Todas las operaciones de Coca-Cola FEMSA en Colombia, incluyendo producción, distribución, logística, comercialización y gestión administrativa en ubicaciones controladas directamente.
+                        </div>
+                    </div>
+                    
+                    <div class="proposito-card">
+                        <div class="proposito-icon">🔗</div>
+                        <div class="proposito-title">INTEGRACIÓN SISTÉMICA</div>
+                        <div class="proposito-desc">
+                            Unificación de sistemas de gestión de calidad, ambiental, seguridad laboral y energética bajo un marco coherente y sinérgico que maximice eficiencias y reduzca duplicidades.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sistemas-section">
+                <div class="sistemas-title">SISTEMAS DE GESTIÓN INCLUIDOS EN EL ALCANCE</div>
+                
+                <div class="sistemas-grid">
+                    <div class="sistema-card iso-9001">
+                        <div class="sistema-header">
+                            <div class="sistema-logo">ISO<br>9001</div>
+                            <div class="sistema-info">
+                                <div class="sistema-nombre">Sistema de Gestión de Calidad</div>
+                                <div class="sistema-norma">ISO 9001:2015</div>
+                            </div>
+                        </div>
+                        <div class="sistema-desc">
+                            Enfoque en la satisfacción del cliente, mejora continua de procesos y productos, con NPS del 92.6% basado en 50,000 encuestas mensuales de satisfacción.
+                        </div>
+                        <div class="sistema-elementos">
+                            <div class="elementos-title">Elementos Clave:</div>
+                            <div class="elementos-list">
+                                • Enfoque al cliente y partes interesadas<br>
+                                • Liderazgo y compromiso de la dirección<br>
+                                • Gestión de riesgos y oportunidades<br>
+                                • Mejora continua sistemática<br>
+                                • Medición y análisis del desempeño
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sistema-card iso-14001">
+                        <div class="sistema-header">
+                            <div class="sistema-logo">ISO<br>14001</div>
+                            <div class="sistema-info">
+                                <div class="sistema-nombre">Sistema de Gestión Ambiental</div>
+                                <div class="sistema-norma">ISO 14001:2015</div>
+                            </div>
+                        </div>
+                        <div class="sistema-desc">
+                            Gestión proactiva del impacto ambiental con 84% de energía renovable, 100% de agua reabastecida y 94% de plantas certificadas como cero residuos.
+                        </div>
+                        <div class="sistema-elementos">
+                            <div class="elementos-title">Elementos Clave:</div>
+                            <div class="elementos-list">
+                                • Política ambiental y objetivos<br>
+                                • Identificación aspectos ambientales<br>
+                                • Cumplimiento normativo ambiental<br>
+                                • Control operacional ambiental<br>
+                                • Monitoreo y evaluación continua
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sistema-card iso-45001">
+                        <div class="sistema-header">
+                            <div class="sistema-logo">ISO<br>45001</div>
+                            <div class="sistema-info">
+                                <div class="sistema-nombre">Sistema de Gestión SST</div>
+                                <div class="sistema-norma">ISO 45001:2018</div>
+                            </div>
+                        </div>
+                        <div class="sistema-desc">
+                            Estrategia de Seguridad 0.0 con enfoque en eliminación de accidentes, participación del liderazgo y el programa privado más grande de capacitación en la industria.
+                        </div>
+                        <div class="sistema-elementos">
+                            <div class="elementos-title">Elementos Clave:</div>
+                            <div class="elementos-list">
+                                • Liderazgo y participación trabajadores<br>
+                                • Identificación peligros y evaluación riesgos<br>
+                                • Objetivos SST y planificación<br>
+                                • Control operacional de seguridad<br>
+                                • Preparación y respuesta emergencias
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sistema-card iso-50001">
+                        <div class="sistema-header">
+                            <div class="sistema-logo">ISO<br>50001</div>
+                            <div class="sistema-info">
+                                <div class="sistema-nombre">Sistema de Gestión Energética</div>
+                                <div class="sistema-norma">ISO 50001:2018</div>
+                            </div>
+                        </div>
+                        <div class="sistema-desc">
+                            Optimización del consumo energético con transición hacia renovables, plantas pioneras cero emisiones en Celaya y Veracruz, y mejora continua de eficiencia.
+                        </div>
+                        <div class="sistema-elementos">
+                            <div class="elementos-title">Elementos Clave:</div>
+                            <div class="elementos-list">
+                                • Política energética organizacional<br>
+                                • Planificación energética estratégica<br>
+                                • Implementación y operación eficiente<br>
+                                • Monitoreo y medición consumos<br>
+                                • Revisión y mejora del desempeño
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cobertura-section">
+                <div class="cobertura-title">COBERTURA DE PROCESOS CRÍTICOS</div>
+                
+                <div class="cobertura-grid">
+                    <div class="cobertura-card">
+                        <div class="cobertura-card-title">🏭 PRODUCCIÓN DE BEBIDAS</div>
+                        <div class="cobertura-content">
+                            Manufactura de bebidas carbonatadas y no carbonatadas con 56 plantas de producción, 7 nuevas líneas en 2024 (+3.5% capacidad), cumpliendo estándares globales de calidad y sostenibilidad.
+                        </div>
+                    </div>
+                    
+                    <div class="cobertura-card">
+                        <div class="cobertura-card-title">🚛 DISTRIBUCIÓN Y LOGÍSTICA</div>
+                        <div class="cobertura-content">
+                            Red de distribución hemisférica con 256 centros, +14,000 rutas de entrega, atendiendo 2.2M puntos de venta con 1.4 visitas promedio semanales y sistemas digitales integrados.
+                        </div>
+                    </div>
+                    
+                    <div class="cobertura-card">
+                        <div class="cobertura-card-title">👥 GESTIÓN DE TALENTO HUMANO</div>
+                        <div class="cobertura-content">
+                            Desarrollo integral de 93,664 colaboradores con 6.1M horas anuales de capacitación, programas de diversidad (31.8% mujeres en liderazgo) y seguridad psicológica.
+                        </div>
+                    </div>
+                    
+                    <div class="cobertura-card">
+                        <div class="cobertura-card-title">💡 INNOVACIÓN EN SOSTENIBILIDAD</div>
+                        <div class="cobertura-content">
+                            Programas de economía circular, 43 centros SUSTENTAPET, 118,600 toneladas PET recolectadas, 30% contenido reciclado en empaques y eficiencia hídrica 1.36L/litro.
+                        </div>
+                    </div>
+                    
+                    <div class="cobertura-card">
+                        <div class="cobertura-card-title">📱 CANALES DIGITALES</div>
+                        <div class="cobertura-content">
+                            Plataformas Juntos+ (1.3M usuarios activos), En Tu Hogar (26% transacciones digitales), IA Juntos+ Advisor y Centro Digital y Analítica para optimización continua.
+                        </div>
+                    </div>
+                    
+                    <div class="cobertura-card">
+                        <div class="cobertura-card-title">⚖️ CUMPLIMIENTO REGULATORIO</div>
+                        <div class="cobertura-content">
+                            Gestión de compliance en 10 jurisdicciones, cumplimiento normativo del 98.5%, gestión proactiva de cambios regulatorios y relaciones institucionales.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ubicaciones-section">
+                <div class="ubicaciones-title">UBICACIONES INCLUIDAS EN EL ALCANCE</div>
+                
+                <div class="ubicaciones-grid">
+                    <div class="ubicacion-card">
+                        <div class="ubicacion-tipo">PLANTAS DE MANUFACTURA</div>
+                        <div class="ubicacion-cantidad">56</div>
+                        <div class="ubicacion-desc">Plantas de producción de bebidas con tecnología avanzada y estándares internacionales</div>
+                    </div>
+                    
+                    <div class="ubicacion-card">
+                        <div class="ubicacion-tipo">CENTROS DE DISTRIBUCIÓN</div>
+                        <div class="ubicacion-cantidad">256</div>
+                        <div class="ubicacion-desc">Centros logísticos estratégicamente ubicados para optimizar la cadena de suministro</div>
+                    </div>
+                    
+                    <div class="ubicacion-card">
+                        <div class="ubicacion-tipo">OFICINAS ADMINISTRATIVAS</div>
+                        <div class="ubicacion-cantidad">18</div>
+                        <div class="ubicacion-desc">Sedes corporativas y administrativas en los países de operación</div>
+                    </div>
+                    
+                    <div class="ubicacion-card">
+                        <div class="ubicacion-tipo">CENTROS SUSTENTAPET</div>
+                        <div class="ubicacion-cantidad">43</div>
+                        <div class="ubicacion-desc">Centros especializados en recolección y procesamiento de PET reciclado</div>
+                    </div>
+                    
+                    <div class="ubicacion-card">
+                        <div class="ubicacion-tipo">PAÍSES DE OPERACIÓN</div>
+                        <div class="ubicacion-cantidad">10</div>
+                        <div class="ubicacion-desc">Jurisdicciones donde FEMSA tiene operaciones directas controladas</div>
+                    </div>
+                    
+                    <div class="ubicacion-card">
+                        <div class="ubicacion-tipo">RUTAS DE ENTREGA</div>
+                        <div class="ubicacion-cantidad">+14,000</div>
+                        <div class="ubicacion-desc">Rutas activas de distribución que atienden la red comercial</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="exclusiones-section">
+                <div class="exclusiones-title">EXCLUSIONES DEL ALCANCE</div>
+                
+                <div class="exclusiones-grid">
+                    <div class="exclusion-card">
+                        <div class="exclusion-title">🚚 DISTRIBUCIÓN TERCERIZADA NO CONTROLADA</div>
+                        <div class="exclusion-desc">
+                            Actividades de distribución realizadas por terceros fuera de contratos directos de FEMSA donde la empresa no tiene control operacional directo sobre procesos y estándares.
+                        </div>
+                    </div>
+                    
+                    <div class="exclusion-card">
+                        <div class="exclusion-title">🏪 PUNTOS DE VENTA EXTERNOS</div>
+                        <div class="exclusion-desc">
+                            Los 2.2M puntos de venta son clientes de FEMSA pero no están bajo control operacional directo, aunque sí están incluidos en programas de relacionamiento como Juntos+.
+                        </div>
+                    </div>
+                    
+                    <div class="exclusion-card">
+                        <div class="exclusion-title">🏭 OPERACIONES DE TERCEROS</div>
+                        <div class="exclusion-desc">
+                            Actividades realizadas por contratistas o proveedores en sus propias instalaciones, aunque están sujetas a requisitos contractuales de cumplimiento del SIG.
+                        </div>
+                    </div>
+                    
+                    <div class="exclusion-card">
+                        <div class="exclusion-title">💼 ACTIVIDADES FINANCIERAS ESPECIALIZADAS</div>
+                        <div class="exclusion-desc">
+                            Servicios financieros especializados que no forman parte del core business de bebidas, aunque las operaciones digitales como Spin sí están incluidas.
+                        </div>
+                    </div>
+                    
+                    <div class="exclusion-card">
+                        <div class="exclusion-title">🌐 OPERACIONES INTERNACIONALES NO CONTROLADAS</div>
+                        <div class="exclusion-desc">
+                            Inversiones o participaciones donde FEMSA no tiene control operacional directo, aunque mantiene influencia a través de governance corporativo.
+                        </div>
+                    </div>
+                    
+                    <div class="exclusion-card">
+                        <div class="exclusion-title">🔧 MANTENIMIENTO ESPECIALIZADO EXTERNO</div>
+                        <div class="exclusion-desc">
+                            Servicios de mantenimiento altamente especializados realizados por proveedores certificados, aunque están sujetos a procedimientos de control y supervisión.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="aplicabilidad-section">
+                <div class="aplicabilidad-title">CRITERIOS DE APLICABILIDAD</div>
+                
+                <table class="criterios-table">
+                    <thead>
+                        <tr>
+                            <th class="criterios-header" style="width: 25%;">CRITERIO</th>
+                            <th class="criterios-header" style="width: 40%;">DESCRIPCIÓN</th>
+                            <th class="criterios-header" style="width: 35%;">APLICACIÓN EN FEMSA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="criterios-cell criterio-name">Control Operacional</td>
+                            <td class="criterios-cell criterio-desc">
+                                FEMSA debe tener control directo sobre procesos, recursos y decisiones operacionales en la ubicación o actividad.
+                            </td>
+                            <td class="criterios-cell criterio-desc">
+                                Plantas propias, centros de distribución, oficinas administrativas y operaciones donde FEMSA toma decisiones directas.
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="criterios-cell criterio-name">Impacto en Objetivos SIG</td>
+                            <td class="criterios-cell criterio-desc">
+                                Actividades que impactan directamente en el logro de objetivos de calidad, ambiente, seguridad y energía.
+                            </td>
+                            <td class="criterios-cell criterio-desc">
+                                Procesos productivos, distribución, gestión de talento, sostenibilidad y cumplimiento regulatorio.
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="criterios-cell criterio-name">Responsabilidad Legal</td>
+                            <td class="criterios-cell criterio-desc">
+                                Actividades donde FEMSA tiene responsabilidad legal directa ante autoridades regulatorias.
+                            </td>
+                            <td class="criterios-cell criterio-desc">
+                                Todas las operaciones en los 10 países donde FEMSA es el operador legal responsable.
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="criterios-cell criterio-name">Influencia en Stakeholders</td>
+                            <td class="criterios-cell criterio-desc">
+                                Procesos que afectan directamente a colaboradores, clientes, comunidades y otros grupos de interés.
+                            </td>
+                            <td class="criterios-cell criterio-desc">
+                                Gestión de los 93,664 colaboradores, servicio a 2.2M puntos de venta, programas comunitarios.
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="criterios-cell criterio-name">Recursos Significativos</td>
+                            <td class="criterios-cell criterio-desc">
+                                Actividades que consumen recursos significativos (financieros, humanos, naturales) de FEMSA.
+                            </td>
+                            <td class="criterios-cell criterio-desc">
+                                Inversiones de Ps. 25.3 mil millones, consumo energético e hídrico, gestión de residuos.
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="criterios-cell criterio-name">Riesgos Empresariales</td>
+                            <td class="criterios-cell criterio-desc">
+                                Actividades que representan riesgos significativos para la continuidad del negocio o reputación.
+                            </td>
+                            <td class="criterios-cell criterio-desc">
+                                Procesos críticos de producción, distribución, cumplimiento normativo y gestión de crisis.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="documento-section">
+                <div class="documento-title">INFORMACIÓN DEL DOCUMENTO</div>
+                
+                <div class="documento-info">
+                    <div class="documento-grid">
+                        <div class="documento-item">
+                            <div class="documento-label">FECHA DE ELABORACIÓN</div>
+                            <div class="documento-value">Diciembre 2024</div>
+                        </div>
+                        
+                        <div class="documento-item">
+                            <div class="documento-label">PRÓXIMA REVISIÓN</div>
+                            <div class="documento-value">Diciembre 2025</div>
+                        </div>
+                        
+                        <div class="documento-item">
+                            <div class="documento-label">APROBADO POR</div>
+                            <div class="documento-value">Gerente General</div>
+                        </div>
+                        
+                        <div class="documento-item">
+                            <div class="documento-label">REVISADO POR</div>
+                            <div class="documento-value">Comité SIG</div>
+                        </div>
+                        
+                        <div class="documento-item">
+                            <div class="documento-label">VERSIÓN</div>
+                            <div class="documento-value">2.0</div>
+                        </div>
+                        
+                        <div class="documento-item">
+                            <div class="documento-label">ESTADO</div>
+                            <div class="documento-value">VIGENTE</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding: 15px; background-color: #e3f2fd; border-radius: 8px; text-align: center;">
+                        <strong>Declaración de Alcance:</strong> Este documento define el alcance del Sistema Integrado de Gestión de FEMSA Colombia, aplicable a todas las operaciones bajo control operacional directo de la empresa, excluyendo actividades de terceros no controladas. El alcance será revisado anualmente o cuando cambios significativos en la organización lo requieran.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Sistema Integrado de Gestión - FEMSA</strong></p>
+            <p>Alcance de Sistemas Integrados actualizado 2024 | Universidad Libre - Bogotá</p>
+            <p>Elaborado por: Esteban Camilo Parra, Andrés Felipe Galeano, Santiago Orlando Martínez, Juan Pablo Gómez</p>
+        </div>
+    </div>
+</body>
+</html>

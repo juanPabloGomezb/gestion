@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetivos Integrados de Gestión - Coca-Cola FEMSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f5;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        .container {
+            background-color: white;
+            max-width: 1400px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #e31f26 0%, #1a237e 50%, #27ae60 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .strategy-framework {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .pillar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .pillar-card {
+            background-color: rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 10px;
+        }
+        .objective-section {
+            border-bottom: 3px solid #e31f26;
+        }
+        .section-header {
+            background-color: #e31f26;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .section-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .achievement-badge {
+            background-color: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+        .objective-card {
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+        .objective-title {
+            font-weight: bold;
+            color: #e31f26;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        .objective-description {
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+        .target-box {
+            background-color: #f8f9fa;
+            padding: 8px;
+            border-radius: 3px;
+            border-left: 3px solid #e31f26;
+            margin: 5px 0;
+        }
+        .target-label {
+            font-weight: bold;
+            font-size: 9px;
+            color: #666;
+        }
+        .target-value {
+            font-size: 11px;
+            font-weight: bold;
+            color: #e31f26;
+        }
+        .achievement {
+            background-color: #d5f4e6;
+            border-left-color: #27ae60;
+        }
+        .achievement .target-value {
+            color: #27ae60;
+        }
+        .progress {
+            background-color: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        .progress .target-value {
+            color: #856404;
+        }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 8px 0;
+        }
+        .metric-item {
+            background-color: #e8f4fd;
+            padding: 6px;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 9px;
+        }
+        .metric-value {
+            font-weight: bold;
+            font-size: 11px;
+            color: #1976d2;
+        }
+        .timeline-box {
+            background-color: #f0f7ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+        }
+        .timeline-title {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+        .horizon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .horizon-card {
+            background-color: white;
+            padding: 8px;
+            border: 1px solid #3498db;
+            border-radius: 3px;
+            text-align: center;
+        }
+        .horizon-label {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 10px;
+        }
+        .kpi-dashboard {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .kpi-card {
+            background-color: rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .kpi-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .kpi-label {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        .integration-matrix {
+            padding: 20px;
+            background-color: #ecf0f1;
+        }
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background-color: #bdc3c7;
+            border: 1px solid #bdc3c7;
+        }
+        .matrix-header {
+            background-color: #34495e;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .matrix-cell {
+            background-color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 9px;
+        }
+        .synergy-high { background-color: #d5f4e6; }
+        .synergy-medium { background-color: #fff3cd; }
+        .synergy-low { background-color: #fadbd8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>OBJETIVOS INTEGRADOS DE GESTIÓN 2024-2030</h1>
+            <h2>Coca-Cola FEMSA - Estrategia "Future-Ready"</h2>
+            <p>Marco integral de 47 objetivos específicos y cuantificados organizados en 4 dimensiones estratégicas</p>
+        </div>
+        
+        <div class="strategy-framework">
+            <h3>6 PILARES ESTRATÉGICOS "FUTURE-READY"</h3>
+            <div class="pillar-grid">
+                <div class="pillar-card">
+                    <strong>1. CRECER NEGOCIO CORE</strong><br>
+                    Liderazgo bebidas carbonatadas
+                </div>
+                <div class="pillar-card">
+                    <strong>2. PLATAFORMA COMERCIAL</strong><br>
+                    Ser la opción preferida
+                </div>
+                <div class="pillar-card">
+                    <strong>3. M&A ESTRATÉGICAS</strong><br>
+                    Crecimiento inorgánico
+                </div>
+                <div class="pillar-card">
+                    <strong>4. DIGITALIZACIÓN</strong><br>
+                    Eliminar cuellos de botella
+                </div>
+                <div class="pillar-card">
+                    <strong>5. CULTURA CLIENTE</strong><br>
+                    Organización centrada
+                </div>
+                <div class="pillar-card">
+                    <strong>6. FUTURO SOSTENIBLE</strong><br>
+                    Impacto positivo integral
+                </div>
+            </div>
+        </div>
+        
+        <!-- OBJETIVOS FINANCIEROS -->
+        <div class="objective-section">
+            <div class="section-header">
+                <div style="display: flex; align-items: center;">
+                    <span class="section-icon">💰</span>
+                    OBJETIVOS FINANCIEROS - CRECIMIENTO RENTABLE SOSTENIBLE
+                </div>
+                <div class="achievement-badge">RESULTADOS 2024 SUPERIORES A EXPECTATIVAS</div>
+            </div>
+            
+            <div class="objectives-grid">
+                <div class="objective-card">
+                    <div class="objective-title">CRECIMIENTO DE INGRESOS</div>
+                    <div class="objective-description">Expansión sostenible de ingresos totales a través de volumen, precio y diversificación multicategoría</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">Ps. 279.8 mil millones (+14.2%)</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">4.225M</div>
+                            Cajas unidad (+4.4%)
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">276M</div>
+                            Consumidores atendidos
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">RENTABILIDAD OPERATIVA</div>
+                    <div class="objective-description">Mejora continua márgenes operativos a través de eficiencias y optimización de costos</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">Ps. 40.1 mil millones (+17.4%)</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">US$71.5M</div>
+                            Ahorros operativos
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">14.3%</div>
+                            Margen operativo
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">UTILIDAD NETA</div>
+                    <div class="objective-description">Crecimiento utilidad neta superior al crecimiento de ingresos, optimizando estructura financiera</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">Ps. 23.7 mil millones (+21.5%)</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">Ps. 6.08</div>
+                            Dividendo por acción
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">7° año</div>
+                            ROIC mejorado
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">FLUJO DE EFECTIVO</div>
+                    <div class="objective-description">Generación robusta de flujo operativo para autofinanciar crecimiento e inversiones estratégicas</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">Ps. 56.2 mil millones (+21.1%)</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">Ps. 25.3B</div>
+                            Inversión activo fijo
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">9%</div>
+                            % ingresos invertidos
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">DIVERSIFICACIÓN MULTICATEGORÍA</div>
+                    <div class="objective-description">Expansión sistemática hacia categorías no-core aprovechando infraestructura distribución</div>
+                    
+                    <div class="target-box progress">
+                        <div class="target-label">PROGRESO 2024:</div>
+                        <div class="target-value">US$228M (1.5% ventas +50%)</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2027:</div>
+                        <div class="target-value">5% ingresos totales multicategoría</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">+50%</div>
+                            Crecimiento anual
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">Múltiples</div>
+                            Categorías activas
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">EFICIENCIA CAPITAL</div>
+                    <div class="objective-description">Optimización retorno sobre capital invertido a través de disciplina en asignación y ejecución</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">TENDENCIA:</div>
+                        <div class="target-value">Mejora consecutiva 7 años</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META CONTINUA:</div>
+                        <div class="target-value">ROIC > Costo de capital +200 bp</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- OBJETIVOS OPERACIONALES -->
+        <div class="objective-section">
+            <div class="section-header">
+                <div style="display: flex; align-items: center;">
+                    <span class="section-icon">⚙️</span>
+                    OBJETIVOS OPERACIONALES - EXCELENCIA E INNOVACIÓN
+                </div>
+                <div class="achievement-badge">RÉCORD HISTÓRICO VOLUMEN 4.225M CU</div>
+            </div>
+            
+            <div class="objectives-grid">
+                <div class="objective-card">
+                    <div class="objective-title">CRECIMIENTO VOLUMEN CORE</div>
+                    <div class="objective-description">Expansión sistemática volumen bebidas carbonatadas en todos los territorios de operación</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">4.225 millones CU (+4.4%)</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">2,124.4M</div>
+                            México CU
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">1,159.3M</div>
+                            Brasil CU
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">192.8M</div>
+                            Guatemala CU (+10.7%)
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">748.5M</div>
+                            Otros territorios
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">LIDERAZGO COCA-COLA ZERO</div>
+                    <div class="objective-description">Consolidación como motor estratégico de crecimiento en categoría sin azúcar</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">+31% volumen, 9.2% share colas</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">+56%</div>
+                            Brasil (líder global)
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">21%</div>
+                            Costa Rica mezcla
+                        </div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2027:</div>
+                        <div class="target-value">15% participación categoría colas</div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">EXPANSIÓN INFRAESTRUCTURA</div>
+                    <div class="objective-description">Ampliación estratégica capacidad productiva y distributiva para soportar crecimiento</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">7 nuevas líneas (+3.5% capacidad)</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">PLANIFICADO 2025:</div>
+                        <div class="target-value">9 nuevas líneas distribuidas</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">56</div>
+                            Plantas manufactura
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">256</div>
+                            Centros distribución
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">+14,000</div>
+                            Rutas entrega
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">+150K</div>
+                            Nuevos clientes México
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">OPTIMIZACIÓN FORMATOS</div>
+                    <div class="objective-description">Maximización rentabilidad a través de mezcla óptima hacia formatos personales</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">25.4% mezcla formatos personales</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2027:</div>
+                        <div class="target-value">30% mezcla formatos personales</div>
+                    </div>
+                    
+                    <div class="objective-description">Formatos personales generan mayor margen unitario y resistencia inflacionaria</div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">EFICIENCIA OPERATIVA</div>
+                    <div class="objective-description">Mejora continua en cost-to-make, cost-to-serve y productividad integral</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">Ahorros US$71.5M (superó metas)</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">+3 pts</div>
+                            Precisión pronóstico
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">1.4x</div>
+                            Visitas promedio/semana
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">EXPANSIÓN BEBIDAS NO-CARB</div>
+                    <div class="objective-description">Capitalización oportunidad Brasil como top 10 mercado mundial no carbonatadas</div>
+                    
+                    <div class="target-box progress">
+                        <div class="target-label">ESTATUS ACTUAL:</div>
+                        <div class="target-value">Brasil top 10 global no-carb</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2026:</div>
+                        <div class="target-value">15% mezcla no-carbonatadas Brasil</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- OBJETIVOS DE SOSTENIBILIDAD -->
+        <div class="objective-section">
+            <div class="section-header">
+                <div style="display: flex; align-items: center;">
+                    <span class="section-icon">🌱</span>
+                    OBJETIVOS DE SOSTENIBILIDAD - LIDERAZGO AMBIENTAL Y SOCIAL
+                </div>
+                <div class="achievement-badge">MÚLTIPLES CERTIFICACIONES EXTERNAS</div>
+            </div>
+            
+            <div class="objectives-grid">
+                <div class="objective-card">
+                    <div class="objective-title">EFICIENCIA HÍDRICA</div>
+                    <div class="objective-description">Optimización uso del agua y reabastecimiento total a naturaleza y comunidades</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">1.36L agua/litro bebida (-14% vs 2018)</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">MANTENIDO:</div>
+                        <div class="target-value">100% agua reabastecida</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2030:</div>
+                        <div class="target-value">1.30L agua/litro bebida</div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">TRANSICIÓN ENERGÉTICA</div>
+                    <div class="objective-description">Migración sistemática hacia energías renovables y reducción huella carbono</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">84% energía renovable</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">PIONEROS:</div>
+                        <div class="target-value">Plantas Celaya y Veracruz cero emisiones</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2030:</div>
+                        <div class="target-value">100% energía renovable</div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">ECONOMÍA CIRCULAR</div>
+                    <div class="objective-description">Maximización reciclaje PET y minimización residuos hacia economía circular completa</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">30% PET reciclado en empaques</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">RECOLECCIÓN:</div>
+                        <div class="target-value">118,600 ton PET (43 centros)</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2030:</div>
+                        <div class="target-value">50% contenido reciclado empaques</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">94%</div>
+                            Plantas cero residuos
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">99%</div>
+                            Desviación rellenos
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">DIVERSIDAD E INCLUSIÓN</div>
+                    <div class="objective-description">Incremento representación femenina en liderazgo y cultura inclusiva integral</div>
+                    
+                    <div class="target-box progress">
+                        <div class="target-label">ACTUAL 2024:</div>
+                        <div class="target-value">31.8% mujeres liderazgo</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2030:</div>
+                        <div class="target-value">40% mujeres posiciones ejecutivas</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">JEDI</div>
+                            Modelo implementado
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">Múltiples</div>
+                            Programas inclusión
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">DESARROLLO COMUNITARIO</div>
+                    <div class="objective-description">Fortalecimiento comunidades locales a través de programas WASH y desarrollo económico</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">ACTIVOS 2024:</div>
+                        <div class="target-value">19 Planes MARRCO (81% WASH)</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">RECUPERACIÓN:</div>
+                        <div class="target-value">+1,000 negocios crisis climática</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2027:</div>
+                        <div class="target-value">25 Planes MARRCO activos</div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">SEGURIDAD LABORAL</div>
+                    <div class="objective-description">Estrategia 0.0 para eliminación accidentes y cultura seguridad integral</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">IMPLEMENTADO:</div>
+                        <div class="target-value">Estrategia Seguridad 0.0</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">CAPACITACIÓN:</div>
+                        <div class="target-value">Programa privado más grande industria</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META PERMANENTE:</div>
+                        <div class="target-value">Cero accidentes laborales</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- OBJETIVOS ESTRATÉGICOS DIGITALES -->
+        <div class="objective-section">
+            <div class="section-header">
+                <div style="display: flex; align-items: center;">
+                    <span class="section-icon">💻</span>
+                    OBJETIVOS ESTRATÉGICOS - TRANSFORMACIÓN DIGITAL Y CULTURAL
+                </div>
+                <div class="achievement-badge">LIDERAZGO DIGITAL REGIONAL</div>
+            </div>
+            
+            <div class="objectives-grid">
+                <div class="objective-card">
+                    <div class="objective-title">PLATAFORMA JUNTOS+ B2B</div>
+                    <div class="objective-description">Consolidación como plataforma B2B líder hemisférica para pequeños negocios</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">1.3M usuarios activos (60% base)</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">SATISFACCIÓN:</div>
+                        <div class="target-value">92.6% NPS (50K encuestas/mes)</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2026:</div>
+                        <div class="target-value">80% base clientes digitalizada</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">7</div>
+                            Mercados activos
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">1.1M</div>
+                            Premia Juntos+ activos
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">E-COMMERCE DIRECTO</div>
+                    <div class="objective-description">En Tu Hogar como plataforma líder D2C para entrega directa al consumidor</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">26% transacciones digitales (+8 pts)</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">BASE ACTIVA:</div>
+                        <div class="target-value">+600K consumidores</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2026:</div>
+                        <div class="target-value">40% transacciones digitales</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">70%</div>
+                            Retención digital
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">Escalable</div>
+                            Modelo regional
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">INTELIGENCIA ARTIFICIAL</div>
+                    <div class="objective-description">Juntos+ Advisor y analytics avanzados para optimización operativa</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">ADOPCIÓN BRASIL:</div>
+                        <div class="target-value">40% representantes usan IA</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">MEJORA:</div>
+                        <div class="target-value">+3 pts precisión pronóstico</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2025:</div>
+                        <div class="target-value">Rollout regional IA fuerza ventas</div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">CENTRO DIGITAL Y ANALÍTICA</div>
+                    <div class="objective-description">Transformación operaciones con analytics avanzados e insights en tiempo real</div>
+                    
+                    <div class="target-box progress">
+                        <div class="target-label">EN PROGRESO:</div>
+                        <div class="target-value">Migración ERP nube</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META 2025:</div>
+                        <div class="target-value">Operaciones 100% digitalizadas</div>
+                    </div>
+                    
+                    <div class="objective-description">Sistemas semiautomáticos selección, gestión digital almacenes, automatización procesos</div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">CULTURA CENTRADA CLIENTE</div>
+                    <div class="objective-description">Transformación cultural con 10 Principios KOF integrados organizacionalmente</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">IMPLEMENTADO:</div>
+                        <div class="target-value">10 Principios Coca-Cola FEMSA</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">MEDICIÓN:</div>
+                        <div class="target-value">92.6% satisfacción NPS</div>
+                    </div>
+                    
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">12,900+</div>
+                            Seguridad psicológica
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">62 pts</div>
+                            Efectividad (+3 retos)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="objective-card">
+                    <div class="objective-title">CAPACITACIÓN Y DESARROLLO</div>
+                    <div class="objective-description">Desarrollo sistemático capital humano con enfoque futuro del trabajo</div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">LOGRADO 2024:</div>
+                        <div class="target-value">6.1M horas capacitación</div>
+                    </div>
+                    
+                    <div class="target-box achievement">
+                        <div class="target-label">PROTECCIÓN:</div>
+                        <div class="target-value">4,500 empleos crisis</div>
+                    </div>
+                    
+                    <div class="target-box">
+                        <div class="target-label">META CONTINUA:</div>
+                        <div class="target-value">Upskilling digital permanente</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- HORIZONTE TEMPORAL -->
+        <div class="timeline-box">
+            <div class="timeline-title">HORIZONTE TEMPORAL DE OBJETIVOS</div>
+            <div class="horizon-grid">
+                <div class="horizon-card">
+                    <div class="horizon-label">CORTO PLAZO (2024-2025)</div>
+                    <ul style="font-size: 9px; text-align: left; margin: 8px 0;">
+                        <li>Consolidar logros 2024</li>
+                        <li>9 nuevas líneas producción</li>
+                        <li>Rollout IA regional</li>
+                        <li>ERP nube completado</li>
+                        <li>85% energía renovable</li>
+                    </ul>
+                </div>
+                <div class="horizon-card">
+                    <div class="horizon-label">MEDIANO PLAZO (2026-2027)</div>
+                    <ul style="font-size: 9px; text-align: left; margin: 8px 0;">
+                        <li>5% ingresos multicategoría</li>
+                        <li>80% clientes digitalizados</li>
+                        <li>15% mezcla no-carbonatadas</li>
+                        <li>25 Planes MARRCO</li>
+                        <li>30% formatos personales</li>
+                    </ul>
+                </div>
+                <div class="horizon-card">
+                    <div class="horizon-label">LARGO PLAZO (2028-2030)</div>
+                    <ul style="font-size: 9px; text-align: left; margin: 8px 0;">
+                        <li>40% mujeres ejecutivas</li>
+                        <li>100% energía renovable</li>
+                        <li>50% PET reciclado</li>
+                        <li>1.30L agua/litro bebida</li>
+                        <li>Liderazgo hemisférico</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- KPI DASHBOARD -->
+        <div class="kpi-dashboard">
+            <h3 style="text-align: center; margin-top: 0;">PANEL DE INDICADORES CLAVE 2024</h3>
+            
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">Ps. 279.8B</div>
+                    <div class="kpi-label">Ingresos Totales (+14.2%)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">4.225M</div>
+                    <div class="kpi-label">Cajas Unidad (+4.4%)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">21.5%</div>
+                    <div class="kpi-label">Crecimiento Utilidad Neta</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">1.3M</div>
+                    <div class="kpi-label">Usuarios Activos Juntos+</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">84%</div>
+                    <div class="kpi-label">Energía Renovable</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">100%</div>
+                    <div class="kpi-label">Agua Reabastecida</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">31.8%</div>
+                    <div class="kpi-label">Mujeres Liderazgo</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">92.6%</div>
+                    <div class="kpi-label">Satisfacción Cliente NPS</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- MATRIZ DE INTEGRACIÓN -->
+        <div class="integration-matrix">
+            <h3 style="color: #2c3e50; text-align: center; margin-top: 0;">MATRIZ DE SINERGIA ENTRE OBJETIVOS</h3>
+            
+            <div class="matrix-grid">
+                <div class="matrix-header">DIMENSIÓN</div>
+                <div class="matrix-header">FINANCIERA</div>
+                <div class="matrix-header">OPERACIONAL</div>
+                <div class="matrix-header">SOSTENIBILIDAD</div>
+                <div class="matrix-header">DIGITAL</div>
+                
+                <div class="matrix-header">FINANCIERA</div>
+                <div class="matrix-cell synergy-high">ALTA<br>ROIC mejorado</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Eficiencias operativas</div>
+                <div class="matrix-cell synergy-medium">MEDIA<br>Inversiones verdes</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Digitalización ROI</div>
+                
+                <div class="matrix-header">OPERACIONAL</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Volumen → Ingresos</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Excelencia integral</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Eficiencia recursos</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Automatización</div>
+                
+                <div class="matrix-header">SOSTENIBILIDAD</div>
+                <div class="matrix-cell synergy-medium">MEDIA<br>Costos vs beneficios</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Procesos limpios</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Impacto integral</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Monitoreo digital</div>
+                
+                <div class="matrix-header">DIGITAL</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Nuevos ingresos</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Optimización IA</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Reporting ESG</div>
+                <div class="matrix-cell synergy-high">ALTA<br>Ecosistema integrado</div>
+            </div>
+            
+            <div style="margin-top: 15px; padding: 10px; background-color: white; border: 1px solid #2c3e50; border-radius: 5px;">
+                <strong>Conclusión Estratégica:</strong> La matriz revela alta sinergia entre las cuatro dimensiones de objetivos, creando un sistema de refuerzo mutuo donde el progreso en una dimensión acelera el logro en las demás. Esta integración orgánica es la base del modelo "Future-Ready" que posiciona a KOF para liderazgo sostenible en la próxima década.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

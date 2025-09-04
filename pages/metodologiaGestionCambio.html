@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión del Cambio - FEMSA SIG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 50%, #2c3e50 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 50%, #2c3e50 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .intro-section {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #95a5a6;
+        }
+        .intro-title {
+            color: #2c3e50;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .intro-text {
+            font-size: 14px;
+            color: #34495e;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+        .contexto-femsa {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        .contexto-title {
+            color: #3498db;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .contexto-content {
+            font-size: 12px;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        .modelo-section {
+            margin-top: 30px;
+        }
+        .modelo-title {
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .kotter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .kotter-step {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        .kotter-step:hover {
+            transform: translateY(-5px);
+        }
+        .step-1 { border-left-color: #e74c3c; }
+        .step-2 { border-left-color: #e67e22; }
+        .step-3 { border-left-color: #f39c12; }
+        .step-4 { border-left-color: #f1c40f; }
+        .step-5 { border-left-color: #2ecc71; }
+        .step-6 { border-left-color: #27ae60; }
+        .step-7 { border-left-color: #3498db; }
+        .step-8 { border-left-color: #9b59b6; }
+        .step-number {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--step-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .step-1 { --step-color: #e74c3c; }
+        .step-2 { --step-color: #e67e22; }
+        .step-3 { --step-color: #f39c12; }
+        .step-4 { --step-color: #f1c40f; }
+        .step-5 { --step-color: #2ecc71; }
+        .step-6 { --step-color: #27ae60; }
+        .step-7 { --step-color: #3498db; }
+        .step-8 { --step-color: #9b59b6; }
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .step-desc {
+            font-size: 12px;
+            color: #7f8c8d;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        .step-femsa {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .femsa-label {
+            font-weight: bold;
+            color: var(--step-color);
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+        .femsa-content {
+            font-size: 10px;
+            color: #34495e;
+            line-height: 1.3;
+        }
+        .proceso-section {
+            background: #fff8e1;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .proceso-title {
+            color: #f57c00;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .proceso-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding: 10px;
+        }
+        .flow-step {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 120px;
+            margin: 0 10px;
+            border: 2px solid #f57c00;
+            position: relative;
+        }
+        .flow-step:not(:last-child)::after {
+            content: '➤';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #f57c00;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .flow-number {
+            background: #f57c00;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 8px;
+            font-size: 12px;
+        }
+        .flow-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+        .flow-desc {
+            font-size: 9px;
+            color: #7f8c8d;
+            line-height: 1.2;
+        }
+        .herramientas-section {
+            background: #e8f5e8;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .herramientas-title {
+            color: #27ae60;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .herramientas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .herramienta-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 4px solid #27ae60;
+        }
+        .herramienta-icon {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .herramienta-name {
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .herramienta-desc {
+            font-size: 12px;
+            color: #2c3e50;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        .herramienta-uso {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 10px;
+            color: #7f8c8d;
+        }
+        .resistencia-section {
+            background: #fadbd8;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .resistencia-title {
+            color: #e74c3c;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .resistencia-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .resistencia-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+        }
+        .resistencia-type {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .resistencia-list {
+            list-style: none;
+            padding: 0;
+        }
+        .resistencia-list li {
+            padding: 5px 0;
+            padding-left: 15px;
+            position: relative;
+            font-size: 11px;
+            color: #2c3e50;
+        }
+        .resistencia-list li:before {
+            content: '⚠';
+            position: absolute;
+            left: 0;
+            color: #e74c3c;
+        }
+        .estrategias-list {
+            list-style: none;
+            padding: 0;
+        }
+        .estrategias-list li {
+            padding: 5px 0;
+            padding-left: 15px;
+            position: relative;
+            font-size: 11px;
+            color: #2c3e50;
+        }
+        .estrategias-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .comunicacion-section {
+            background: #e8f4fd;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .comunicacion-title {
+            color: #3498db;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .comunicacion-matrix {
+            display: grid;
+            grid-template-columns: 200px repeat(4, 1fr);
+            gap: 2px;
+            background: #bdc3c7;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .matrix-header {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .matrix-row-header {
+            background: #5dade2;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+        }
+        .matrix-cell {
+            background: white;
+            padding: 8px;
+            font-size: 10px;
+            line-height: 1.3;
+        }
+        .metricas-section {
+            background: #f0f7ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .metricas-title {
+            color: #1976d2;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .metricas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .metrica-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 4px solid #1976d2;
+        }
+        .metrica-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 5px;
+        }
+        .metrica-label {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        .metrica-desc {
+            font-size: 9px;
+            color: #95a5a6;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+        @media (max-width: 768px) {
+            .kotter-grid {
+                grid-template-columns: 1fr;
+            }
+            .resistencia-grid {
+                grid-template-columns: 1fr;
+            }
+            .proceso-flow {
+                flex-direction: column;
+            }
+            .flow-step:not(:last-child)::after {
+                content: '⬇';
+                right: 50%;
+                bottom: -25px;
+                top: auto;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>METODOLOGÍA DE GESTIÓN DEL CAMBIO</h1>
+            <h2>SISTEMA INTEGRADO DE GESTIÓN - FEMSA</h2>
+            <p>Framework estructurado para gestionar transformaciones organizacionales y operativas de manera efectiva</p>
+        </div>
+        
+        <div class="content">
+            <div class="intro-section">
+                <div class="intro-title">INTRODUCCIÓN A LA GESTIÓN DEL CAMBIO EN FEMSA</div>
+                
+                <div class="intro-text">
+                    La gestión del cambio en FEMSA es un proceso estratégico sistemático que facilita la transición de individuos, equipos y la organización desde el estado actual hacia un estado futuro deseado. En un entorno empresarial caracterizado por la volatilidad macroeconómica, la transformación digital acelerada y las expectativas crecientes de sostenibilidad, FEMSA ha desarrollado una metodología robusta que permite no solo adaptarse al cambio, sino anticiparlo y capitalizarlo como ventaja competitiva.
+                </div>
+                
+                <div class="contexto-femsa">
+                    <div class="contexto-title">CONTEXTO FEMSA 2024: TRANSFORMACIÓN "FUTURE-READY"</div>
+                    <div class="contexto-content">
+                        FEMSA ha implementado su estrategia "Future-Ready" que incluye transformaciones significativas: <strong>digitalización empresarial</strong> con Juntos+ alcanzando 1.3M usuarios activos, <strong>transición energética</strong> hacia 84% renovable con plantas pioneras cero emisiones, <strong>diversificación multicategoría</strong> hacia meta 5% ingresos, y <strong>cultura organizacional</strong> centrada en seguridad psicológica para 93,664 colaboradores. Estos cambios simultáneos requieren una metodología integrada que asegure adopción exitosa y sostenible.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modelo-section">
+                <div class="modelo-title">MODELO DE 8 PASOS DE KOTTER ADAPTADO PARA FEMSA</div>
+                
+                <div class="kotter-grid">
+                    <div class="kotter-step step-1">
+                        <div class="step-number">1</div>
+                        <div class="step-title">CREAR SENTIDO DE URGENCIA</div>
+                        <div class="step-desc">
+                            Establecer la necesidad imperativa del cambio identificando amenazas y oportunidades que requieren acción inmediata.
+                        </div>
+                        <div class="step-femsa">
+                            <div class="femsa-label">APLICACIÓN FEMSA:</div>
+                            <div class="femsa-content">
+                                Comunicación de volatilidad Argentina como oportunidad, eventos climáticos extremos como amenaza, y competencia digital como imperativo de transformación tecnológica acelerada.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kotter-step step-2">
+                        <div class="step-number">2</div>
+                        <div class="step-title">FORMAR COALICIÓN GUÍA</div>
+                        <div class="step-desc">
+                            Establecer un equipo líder con autoridad, experiencia, credibilidad y liderazgo necesarios para guiar el esfuerzo de cambio.
+                        </div>
+                        <div class="step-femsa">
+                            <div class="femsa-label">APLICACIÓN FEMSA:</div>
+                            <div class="femsa-content">
+                                Comité de Sostenibilidad liderado por CEO Ian Craig, integración direcciones ejecutivas, y equipos especializados por iniciativa (Digital, SST, Ambiental).
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kotter-step step-3">
+                        <div class="step-number">3</div>
+                        <div class="step-title">DESARROLLAR VISIÓN Y ESTRATEGIA</div>
+                        <div class="step-desc">
+                            Crear una visión clara que dirija el esfuerzo de cambio y desarrollar estrategias específicas para lograr esa visión.
+                        </div>
+                        <div class="step-femsa">
+                            <div class="femsa-label">APLICACIÓN FEMSA:</div>
+                            <div class="femsa-content">
+                                Visión "Future-Ready" con 6 pilares estratégicos: crecer core, plataforma comercial, M&A, digitalización, cultura cliente, futuro sostenible.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kotter-step step-4">
+                        <div class="step-number">4</div>
+                        <div class="step-title">COMUNICAR VISIÓN DE CAMBIO</div>
+                        <div class="step-desc">
+                            Usar todos los medios posibles para comunicar constantemente la nueva visión y estrategias, enseñando nuevos comportamientos con el ejemplo.
+                        </div>
+                        <div class="step-femsa">
+                            <div class="femsa-label">APLICACIÓN FEMSA:</div>
+                            <div class="femsa-content">
+                                10 Principios KOF integrados organizacionalmente, 6.1M horas capacitación anual, y comunicación de resultados trimestrales con transparencia total.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kotter-step step-5">
+                        <div class="step-number">5</div>
+                        <div class="step-title">EMPODERAR ACCIÓN AMPLIA</div>
+                        <div class="step-desc">
+                            Eliminar obstáculos, cambiar sistemas/estructuras que socaven la visión, y alentar la toma de riesgos e ideas no tradicionales.
+                        </div>
+                        <div class="step-femsa">
+                            <div class="femsa-label">APLICACIÓN FEMSA:</div>
+                            <div class="femsa-content">
+                                Seguridad psicológica para 12,900+ colaboradores, autoridad para detener actividades inseguras, y cultura de innovación con IA Juntos+ Advisor.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kotter-step step-6">
+                        <div class="step-number">6</div>
+                        <div class="step-title">GENERAR VICTORIAS CORTO PLAZO</div>
+                        <div class="step-desc">
+                            Planear mejoras visibles en el desempeño, crear esas mejoras y reconocer y recompensar a empleados involucrados.
+                        </div>
+                        <div class="step-femsa">
+                            <div class="femsa-label">APLICACIÓN FEMSA:</div>
+                            <div class="femsa-content">
+                                Récord volumen 4.225M CU, ahorros US$71.5M superando metas, plantas pioneras cero emisiones, y 92.6% satisfacción cliente NPS.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kotter-step step-7">
+                        <div class="step-number">7</div>
+                        <div class="step-title">CONSOLIDAR MEJORAS</div>
+                        <div class="step-desc">
+                            Usar la credibilidad de victorias tempranas para abordar proyectos de cambio mayores, traer personal adicional para ayudar con todos los cambios.
+                        </div>
+                        <div class="step-femsa">
+                            <div class="femsa-label">APLICACIÓN FEMSA:</div>
+                            <div class="femsa-content">
+                                Expansión Juntos+ de 1.3M a meta 80% base clientes, rollout IA regional, ampliación SUSTENTAPET de 43 a 60 centros.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kotter-step step-8">
+                        <div class="step-number">8</div>
+                        <div class="step-title">ANCLAR NUEVOS ENFOQUES</div>
+                        <div class="step-desc">
+                            Fortalecer los cambios produciendo relaciones y normas consistentes con la nueva visión, desarrollando nuevos líderes.
+                        </div>
+                        <div class="step-femsa">
+                            <div class="femsa-label">APLICACIÓN FEMSA:</div>
+                            <div class="femsa-content">
+                                Meta 40% mujeres liderazgo 2030, desarrollo 7° año consecutivo ROIC mejorado, y institucionalización sostenibilidad en governance.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="proceso-section">
+                <div class="proceso-title">PROCESO OPERATIVO DE GESTIÓN DEL CAMBIO</div>
+                
+                <div class="proceso-flow">
+                    <div class="flow-step">
+                        <div class="flow-number">1</div>
+                        <div class="flow-title">IDENTIFICACIÓN</div>
+                        <div class="flow-desc">Detección de necesidad de cambio por factores internos/externos</div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">2</div>
+                        <div class="flow-title">EVALUACIÓN</div>
+                        <div class="flow-desc">Análisis impacto, riesgos, recursos y factibilidad</div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">3</div>
+                        <div class="flow-title">PLANIFICACIÓN</div>
+                        <div class="flow-desc">Desarrollo estrategia, cronograma y plan comunicación</div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">4</div>
+                        <div class="flow-title">IMPLEMENTACIÓN</div>
+                        <div class="flow-desc">Ejecución controlada con monitoreo continuo</div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">5</div>
+                        <div class="flow-title">SEGUIMIENTO</div>
+                        <div class="flow-desc">Medición efectividad y ajustes necesarios</div>
+                    </div>
+                    
+                    <div class="flow-step">
+                        <div class="flow-number">6</div>
+                        <div class="flow-title">CONSOLIDACIÓN</div>
+                        <div class="flow-desc">Institucionalización y sostenibilidad del cambio</div>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <strong style="color: #f57c00;">Principio Fundamental:</strong> Todo cambio en FEMSA debe alinearse con los 6 pilares estratégicos "Future-Ready" y contribuir al logro de objetivos integrados de calidad, ambiente, seguridad, energía y desarrollo humano. La metodología asegura que las transformaciones generen valor económico, social y ambiental de manera simultánea.
+                </div>
+            </div>
+            
+            <div class="herramientas-section">
+                <div class="herramientas-title">HERRAMIENTAS DE GESTIÓN DEL CAMBIO</div>
+                
+                <div class="herramientas-grid">
+                    <div class="herramienta-card">
+                        <div class="herramienta-icon">📊</div>
+                        <div class="herramienta-name">ANÁLISIS DE IMPACTO</div>
+                        <div class="herramienta-desc">
+                            Evaluación sistemática del impacto del cambio en procesos, personas, tecnología y estructura organizacional.
+                        </div>
+                        <div class="herramienta-uso">
+                            <strong>Uso en FEMSA:</strong> Evaluación transformación digital, implementación IA, transición energética
+                        </div>
+                    </div>
+                    
+                    <div class="herramienta-card">
+                        <div class="herramienta-icon">👥</div>
+                        <div class="herramienta-name">MAPEO DE STAKEHOLDERS</div>
+                        <div class="herramienta-desc">
+                            Identificación y análisis de todas las partes interesadas afectadas por el cambio y desarrollo de estrategias específicas.
+                        </div>
+                        <div class="herramienta-uso">
+                            <strong>Uso en FEMSA:</strong> 19 grupos stakeholders, estrategias diferenciadas por influencia e interés
+                        </div>
+                    </div>
+                    
+                    <div class="herramienta-card">
+                        <div class="herramienta-icon">📈</div>
+                        <div class="herramienta-name">PLAN DE COMUNICACIÓN</div>
+                        <div class="herramienta-desc">
+                            Estrategia integral de comunicación con mensajes clave, audiencias objetivo, canales y frecuencias específicas.
+                        </div>
+                        <div class="herramienta-uso">
+                            <strong>Uso en FEMSA:</strong> Comunicación 10 Principios KOF, resultados trimestrales, NPS mensual
+                        </div>
+                    </div>
+                    
+                    <div class="herramienta-card">
+                        <div class="herramienta-icon">🎓</div>
+                        <div class="herramienta-name">PROGRAMA DE CAPACITACIÓN</div>
+                        <div class="herramienta-desc">
+                            Desarrollo de competencias necesarias para adoptar nuevos procesos, tecnologías y comportamientos requeridos.
+                        </div>
+                        <div class="herramienta-uso">
+                            <strong>Uso en FEMSA:</strong> 6.1M horas anuales, simuladores última generación, programas especializados
+                        </div>
+                    </div>
+                    
+                    <div class="herramienta-card">
+                        <div class="herramienta-icon">⚡</div>
+                        <div class="herramienta-name">VICTORIAS TEMPRANAS</div>
+                        <div class="herramienta-desc">
+                            Identificación e implementación de mejoras rápidas y visibles que generen momentum y credibilidad al cambio.
+                        </div>
+                        <div class="herramienta-uso">
+                            <strong>Uso en FEMSA:</strong> Ahorros US$71.5M, récord volumen, plantas cero emisiones pioneras
+                        </div>
+                    </div>
+                    
+                    <div class="herramienta-card">
+                        <div class="herramienta-icon">📋</div>
+                        <div class="herramienta-name">MEDICIÓN Y SEGUIMIENTO</div>
+                        <div class="herramienta-desc">
+                            Sistema de métricas e indicadores para monitorear progreso del cambio y efectividad de las intervenciones.
+                        </div>
+                        <div class="herramienta-uso">
+                            <strong>Uso en FEMSA:</strong> KPIs integrados, dashboard ejecutivo, encuestas seguridad psicológica
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="resistencia-section">
+                <div class="resistencia-title">GESTIÓN DE RESISTENCIA AL CAMBIO</div>
+                
+                <div class="resistencia-grid">
+                    <div class="resistencia-card">
+                        <div class="resistencia-type">🚧 FUENTES DE RESISTENCIA</div>
+                        <ul class="resistencia-list">
+                            <li>Miedo a lo desconocido y pérdida de control</li>
+                            <li>Preocupación por seguridad laboral y competencias</li>
+                            <li>Inercia organizacional y cultura establecida</li>
+                            <li>Falta de confianza en liderazgo y dirección</li>
+                            <li>Sobrecarga de trabajo y fatiga de cambio</li>
+                            <li>Experiencias negativas de cambios anteriores</li>
+                            <li>Conflictos de intereses entre grupos</li>
+                            <li>Comunicación inadecuada o insuficiente</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resistencia-card">
+                        <div class="resistencia-type">✅ ESTRATEGIAS DE MITIGACIÓN</div>
+                        <ul class="estrategias-list">
+                            <li>Comunicación transparente y frecuente de beneficios</li>
+                            <li>Participación activa en diseño e implementación</li>
+                            <li>Capacitación intensiva y desarrollo de competencias</li>
+                            <li>Reconocimiento y incentivos por adopción</li>
+                            <li>Apoyo emocional y acompañamiento personalizado</li>
+                            <li>Evidencia de victorias tempranas y resultados</li>
+                            <li>Liderazgo visible y ejemplo por parte de ejecutivos</li>
+                            <li>Seguridad psicológica y ambiente de confianza</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <strong style="color: #e74c3c;">Enfoque FEMSA:</strong> La empresa ha desarrollado un entorno de seguridad psicológica que alcanza 12,900+ colaboradores con 62 puntos de efectividad, creando un ambiente donde las personas se sienten seguras para expresar opiniones, cometer errores y participar activamente en los procesos de cambio sin temor a represalias.
+                </div>
+            </div>
+            
+            <div class="comunicacion-section">
+                <div class="comunicacion-title">MATRIZ DE COMUNICACIÓN DEL CAMBIO</div>
+                
+                <div class="comunicacion-matrix">
+                    <div class="matrix-header">AUDIENCIA</div>
+                    <div class="matrix-header">MENSAJE CLAVE</div>
+                    <div class="matrix-header">CANAL</div>
+                    <div class="matrix-header">FRECUENCIA</div>
+                    <div class="matrix-header">RESPONSABLE</div>
+                    
+                    <div class="matrix-row-header">Alta Dirección</div>
+                    <div class="matrix-cell">Visión estratégica, resultados financieros, decisiones críticas</div>
+                    <div class="matrix-cell">Reuniones ejecutivas, informes trimestrales</div>
+                    <div class="matrix-cell">Semanal/Mensual</div>
+                    <div class="matrix-cell">CEO/CFO</div>
+                    
+                    <div class="matrix-row-header">Gerentes Medios</div>
+                    <div class="matrix-cell">Objetivos departamentales, planes acción, KPIs</div>
+                    <div class="matrix-cell">Comités gestión, videoconferencias</div>
+                    <div class="matrix-cell">Quincenal</div>
+                    <div class="matrix-cell">Directores</div>
+                    
+                    <div class="matrix-row-header">Supervisores</div>
+                    <div class="matrix-cell">Procedimientos operativos, estándares, capacitación</div>
+                    <div class="matrix-cell">Reuniones operativas, talleres</div>
+                    <div class="matrix-cell">Semanal</div>
+                    <div class="matrix-cell">Gerentes</div>
+                    
+                    <div class="matrix-row-header">Trabajadores</div>
+                    <div class="matrix-cell">Beneficios cambio, nuevas competencias, seguridad</div>
+                    <div class="matrix-cell">Charlas, intranet, carteleras</div>
+                    <div class="matrix-cell">Diaria/Semanal</div>
+                    <div class="matrix-cell">Supervisores</div>
+                    
+                    <div class="matrix-row-header">Stakeholders Externos</div>
+                    <div class="matrix-cell">Impacto positivo, sostenibilidad, transparencia</div>
+                    <div class="matrix-cell">Informes públicos, medios</div>
+                    <div class="matrix-cell">Trimestral</div>
+                    <div class="matrix-cell">Comunicaciones</div>
+                </div>
+            </div>
+            
+            <div class="metricas-section">
+                <div class="metricas-title">MÉTRICAS DE EFECTIVIDAD DEL CAMBIO</div>
+                
+                <div class="metricas-grid">
+                    <div class="metrica-card">
+                        <div class="metrica-value">92.6%</div>
+                        <div class="metrica-label">Satisfacción NPS</div>
+                        <div class="metrica-desc">Medición mensual con 50K encuestas</div>
+                    </div>
+                    
+                    <div class="metrica-card">
+                        <div class="metrica-value">62 pts</div>
+                        <div class="metrica-label">Seguridad Psicológica</div>
+                        <div class="metrica-desc">Efectividad +3 pts mejora</div>
+                    </div>
+                    
+                    <div class="metrica-card">
+                        <div class="metrica-value">6.1M</div>
+                        <div class="metrica-label">Horas Capacitación</div>
+                        <div class="metrica-desc">Desarrollo competencias</div>
+                    </div>
+                    
+                    <div class="metrica-card">
+                        <div class="metrica-value">60%</div>
+                        <div class="metrica-label">Base Digitalizada</div>
+                        <div class="metrica-desc">Adopción Juntos+ activa</div>
+                    </div>
+                    
+                    <div class="metrica-card">
+                        <div class="metrica-value">4,500</div>
+                        <div class="metrica-label">Empleos Protegidos</div>
+                        <div class="metrica-desc">Resiliencia crisis</div>
+                    </div>
+                    
+                    <div class="metrica-card">
+                        <div class="metrica-value">84%</div>
+                        <div class="metrica-label">Energía Renovable</div>
+                        <div class="metrica-desc">Transición energética</div>
+                    </div>
+                    
+                    <div class="metrica-card">
+                        <div class="metrica-value">7°</div>
+                        <div class="metrica-label">Años ROIC Mejorado</div>
+                        <div class="metrica-desc">Sostenibilidad financiera</div>
+                    </div>
+                    
+                    <div class="metrica-card">
+                        <div class="metrica-value">31.8%</div>
+                        <div class="metrica-label">Mujeres Liderazgo</div>
+                        <div class="metrica-desc">Meta 40% para 2030</div>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center;">
+                    <strong style="color: #1976d2;">Evaluación Integral:</strong> FEMSA demuestra efectividad excepcional en gestión del cambio con métricas que superan benchmarks industriales. La combinación de liderazgo visible, comunicación transparente, capacitación intensiva y cultura de seguridad psicológica ha permitido implementar transformaciones complejas manteniendo engagement alto y resultados financieros crecientes.
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Sistema Integrado de Gestión - FEMSA</strong></p>
+            <p>Metodología de Gestión del Cambio actualizada 2024 | Universidad Libre - Bogotá</p>
+            <p>Elaborado por: Esteban Camilo Parra, Andrés Felipe Galeano, Santiago Orlando Martínez, Juan Pablo Gómez</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis DOFA - FEMSA SIG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #e31f26 0%, #1a237e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #e31f26 0%, #1a237e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .dofa-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 0;
+            min-height: 800px;
+        }
+        .dofa-section {
+            padding: 30px;
+            border: 2px solid #fff;
+        }
+        .fortalezas {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+        }
+        .oportunidades {
+            background: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
+            color: white;
+        }
+        .debilidades {
+            background: linear-gradient(135deg, #e74c3c 0%, #ec7063 100%);
+            color: white;
+        }
+        .amenazas {
+            background: linear-gradient(135deg, #8e44ad 0%, #bb8fce 100%);
+            color: white;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .item-list li {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            border-left: 4px solid rgba(255,255,255,0.5);
+        }
+        .item-code {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .item-desc {
+            font-size: 12px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        .strategies-section {
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        .strategies-title {
+            color: #e31f26;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .strategy-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #e31f26;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .strategy-type {
+            font-weight: bold;
+            color: #e31f26;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .strategy-list {
+            list-style: none;
+            padding: 0;
+        }
+        .strategy-list li {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .strategy-code {
+            font-weight: bold;
+            color: #e31f26;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ANÁLISIS DOFA - SISTEMA INTEGRADO DE GESTIÓN</h1>
+            <h2>FOMENTO ECONÓMICO MEXICANO S.A.B. DE C.V. (FEMSA)</h2>
+            <p>Diagnóstico estratégico para la implementación del SIG corporativo</p>
+        </div>
+        
+        <div class="dofa-grid">
+            <!-- FORTALEZAS -->
+            <div class="dofa-section fortalezas">
+                <div class="section-title">FORTALEZAS (F)</div>
+                <ul class="item-list">
+                    <li>
+                        <div class="item-code">F1.</div>
+                        <div class="item-title">Liderazgo regional en la industria de bebidas</div>
+                        <div class="item-desc">• Posición dominante en América Latina<br>• Reconocimiento de marca consolidado<br>• Mayor embotellador de Coca-Cola por volumen</div>
+                    </li>
+                    <li>
+                        <div class="item-code">F2.</div>
+                        <div class="item-title">Diversificación estratégica del portafolio</div>
+                        <div class="item-desc">• Múltiples categorías (bebidas, retail, digital)<br>• Reducción de riesgos por concentración<br>• OXXO como plataforma comercial líder</div>
+                    </li>
+                    <li>
+                        <div class="item-code">F3.</div>
+                        <div class="item-title">Infraestructura y capacidad operacional robusta</div>
+                        <div class="item-desc">• Red de distribución más extensa de Latinoamérica<br>• 56 plantas eficientes y tecnologizadas<br>• 256 centros de distribución</div>
+                    </li>
+                    <li>
+                        <div class="item-code">F4.</div>
+                        <div class="item-title">Experiencia en fusiones y adquisiciones</div>
+                        <div class="item-desc">• Historial exitoso de integración empresarial<br>• Capacidad de crecimiento inorgánico<br>• Expertise en M&A estratégicas</div>
+                    </li>
+                    <li>
+                        <div class="item-code">F5.</div>
+                        <div class="item-title">Cultura organizacional orientada a resultados</div>
+                        <div class="item-desc">• Enfoque en excelencia operacional<br>• Compromiso con sostenibilidad integral<br>• 10 Principios KOF implementados</div>
+                    </li>
+                    <li>
+                        <div class="item-code">F6.</div>
+                        <div class="item-title">Solidez financiera</div>
+                        <div class="item-desc">• Estructura de capital estable<br>• ROIC mejorado 7 años consecutivos<br>• Acceso a financiamiento competitivo</div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- OPORTUNIDADES -->
+            <div class="dofa-section oportunidades">
+                <div class="section-title">OPORTUNIDADES (O)</div>
+                <ul class="item-list">
+                    <li>
+                        <div class="item-code">O1.</div>
+                        <div class="item-title">Crecimiento del segmento de bebidas saludables</div>
+                        <div class="item-desc">• Tendencia hacia productos naturales y funcionales<br>• Oportunidades en bebidas plant-based<br>• Coca-Cola Zero Azúcar +31% crecimiento</div>
+                    </li>
+                    <li>
+                        <div class="item-code">O2.</div>
+                        <div class="item-title">Expansión digital y e-commerce</div>
+                        <div class="item-desc">• Crecimiento del comercio electrónico<br>• Nuevos canales de distribución directa<br>• En Tu Hogar 26% transacciones digitales</div>
+                    </li>
+                    <li>
+                        <div class="item-code">O3.</div>
+                        <div class="item-title">Consolidación del mercado retail</div>
+                        <div class="item-desc">• Oportunidades de adquisición formato proximity<br>• Expansión geográfica estratégica<br>• Sinergia con plataforma OXXO</div>
+                    </li>
+                    <li>
+                        <div class="item-code">O4.</div>
+                        <div class="item-title">Innovación en sostenibilidad</div>
+                        <div class="item-desc">• Economía circular y packaging sostenible<br>• Posicionamiento como empresa responsable<br>• Ventaja competitiva en regulaciones ambientales</div>
+                    </li>
+                    <li>
+                        <div class="item-code">O5.</div>
+                        <div class="item-title">Mercados emergentes en crecimiento</div>
+                        <div class="item-desc">• Expansión en nuevas geografías<br>• Clase media creciente en Latinoamérica<br>• 276 millones de consumidores atendidos</div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- DEBILIDADES -->
+            <div class="dofa-section debilidades">
+                <div class="section-title">DEBILIDADES (D)</div>
+                <ul class="item-list">
+                    <li>
+                        <div class="item-code">D1.</div>
+                        <div class="item-title">Dependencia de mercados emergentes volátiles</div>
+                        <div class="item-desc">• Exposición a fluctuaciones económicas regionales<br>• Riesgo cambiario significativo<br>• Vulnerabilidad a crisis políticas</div>
+                    </li>
+                    <li>
+                        <div class="item-code">D2.</div>
+                        <div class="item-title">Complejidad organizacional por diversificación</div>
+                        <div class="item-desc">• Múltiples unidades de negocio con dinámicas diferentes<br>• Desafíos de coordinación y sinergias<br>• Necesidad de integración sistémica</div>
+                    </li>
+                    <li>
+                        <div class="item-code">D3.</div>
+                        <div class="item-title">Presión regulatoria creciente</div>
+                        <div class="item-desc">• Normativas ambientales y sanitarias más estrictas<br>• Impuestos específicos a bebidas azucaradas<br>• Compliance en 10 jurisdicciones</div>
+                    </li>
+                    <li>
+                        <div class="item-code">D4.</div>
+                        <div class="item-title">Integración digital en proceso</div>
+                        <div class="item-desc">• Transformación digital aún en desarrollo<br>• Necesidad de actualización tecnológica continua<br>• Migración ERP a nube en progreso</div>
+                    </li>
+                    <li>
+                        <div class="item-code">D5.</div>
+                        <div class="item-title">Gestión de talento en mercados competitivos</div>
+                        <div class="item-desc">• Retención de personal clave especializado<br>• Desarrollo de capacidades digitales<br>• Competencia por talento tecnológico</div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- AMENAZAS -->
+            <div class="dofa-section amenazas">
+                <div class="section-title">AMENAZAS (A)</div>
+                <ul class="item-list">
+                    <li>
+                        <div class="item-code">A1.</div>
+                        <div class="item-title">Competencia de grandes corporaciones globales</div>
+                        <div class="item-desc">• Presión competitiva de Coca-Cola, PepsiCo<br>• Guerra de precios y márgenes<br>• Inversión en marketing intensiva</div>
+                    </li>
+                    <li>
+                        <div class="item-code">A2.</div>
+                        <div class="item-title">Cambios en patrones de consumo</div>
+                        <div class="item-desc">• Reducción en consumo de bebidas azucaradas<br>• Preferencia por marcas locales/artesanales<br>• Trend hacia productos saludables</div>
+                    </li>
+                    <li>
+                        <div class="item-code">A3.</div>
+                        <div class="item-title">Inestabilidad política y económica regional</div>
+                        <div class="item-desc">• Volatilidad en países de operación<br>• Cambios regulatorios abruptos<br>• Riesgo electoral y político</div>
+                    </li>
+                    <li>
+                        <div class="item-code">A4.</div>
+                        <div class="item-title">Disrupciones en cadena de suministro</div>
+                        <div class="item-desc">• Dependencia de proveedores clave<br>• Fluctuaciones en costos de materias primas<br>• Eventos climáticos extremos</div>
+                    </li>
+                    <li>
+                        <div class="item-code">A5.</div>
+                        <div class="item-title">Presión ambiental y climática</div>
+                        <div class="item-desc">• Escasez de agua en algunas regiones<br>• Regulaciones ambientales más estrictas<br>• Presión de ONGs ambientales</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="strategies-section">
+            <div class="strategies-title">ESTRATEGIAS DERIVADAS DEL ANÁLISIS DOFA</div>
+            
+            <div class="strategy-grid">
+                <div class="strategy-box">
+                    <div class="strategy-type">FO (Fortalezas + Oportunidades)</div>
+                    <ul class="strategy-list">
+                        <li><span class="strategy-code">FO1:</span> Aprovechar la solidez financiera para invertir en innovación de bebidas saludables y funcionales</li>
+                        <li><span class="strategy-code">FO2:</span> Utilizar la red de distribución líder para acelerar la expansión digital y e-commerce</li>
+                        <li><span class="strategy-code">FO3:</span> Leveragear experiencia en M&A para consolidar el mercado retail proximity</li>
+                        <li><span class="strategy-code">FO4:</span> Capitalizar liderazgo en sostenibilidad para diferenciación competitiva</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-box">
+                    <div class="strategy-type">DO (Debilidades + Oportunidades)</div>
+                    <ul class="strategy-list">
+                        <li><span class="strategy-code">DO1:</span> Acelerar la transformación digital para capturar oportunidades e-commerce</li>
+                        <li><span class="strategy-code">DO2:</span> Simplificar la estructura organizacional para aprovechar sinergias en sostenibilidad</li>
+                        <li><span class="strategy-code">DO3:</span> Desarrollar talento digital especializado para competir en nuevos mercados</li>
+                        <li><span class="strategy-code">DO4:</span> Integrar operaciones multicategoría para reducir complejidad</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-box">
+                    <div class="strategy-type">FA (Fortalezas + Amenazas)</div>
+                    <ul class="strategy-list">
+                        <li><span class="strategy-code">FA1:</span> Usar liderazgo regional para defenderse de competencia global</li>
+                        <li><span class="strategy-code">FA2:</span> Diversificar geográficamente para reducir riesgo político</li>
+                        <li><span class="strategy-code">FA3:</span> Fortalecer relaciones con proveedores clave para asegurar suministro</li>
+                        <li><span class="strategy-code">FA4:</span> Aprovechar solidez financiera para resistir presiones competitivas</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-box">
+                    <div class="strategy-type">DA (Debilidades + Amenazas)</div>
+                    <ul class="strategy-list">
+                        <li><span class="strategy-code">DA1:</span> Acelerar integración organizacional para responder ágilmente a cambios de mercado</li>
+                        <li><span class="strategy-code">DA2:</span> Invertir en capacidades locales para reducir dependencia de mercados volátiles</li>
+                        <li><span class="strategy-code">DA3:</span> Desarrollar planes de contingencia para disrupciones de suministro</li>
+                        <li><span class="strategy-code">DA4:</span> Implementar SIG robusto para gestionar compliance regulatorio</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Sistema Integrado de Gestión - FEMSA</strong></p>
+            <p>Análisis estratégico actualizado 2024 | Universidad Libre - Bogotá</p>
+            <p>Elaborado por: Esteban Camilo Parra, Andrés Felipe Galeano, Santiago Orlando Martínez, Juan Pablo Gómez</p>
+        </div>
+    </div>
+</body>
+</html>

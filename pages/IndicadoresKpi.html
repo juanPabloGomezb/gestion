@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script src="/components/navbar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPIs SIG - FEMSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #1abc9c 0%, #3498db 50%, #9b59b6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1abc9c 0%, #3498db 50%, #9b59b6 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header h2 {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .dashboard-summary {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+        }
+        .dashboard-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .dashboard-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+        .dashboard-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1abc9c;
+        }
+        .dashboard-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        .dashboard-trend {
+            font-size: 10px;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+        .kpi-section {
+            margin-top: 30px;
+        }
+        .kpi-category {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-left: 5px solid;
+        }
+        .kpi-financiero { border-left-color: #3498db; }
+        .kpi-operacional { border-left-color: #f39c12; }
+        .kpi-sostenibilidad { border-left-color: #27ae60; }
+        .kpi-calidad { border-left-color: #e74c3c; }
+        .kpi-talento { border-left-color: #9b59b6; }
+        .kpi-digital { border-left-color: #1abc9c; }
+        .kpi-header {
+            background: linear-gradient(135deg, var(--kpi-color), var(--kpi-color-light));
+            color: white;
+            padding: 20px;
+        }
+        .kpi-financiero { --kpi-color: #3498db; --kpi-color-light: #5dade2; }
+        .kpi-operacional { --kpi-color: #f39c12; --kpi-color-light: #f8c471; }
+        .kpi-sostenibilidad { --kpi-color: #27ae60; --kpi-color-light: #58d68d; }
+        .kpi-calidad { --kpi-color: #e74c3c; --kpi-color-light: #ec7063; }
+        .kpi-talento { --kpi-color: #9b59b6; --kpi-color-light: #bb8fce; }
+        .kpi-digital { --kpi-color: #1abc9c; --kpi-color-light: #5dccdb; }
+        .kpi-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .kpi-description {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .kpi-content {
+            padding: 25px;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .kpi-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--kpi-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        .kpi-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .kpi-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+        .kpi-frequency {
+            background: var(--kpi-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: bold;
+        }
+        .kpi-value-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .kpi-current-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--kpi-color);
+        }
+        .kpi-target {
+            text-align: right;
+        }
+        .kpi-target-label {
+            font-size: 10px;
+            color: #7f8c8d;
+            margin-bottom: 2px;
+        }
+        .kpi-target-value {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .kpi-progress {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .kpi-progress-bar {
+            height: 100%;
+            background: var(--kpi-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .kpi-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+        }
+        .status-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .status-excellent { background: #27ae60; }
+        .status-good { background: #f39c12; }
+        .status-attention { background: #e74c3c; }
+        .kpi-details {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ecf0f1;
+            font-size: 10px;
+            color: #7f8c8d;
+            line-height: 1.3;
+        }
+        .analisis-section {
+            background: #f0f7ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .analisis-title {
+            color: #1976d2;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .analisis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .analisis-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 4px solid #1976d2;
+        }
+        .analisis-card-title {
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .analisis-content {
+            font-size: 12px;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        .tendencias-section {
+            background: #fff8e1;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .tendencias-title {
+            color: #f57c00;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .chart-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .chart-label {
+            width: 120px;
+            font-size: 11px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        .chart-bar-bg {
+            flex: 1;
+            height: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            margin: 0 10px;
+            position: relative;
+        }
+        .chart-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+        }
+        .chart-value {
+            font-size: 11px;
+            font-weight: bold;
+            color: #2c3e50;
+            min-width: 50px;
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>INDICADORES DE DESEMPEÑO (KPIs)</h1>
+            <h2>SISTEMA INTEGRADO DE GESTIÓN - FEMSA</h2>
+            <p>Dashboard integral de métricas financieras, operativas, sostenibilidad y calidad para monitoreo del desempeño</p>
+        </div>
+        
+        <div class="content">
+            <div class="dashboard-summary">
+                <div class="dashboard-title">PANEL EJECUTIVO - RESULTADOS 2024</div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">Ps. 279.8B</div>
+                        <div class="dashboard-label">Ingresos Totales</div>
+                        <div class="dashboard-trend">↗ +14.2% vs 2023</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">21.5%</div>
+                        <div class="dashboard-label">Crecimiento Utilidad Neta</div>
+                        <div class="dashboard-trend">↗ 7° año consecutivo ROIC</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">92.6%</div>
+                        <div class="dashboard-label">Satisfacción Cliente NPS</div>
+                        <div class="dashboard-trend">🎯 50K encuestas/mes</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">84%</div>
+                        <div class="dashboard-label">Energía Renovable</div>
+                        <div class="dashboard-trend">↗ Plantas cero emisiones</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">100%</div>
+                        <div class="dashboard-label">Agua Reabastecida</div>
+                        <div class="dashboard-trend">🎯 1.36L ratio eficiencia</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="dashboard-value">1.3M</div>
+                        <div class="dashboard-label">Usuarios Juntos+ Activos</div>
+                        <div class="dashboard-trend">↗ 60% base digitalizada</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="kpi-section">
+                <!-- KPIs FINANCIEROS -->
+                <div class="kpi-category kpi-financiero">
+                    <div class="kpi-header">
+                        <div class="kpi-title">💰 INDICADORES FINANCIEROS</div>
+                        <div class="kpi-description">Métricas de rentabilidad, crecimiento y eficiencia financiera</div>
+                    </div>
+                    
+                    <div class="kpi-content">
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Crecimiento de Ingresos</div>
+                                    <div class="kpi-frequency">TRIMESTRAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">14.2%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Meta Anual</div>
+                                        <div class="kpi-target-value">12-15%</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 95%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Excelente - Superó expectativas</span>
+                                </div>
+                                <div class="kpi-details">
+                                    Ingresos totales Ps. 279.8 mil millones. Crecimiento impulsado por volumen récord 4.225M cajas unidad y expansión multicategoría.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Retorno sobre Capital (ROIC)</div>
+                                    <div class="kpi-frequency">ANUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">7°</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Años Consecutivos</div>
+                                        <div class="kpi-target-value">Mejora Continua</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 100%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Excelente - Tendencia sostenida</span>
+                                </div>
+                                <div class="kpi-details">
+                                    Séptimo año consecutivo de mejora en ROIC, demostrando disciplina en asignación de capital y ejecución estratégica consistente.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Flujo Operativo Ajustado</div>
+                                    <div class="kpi-frequency">TRIMESTRAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">Ps. 56.2B</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Crecimiento</div>
+                                        <div class="kpi-target-value">+21.1%</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 88%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Excelente - Generación robusta</span>
+                                </div>
+                                <div class="kpi-details">
+                                    Flujo operativo robusto permite autofinanciamiento de crecimiento e inversiones estratégicas de Ps. 25.3 mil millones.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Diversificación Multicategoría</div>
+                                    <div class="kpi-frequency">TRIMESTRAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">1.5%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Meta 2027</div>
+                                        <div class="kpi-target-value">5.0%</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 30%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-good"></div>
+                                    <span>En progreso - Crecimiento +50%</span>
+                                </div>
+                                <div class="kpi-details">
+                                    US$228M en ingresos multicategoría con crecimiento superior al 50%. Estrategia de largo plazo para reducir dependencia del core.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- KPIs OPERACIONALES -->
+                <div class="kpi-category kpi-operacional">
+                    <div class="kpi-header">
+                        <div class="kpi-title">⚙️ INDICADORES OPERACIONALES</div>
+                        <div class="kpi-description">Métricas de eficiencia, productividad y excelencia operativa</div>
+                    </div>
+                    
+                    <div class="kpi-content">
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Volumen Total Producido</div>
+                                    <div class="kpi-frequency">MENSUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">4.225M</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Cajas Unidad</div>
+                                        <div class="kpi-target-value">+4.4%</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 92%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Récord histórico - Superó metas</span>
+                                </div>
+                                <div class="kpi-details">
+                                    Nuevo récord histórico con crecimiento en todos los territorios. México 2,124.4M, Brasil 1,159.3M pese a inundaciones.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Eficiencia Operativa (Ahorros)</div>
+                                    <div class="kpi-frequency">TRIMESTRAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">US$71.5M</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">vs Meta</div>
+                                        <div class="kpi-target-value">Superada</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 105%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Excelente - Superó metas en cost-to-make</span>
+                                </div>
+                                <div class="kpi-details">
+                                    Ahorros superaron metas en cost-to-make, cost-to-serve y carga primaria. Mejora 3 pts precisión pronóstico demanda.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Expansión de Capacidad</div>
+                                    <div class="kpi-frequency">ANUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">+3.5%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Nuevas Líneas</div>
+                                        <div class="kpi-target-value">7 en 2024</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 85%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-good"></div>
+                                    <span>Bueno - 9 líneas planificadas 2025</span>
+                                </div>
+                                <div class="kpi-details">
+                                    7 nuevas líneas embotellado incrementaron 3.5% capacidad total. Planificadas 9 líneas adicionales para 2025.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Precisión Pronóstico Demanda</div>
+                                    <div class="kpi-frequency">MENSUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">+3 pts</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Mejora México</div>
+                                        <div class="kpi-target-value">IA Integrada</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 78%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-good"></div>
+                                    <span>Mejora continua con analytics</span>
+                                </div>
+                                <div class="kpi-details">
+                                    Centro Digital y Analítica mejora precisión pronóstico. Juntos+ Advisor IA optimiza rutas y portafolio.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- KPIs SOSTENIBILIDAD -->
+                <div class="kpi-category kpi-sostenibilidad">
+                    <div class="kpi-header">
+                        <div class="kpi-title">🌱 INDICADORES DE SOSTENIBILIDAD</div>
+                        <div class="kpi-description">Métricas ambientales, sociales y de governance (ESG)</div>
+                    </div>
+                    
+                    <div class="kpi-content">
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Eficiencia Hídrica</div>
+                                    <div class="kpi-frequency">MENSUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">1.36L</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Meta 2030</div>
+                                        <div class="kpi-target-value">1.30L</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 80%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Excelente - 14% mejora vs 2018</span>
+                                </div>
+                                <div class="kpi-details">
+                                    1.36L agua por litro bebida. Meta intermedia alcanzada con 100% reabastecimiento a naturaleza y comunidades.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Energía Renovable</div>
+                                    <div class="kpi-frequency">TRIMESTRAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">84%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Meta 2030</div>
+                                        <div class="kpi-target-value">100%</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 84%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Liderazgo - Plantas cero emisiones</span>
+                                </div>
+                                <div class="kpi-details">
+                                    84% consumo eléctrico renovable. Celaya y Veracruz primeras plantas cero emisiones Sistema Coca-Cola.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Economía Circular PET</div>
+                                    <div class="kpi-frequency">TRIMESTRAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">30%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Meta 2030</div>
+                                        <div class="kpi-target-value">50%</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 60%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-good"></div>
+                                    <span>En progreso - 118.6K ton recolectadas</span>
+                                </div>
+                                <div class="kpi-details">
+                                    30% PET reciclado empaques. 43 centros SUSTENTAPET recolectaron 118,600 toneladas. Planta PLANETA operativa.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Plantas Cero Residuos</div>
+                                    <div class="kpi-frequency">ANUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">94%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Certificadas</div>
+                                        <div class="kpi-target-value">99% Desviación</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 94%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Liderazgo industrial certificado</span>
+                                </div>
+                                <div class="kpi-details">
+                                    94% plantas certificadas cero residuos con 99% desviación de rellenos sanitarios. Economía circular integrada.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- KPIs TALENTO HUMANO -->
+                <div class="kpi-category kpi-talento">
+                    <div class="kpi-header">
+                        <div class="kpi-title">👥 INDICADORES DE TALENTO HUMANO</div>
+                        <div class="kpi-description">Métricas de desarrollo, bienestar y diversidad del capital humano</div>
+                    </div>
+                    
+                    <div class="kpi-content">
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Capacitación y Desarrollo</div>
+                                    <div class="kpi-frequency">ANUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">6.1M</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Horas Anuales</div>
+                                        <div class="kpi-target-value">65 hrs/persona</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 88%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Excelente - Programa más grande industria</span>
+                                </div>
+                                <div class="kpi-details">
+                                    6.1 millones de horas capacitación para 93,664 colaboradores. Simuladores última generación y desarrollo continuo.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Diversidad de Género</div>
+                                    <div class="kpi-frequency">TRIMESTRAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">31.8%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Meta 2030</div>
+                                        <div class="kpi-target-value">40%</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 79%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-good"></div>
+                                    <span>Progreso constante - Modelo JEDI</span>
+                                </div>
+                                <div class="kpi-details">
+                                    31.8% mujeres en posiciones liderazgo. Modelo JEDI implementado con programas "Para Ti, Para Todas".
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Seguridad Psicológica</div>
+                                    <div class="kpi-frequency">SEMESTRAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">62 pts</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Efectividad</div>
+                                        <div class="kpi-target-value">+3 pts mejora</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 82%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-good"></div>
+                                    <span>Mejora continua - 12.9K participantes</span>
+                                </div>
+                                <div class="kpi-details">
+                                    62 puntos efectividad con mejora 3 puntos en dimensión retos. 12,900+ colaboradores en programas activos.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Protección Empleo Crisis</div>
+                                    <div class="kpi-frequency">ESPECIAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">4,500</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Empleos Protegidos</div>
+                                        <div class="kpi-target-value">Crisis Climática</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 100%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Liderazgo - Responsabilidad social</span>
+                                </div>
+                                <div class="kpi-details">
+                                    4,500 empleos protegidos durante emergencias climáticas. Fondo de emergencias y planes de continuidad activos.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- KPIs DIGITALES -->
+                <div class="kpi-category kpi-digital">
+                    <div class="kpi-header">
+                        <div class="kpi-title">📱 INDICADORES DIGITALES</div>
+                        <div class="kpi-description">Métricas de transformación digital y plataformas tecnológicas</div>
+                    </div>
+                    
+                    <div class="kpi-content">
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Usuarios Juntos+ Activos</div>
+                                    <div class="kpi-frequency">MENSUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">1.3M</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Meta 2026</div>
+                                        <div class="kpi-target-value">80% Base</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 75%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Liderazgo - 60% base digitalizada</span>
+                                </div>
+                                <div class="kpi-details">
+                                    1.3M usuarios activos mensuales en 7 mercados. Premia Juntos+ 1.1M participantes con 4x crecimiento.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Transacciones Digitales D2C</div>
+                                    <div class="kpi-frequency">MENSUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">26%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Meta 2026</div>
+                                        <div class="kpi-target-value">40%</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 65%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-good"></div>
+                                    <span>Progreso - +8 pts vs 2023</span>
+                                </div>
+                                <div class="kpi-details">
+                                    26% transacciones En Tu Hogar digitales (+8 pts). Base +600K consumidores con 70% retención digital.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Adopción IA Juntos+ Advisor</div>
+                                    <div class="kpi-frequency">TRIMESTRAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">40%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">Brasil</div>
+                                        <div class="kpi-target-value">Rollout Regional</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 40%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-good"></div>
+                                    <span>Innovación - Transformación IA</span>
+                                </div>
+                                <div class="kpi-details">
+                                    40% representantes Brasil usan IA. Optimización rutas y portafolio, mejora efectividad fuerza ventas.
+                                </div>
+                            </div>
+                            
+                            <div class="kpi-item">
+                                <div class="kpi-item-header">
+                                    <div class="kpi-name">Satisfacción Digital NPS</div>
+                                    <div class="kpi-frequency">MENSUAL</div>
+                                </div>
+                                <div class="kpi-value-section">
+                                    <div class="kpi-current-value">92.6%</div>
+                                    <div class="kpi-target">
+                                        <div class="kpi-target-label">50K Encuestas</div>
+                                        <div class="kpi-target-value">Meta >90%</div>
+                                    </div>
+                                </div>
+                                <div class="kpi-progress">
+                                    <div class="kpi-progress-bar" style="width: 96%;"></div>
+                                </div>
+                                <div class="kpi-status">
+                                    <div class="status-icon status-excellent"></div>
+                                    <span>Excelente - Liderazgo satisfacción</span>
+                                </div>
+                                <div class="kpi-details">
+                                    92.6% satisfacción NPS basado en 50,000 encuestas mensuales. Centro Digital optimiza experiencia cliente.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tendencias-section">
+                <div class="tendencias-title">ANÁLISIS DE TENDENCIAS - ÚLTIMOS 3 AÑOS</div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Evolución KPIs Clave 2022-2024</div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">Ingresos (% crecimiento)</div>
+                        <div class="chart-bar-bg">
+                            <div class="chart-bar-fill" style="width: 85%;"></div>
+                        </div>
+                        <div class="chart-value">14.2%</div>
+                    </div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">Energía Renovable</div>
+                        <div class="chart-bar-bg">
+                            <div class="chart-bar-fill" style="width: 84%;"></div>
+                        </div>
+                        <div class="chart-value">84%</div>
+                    </div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">Usuarios Digitales (M)</div>
+                        <div class="chart-bar-bg">
+                            <div class="chart-bar-fill" style="width: 65%;"></div>
+                        </div>
+                        <div class="chart-value">1.3M</div>
+                    </div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">Diversidad Género</div>
+                        <div class="chart-bar-bg">
+                            <div class="chart-bar-fill" style="width: 79%;"></div>
+                        </div>
+                        <div class="chart-value">31.8%</div>
+                    </div>
+                    
+                    <div class="chart-bar">
+                        <div class="chart-label">Eficiencia Hídrica</div>
+                        <div class="chart-bar-bg">
+                            <div class="chart-bar-fill" style="width: 90%;"></div>
+                        </div>
+                        <div class="chart-value">1.36L</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analisis-section">
+                <div class="analisis-title">ANÁLISIS INTEGRAL DEL DESEMPEÑO</div>
+                
+                <div class="analisis-grid">
+                    <div class="analisis-card">
+                        <div class="analisis-card-title">📈 FORTALEZAS IDENTIFICADAS</div>
+                        <div class="analisis-content">
+                            • Crecimiento financiero sostenido con 7° año consecutivo de mejora ROIC<br>
+                            • Liderazgo en sostenibilidad con 84% energía renovable y plantas pioneras cero emisiones<br>
+                            • Transformación digital acelerada con 1.3M usuarios Juntos+ activos<br>
+                            • Excelencia operativa con volumen récord y ahorros US$71.5M
+                        </div>
+                    </div>
+                    
+                    <div class="analisis-card">
+                        <div class="analisis-card-title">🎯 ÁREAS DE OPORTUNIDAD</div>
+                        <div class="analisis-content">
+                            • Acelerar diversificación multicategoría hacia meta 5% ingresos<br>
+                            • Incrementar representación femenina en liderazgo hacia 40% para 2030<br>
+                            • Expandir adopción IA regionalmente desde actual 40% en Brasil<br>
+                            • Optimizar eficiencia hídrica hacia meta 1.30L por litro bebida
+                        </div>
+                    </div>
+                    
+                    <div class="analisis-card">
+                        <div class="analisis-card-title">🚀 INICIATIVAS PRIORITARIAS</div>
+                        <div class="analisis-content">
+                            • Rollout regional de Juntos+ Advisor IA para optimización fuerza ventas<br>
+                            • Expansión En Tu Hogar hacia 40% transacciones digitales<br>
+                            • Ampliación centros SUSTENTAPET de 43 a 60 ubicaciones<br>
+                            • Programas acelerados desarrollo liderazgo femenino
+                        </div>
+                    </div>
+                    
+                    <div class="analisis-card">
+                        <div class="analisis-card-title">⚠️ RIESGOS A MONITOREAR</div>
+                        <div class="analisis-content">
+                            • Volatilidad macroeconómica en mercados emergentes<br>
+                            • Competencia intensificada en transformación digital<br>
+                            • Escasez talento especializado en tecnologías emergentes<br>
+                            • Cambios regulatorios en normativas ambientales y fiscales
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Sistema Integrado de Gestión - FEMSA</strong></p>
+            <p>Indicadores de Desempeño (KPIs) actualizados 2024 | Universidad Libre - Bogotá</p>
+            <p>Elaborado por: Esteban Camilo Parra, Andrés Felipe Galeano, Santiago Orlando Martínez, Juan Pablo Gómez</p>
+        </div>
+    </div>
+</body>
+</html>
