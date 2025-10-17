@@ -3,859 +3,1215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal SIG - FEMSA</title>
+    <title>Sistema Integrado de Gestión - FEMSA</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
-            overflow-x: hidden;
+            padding: 20px;
         }
-        
-        .header {
-            background: linear-gradient(135deg, #e31f26 0%, #1a237e 50%, #27ae60 100%);
-            color: white;
-            padding: 40px 0;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,0 1000,80 0,100"/></svg>');
-            background-size: cover;
-        }
-        
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: fadeInDown 1s ease-out;
-        }
-        
-        .header h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease-out 0.5s both;
-        }
-        
-        .header p {
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            animation: fadeIn 1s ease-out 1s both;
-        }
-        
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
         }
-        
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .dashboard-card {
+
+        header {
             background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .logo-section h1 {
+            color: #003d7a;
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: white;
+            border-radius: 15px 15px 0 0;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-bottom: 0;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 3px solid #003d7a;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #666;
+            transition: all 0.3s ease;
+            border-right: 1px solid #ddd;
         }
-        
-        .dashboard-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--card-color), var(--card-color-light));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+
+        .tab:last-child {
+            border-right: none;
         }
-        
-        .dashboard-card:hover::before {
-            transform: scaleX(1);
+
+        .tab:hover {
+            background: #e9ecef;
         }
-        
-        .dashboard-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+
+        .tab.active {
+            background: #003d7a;
+            color: white;
         }
-        
-        .card-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-align: center;
-            color: var(--card-color);
-        }
-        
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #2c3e50;
-            text-align: center;
-        }
-        
-        .card-description {
-            color: #7f8c8d;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-        }
-        
-        .card-features {
-            list-style: none;
+
+        .tab-content {
+            display: none;
+            background: transparent;
             padding: 0;
         }
-        
-        .card-features li {
-            padding: 5px 0;
-            color: #34495e;
-            font-size: 0.9rem;
-            position: relative;
-            padding-left: 20px;
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
         }
-        
-        .card-features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--card-color);
-            font-weight: bold;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        .card-action {
-            background: linear-gradient(135deg, var(--card-color), var(--card-color-light));
-            color: white;
-            border: none;
-            padding: 12px 24px;
+
+        .iso-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .badge {
+            padding: 10px 25px;
             border-radius: 25px;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 15px;
+            font-size: 0.95em;
         }
-        
-        .card-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+
+        .badge-calidad {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
-        
-        /* Colores específicos para cada card */
-        .card-dofa {
-            --card-color: #e74c3c;
-            --card-color-light: #c0392b;
+
+        .badge-ambiental {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
         }
-        
-        .card-stakeholders {
-            --card-color: #3498db;
-            --card-color-light: #2980b9;
+
+        .badge-seguridad {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
         }
-        
-        .card-procesos {
-            --card-color: #f39c12;
-            --card-color-light: #d68910;
+
+        .badge-colombia {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #003d7a;
         }
-        
-        .card-roles {
-            --card-color: #9b59b6;
-            --card-color-light: #8e44ad;
-        }
-        
-        .card-riesgos {
-            --card-color: #e67e22;
-            --card-color-light: #d35400;
-        }
-        
-        .card-objetivos {
-            --card-color: #27ae60;
-            --card-color-light: #229954;
-        }
-        
-        .card-alcance {
-            --card-color: #34495e;
-            --card-color-light: #2c3e50;
-        }
-        
-        .card-kpis {
-            --card-color: #1abc9c;
-            --card-color-light: #16a085;
-        }
-        
-        .card-legal {
-            --card-color: #e31f26;
-            --card-color-light: #c41e3a;
-        }
-        
-        .card-cambio {
-            --card-color: #95a5a6;
-            --card-color-light: #7f8c8d;
-        }
-        
-        .stats-section {
+
+        /* Procedimientos */
+        .procedimiento {
             background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
-        .stats-title {
+
+        .procedimiento:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .procedimiento-header {
+            border-left: 6px solid #003d7a;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .procedimiento-title {
+            color: #003d7a;
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .normas-aplicables {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .norma-tag {
+            background: #f0f4f8;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #003d7a;
+            font-weight: 600;
+            border: 2px solid #e1e8ed;
+        }
+
+        .descripcion {
+            color: #555;
+            line-height: 1.8;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #003d7a;
+        }
+
+        .indicadores-section {
+            margin-top: 30px;
+        }
+
+        .indicadores-title {
+            color: #003d7a;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .indicador {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .indicador:hover {
+            transform: translateX(5px);
+        }
+
+        .indicador-nombre {
+            font-weight: bold;
+            color: #003d7a;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+        }
+
+        .indicador-formula {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+            margin: 12px 0;
+            font-size: 1em;
+            border: 2px solid #e1e8ed;
+        }
+
+        .indicador-meta {
+            color: #555;
+            font-size: 0.95em;
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+        }
+
+        .meta-label {
+            font-weight: bold;
+            color: #003d7a;
+        }
+
+        /* Sección de indicadores por sistema */
+        .sistemas-section {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .sistemas-title {
+            color: #003d7a;
+            font-size: 2.2em;
+            margin-bottom: 30px;
             text-align: center;
-            color: #2c3e50;
-            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .sistema-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
             margin-bottom: 30px;
         }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 20px;
-            border-radius: 15px;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #e31f26;
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        .stat-label {
-            color: #6c757d;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .footer-info {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            color: white;
-            margin-top: 40px;
-        }
-        
-        .team-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .team-member {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-        }
-        
-        .university-info {
-            margin-top: 20px;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
 
-        /* Estilos para las nuevas secciones */
-        .identity-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .logo-section {
-            text-align: center;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
+        .sistema-card {
+            border-radius: 12px;
+            padding: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .logo-femsa {
-            font-size: 3rem;
-            color: #e31f26;
-            font-weight: bold;
+        .sistema-calidad {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .sistema-ambiental {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .sistema-seguridad {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+
+        .sistema-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sistema-indicador {
+            background: rgba(255,255,255,0.2);
+            padding: 18px;
+            border-radius: 8px;
             margin-bottom: 15px;
+            backdrop-filter: blur(10px);
         }
 
-        .slogan {
-            font-size: 1.2rem;
-            color: #3498db;
-            font-style: italic;
+        .sistema-indicador:last-child {
+            margin-bottom: 0;
         }
 
-        .colors-section {
+        .sistema-indicador-nombre {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .sistema-indicador-detalle {
+            font-size: 0.9em;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        /* Estilos para Resolución 0312 */
+        .resolucion-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             text-align: center;
         }
 
-        .color-palette {
+        .resolucion-title {
+            color: #003d7a;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .resolucion-info {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #ffd700;
+            margin: 20px 0;
+        }
+
+        .puntuacion-container {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .puntuacion-total {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .puntuacion-numero {
+            font-size: 5em;
+            font-weight: bold;
+            color: #28a745;
+            line-height: 1;
+        }
+
+        .puntuacion-label {
+            font-size: 1.5em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .puntuacion-estado {
+            display: inline-block;
+            padding: 10px 30px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-top: 15px;
+        }
+
+        .estandar {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .estandar:hover {
+            transform: translateY(-3px);
+        }
+
+        .estandar-header {
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #003d7a;
+        }
+
+        .estandar-titulo {
+            color: #003d7a;
+            font-size: 1.6em;
+            font-weight: 700;
+        }
+
+        .estandar-puntaje {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+        }
+
+        .puntaje-obtenido {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .puntaje-maximo {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .criterios-list {
             margin-top: 20px;
         }
 
-        .color-item {
-            text-align: center;
+        .criterio-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
         }
 
-        .color-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin: 0 auto 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        .criterio-item.parcial {
+            border-left-color: #ffc107;
         }
 
-        .color-label {
-            font-size: 0.9rem;
-            color: #7f8c8d;
+        .criterio-check {
+            font-size: 1.5em;
+            min-width: 30px;
         }
 
-        .mission-vision-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        .mission-card, .vision-card {
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            position: relative;
-        }
-
-        .mission-card {
-            background: linear-gradient(135deg, #e31f26 0%, #c0392b 100%);
-        }
-
-        .vision-card {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-        }
-
-        .card-number {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: white;
-        }
-
-        .section-content {
+        .criterio-texto {
+            flex: 1;
+            color: #555;
             line-height: 1.6;
-            font-size: 1rem;
         }
 
-        .highlight {
-            color: #27ae60;
+        .evidencias-box {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #0066cc;
+        }
+
+        .evidencias-title {
             font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 10px;
+            font-size: 1.1em;
         }
-        
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .evidencia-item {
+            padding: 8px 0;
+            color: #555;
+            line-height: 1.6;
         }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .evidencia-item::before {
+            content: "📄 ";
+            margin-right: 8px;
         }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 25px;
+            font-size: 0.95em;
         }
-        
-        .floating-elements {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .floating-elements::before,
-        .floating-elements::after {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .floating-elements::before {
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-        
-        .floating-elements::after {
-            bottom: 10%;
-            right: 10%;
-            animation-delay: 3s;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-        
+
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.5rem;
+            .logo-section h1 {
+                font-size: 2em;
             }
             
-            .header h2 {
-                font-size: 1.2rem;
-            }
-            
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .procedimiento-title {
+                font-size: 1.5em;
             }
 
-            .identity-grid, .mission-vision-grid {
+            .sistema-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
             }
 
-            .color-palette {
-                flex-wrap: wrap;
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .estandar-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .puntuacion-numero {
+                font-size: 3.5em;
             }
         }
     </style>
-    <script src="/components/navbar.js"></script>
-
 </head>
-
 <body>
-    <div class="floating-elements"></div>
-    
-    <div class="header">
-        <div class="header-content">
-            <h1>PORTAL SIG FEMSA</h1>
-            <h2>Sistema Integrado de Gestión</h2>
-           
-        </div>
-    </div>
-    
     <div class="container">
-        <!-- Sección Quiénes Somos -->
-        <div class="stats-section">
-            <h2 class="stats-title">QUIÉNES SOMOS</h2>
-            <div style="text-align: center; max-width: 900px; margin: 0 auto; color: #2c3e50; line-height: 1.8; font-size: 1.1rem;">
-                <p style="margin-bottom: 20px;">
-                    En FEMSA somos líderes hemisféricos en la industria de bebidas, comprometidos con la <strong class="highlight">excelencia operacional</strong> y la <strong class="highlight">sostenibilidad</strong>.
-                </p>
-                <p style="margin-bottom: 20px;">
-                    Nuestro Sistema Integrado de Gestión unifica procesos estratégicos, operativos y de apoyo, garantizando la <strong class="highlight">calidad</strong>, <strong class="highlight">seguridad</strong> y <strong class="highlight">cumplimiento</strong> en todas nuestras operaciones hemisféricas.
-                </p>
-                <p>
-                    Creemos en el poder de la <strong class="highlight">integración</strong> para crear valor sostenible, donde cada proceso contribuye a nuestro compromiso de conectar, refrescar y nutrir a las comunidades que servimos.
-                </p>
+        <header>
+            <div class="logo-section">
+                <h1>🏢 FEMSA</h1>
+            </div>
+            <p class="subtitle">Sistema Integrado de Gestión de Calidad, Medio Ambiente y Seguridad</p>
+            <div class="iso-badges">
+                <span class="badge badge-calidad">ISO 9001:2015</span>
+                <span class="badge badge-ambiental">ISO 14001:2015</span>
+                <span class="badge badge-seguridad">ISO 45001:2018</span>
+                <span class="badge badge-colombia">Resolución 0312/2019</span>
+            </div>
+        </header>
+
+        <!-- TABS -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <div class="tab active" onclick="openTab(event, 'tab1')">
+                    📋 Procedimientos ISO
+                </div>
+                <div class="tab" onclick="openTab(event, 'tab2')">
+                    🛡️ SG-SST Resolución 0312
+                </div>
             </div>
         </div>
 
-        <!-- Sección Nuestra Identidad -->
-        <div class="stats-section" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
-            <h2 class="stats-title">NUESTRA IDENTIDAD</h2>
-            <div class="identity-grid">
-                <div>
-                    <h3 style="color: #2c3e50; font-size: 1.5rem; margin-bottom: 20px; text-align: center;">LOGO & ESLOGAN</h3>
-                    <div class="logo-section">
-                        <div class="logo-femsa">FEMSA</div>
-                        <div class="slogan">"Conectando. Refrescando. Nutriendo."</div>
+        <!-- TAB 1: PROCEDIMIENTOS ISO -->
+        <div id="tab1" class="tab-content active">
+            <!-- PROCEDIMIENTO 1 -->
+            <div class="procedimiento">
+                <div class="procedimiento-header">
+                    <h2 class="procedimiento-title">1. Gestión de Riesgos y Oportunidades Integrada</h2>
+                    <div class="normas-aplicables">
+                        <span class="norma-tag">ISO 9001:2015 - 6.1.1–6.1.2</span>
+                        <span class="norma-tag">ISO 14001:2015 - 6.1.2</span>
+                        <span class="norma-tag">ISO 45001:2018 - 6.1.2</span>
                     </div>
                 </div>
-                <div class="colors-section">
-                    <h3 style="color: #2c3e50; font-size: 1.5rem; margin-bottom: 20px;">COLORES CORPORATIVOS</h3>
-                    <div class="color-palette">
-                        <div class="color-item">
-                            <div class="color-circle" style="background: #e31f26;"></div>
-                            <div class="color-label">Rojo FEMSA</div>
+
+                <div class="descripcion">
+                    <strong>Objetivo:</strong> Identificar, evaluar y gestionar los riesgos y oportunidades relacionados con la calidad de productos y servicios, los aspectos e impactos ambientales, y los peligros y riesgos de seguridad y salud en el trabajo en todas las operaciones de FEMSA.
+                    <br><br>
+                    <strong>Alcance:</strong> Aplica a todas las unidades de negocio de FEMSA (Coca-Cola FEMSA, FEMSA Comercio, FEMSA Negocios Estratégicos), incluyendo centros de distribución, plantas de producción, tiendas OXXO y oficinas corporativas.
+                    <br><br>
+                    <strong>Aplicación en FEMSA:</strong> Evaluación trimestral de riesgos operacionales, identificación de aspectos ambientales significativos en procesos de embotellado y logística, y análisis de peligros en operaciones de almacenamiento y distribución.
+                </div>
+
+                <div class="indicadores-section">
+                    <h3 class="indicadores-title">📊 Indicadores del Procedimiento</h3>
+                    
+                    <div class="indicador">
+                        <div class="indicador-nombre">🎯 Porcentaje de Riesgos Mitigados</div>
+                        <div class="indicador-formula">
+                            % Mitigación = (Riesgos con controles implementados / Total riesgos identificados) × 100
                         </div>
-                        <div class="color-item">
-                            <div class="color-circle" style="background: #3498db;"></div>
-                            <div class="color-label">Azul Corporativo</div>
-                        </div>
-                        <div class="color-item">
-                            <div class="color-circle" style="background: #27ae60;"></div>
-                            <div class="color-label">Verde Sostenibilidad</div>
+                        <div class="indicador-meta">
+                            <span class="meta-label">Meta:</span> ≥ 90% | 
+                            <span class="meta-label">Frecuencia:</span> Trimestral | 
+                            <span class="meta-label">Responsable:</span> Gerente de Gestión Integral | 
+                            <span class="meta-label">Aplica:</span> Todas las normas ISO
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Sección Misión y Visión -->
-        <div class="stats-section">
-            <h2 class="stats-title">MISIÓN Y VISIÓN</h2>
-            <div class="mission-vision-grid">
-                <div class="mission-card">
-                    <div class="card-number">01</div>
-                    <h3 class="section-title">MISIÓN</h3>
-                    <div class="section-content">
-                        Satdisfacer con excelencia <strong>a los consumidores de bebidas.
-                    </div>
-                </div>
-                <div class="vision-card">
-                    <div class="card-number">02</div>
-                    <h3 class="section-title">VISIÓN</h3>
-                    <div class="section-content">
-                        Ser la <strong>palataforma comercial preferida</strong>de nuestros clientes y socios, asi <strong>como su aliado para el crecimiento.
+                    <div class="indicador">
+                        <div class="indicador-nombre">💡 Índice de Aprovechamiento de Oportunidades</div>
+                        <div class="indicador-formula">
+                            IAO = (Oportunidades implementadas con resultados positivos / Total oportunidades identificadas) × 100
+                        </div>
+                        <div class="indicador-meta">
+                            <span class="meta-label">Meta:</span> ≥ 70% | 
+                            <span class="meta-label">Frecuencia:</span> Semestral | 
+                            <span class="meta-label">Responsable:</span> Director de Mejora Continua | 
+                            <span class="meta-label">Aplica:</span> Todas las normas ISO
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="stats-section">
-            <h2 class="stats-title">FEMSA en Cifras 2024</h2>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">cop. 279.8B</span>
-                    <span class="stat-label">Ingresos Totales</span>
+            <!-- PROCEDIMIENTO 2 -->
+            <div class="procedimiento">
+                <div class="procedimiento-header">
+                    <h2 class="procedimiento-title">2. Competencia, Formación y Toma de Conciencia</h2>
+                    <div class="normas-aplicables">
+                        <span class="norma-tag">ISO 9001:2015 - 7.2</span>
+                        <span class="norma-tag">ISO 14001:2015 - 7.2</span>
+                        <span class="norma-tag">ISO 45001:2018 - 7.2</span>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">93,664</span>
-                    <span class="stat-label">Colaboradores</span>
+
+                <div class="descripcion">
+                    <strong>Objetivo:</strong> Asegurar que todo el personal de FEMSA sea competente para desempeñar sus funciones, tenga conciencia sobre la importancia de la calidad, el medio ambiente y la seguridad, y reciba la formación necesaria para cumplir con los requisitos del sistema integrado de gestión.
+                    <br><br>
+                    <strong>Alcance:</strong> Personal de todas las áreas incluyendo producción, distribución, ventas, mantenimiento, recursos humanos y administración en las diferentes unidades de negocio de FEMSA.
+                    <br><br>
+                    <strong>Aplicación en FEMSA:</strong> Programas de capacitación en calidad para operadores de líneas de embotellado, entrenamiento en manejo de sustancias químicas y residuos, certificación en seguridad para montacarguistas y personal de almacén, inducción en cultura de sustentabilidad para nuevos colaboradores.
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">10</span>
-                    <span class="stat-label">Países de Operación</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">276M</span>
-                    <span class="stat-label">Consumidores Atendidos</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">2.2M</span>
-                    <span class="stat-label">Puntos de Venta</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">84%</span>
-                    <span class="stat-label">Energía Renovable</span>
+
+                <div class="indicadores-section">
+                    <h3 class="indicadores-title">📊 Indicadores del Procedimiento</h3>
+                    
+                    <div class="indicador">
+                        <div class="indicador-nombre">📚 Cobertura de Capacitación</div>
+                        <div class="indicador-formula">
+                            % Cobertura = (Colaboradores capacitados según plan / Total colaboradores programados) × 100
+                        </div>
+                        <div class="indicador-meta">
+                            <span class="meta-label">Meta:</span> ≥ 95% | 
+                            <span class="meta-label">Frecuencia:</span> Mensual | 
+                            <span class="meta-label">Responsable:</span> Gerente de Capital Humano | 
+                            <span class="meta-label">Aplica:</span> Todas las normas ISO
+                        </div>
+                    </div>
+
+                    <div class="indicador">
+                        <div class="indicador-nombre">✅ Efectividad de la Capacitación</div>
+                        <div class="indicador-formula">
+                            % Efectividad = (Colaboradores con evaluación ≥ 80 / Total colaboradores evaluados) × 100
+                        </div>
+                        <div class="indicador-meta">
+                            <span class="meta-label">Meta:</span> ≥ 85% | 
+                            <span class="meta-label">Frecuencia:</span> Por capacitación | 
+                            <span class="meta-label">Responsable:</span> Coord. de Formación | 
+                            <span class="meta-label">Aplica:</span> Todas las normas ISO
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-       <div class="dashboard-grid">
-    <div class="dashboard-card card-dofa">
-        <div class="card-icon">📊</div>
-        <div class="card-title">Análisis DOFA</div>
-        <div class="card-description">
-            Diagnóstico estratégico integral que identifica fortalezas, oportunidades, debilidades y amenazas de FEMSA.
-        </div>
-        <ul class="card-features">
-            <li>Análisis de posición competitiva</li>
-            <li>Identificación de ventajas sostenibles</li>
-            <li>Estrategias derivadas FO, DO, FA, DA</li>
-            <li>Marco para toma de decisiones</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/dofa.html'">Acceder al Análisis DOFA</button>
-    </div>
 
-    <div class="dashboard-card card-stakeholders">
-        <div class="card-icon">👥</div>
-        <div class="card-title">Partes Interesadas</div>
-        <div class="card-description">
-            Mapeo completo de stakeholders con estrategias de engagement diferenciadas por nivel de influencia e interés.
-        </div>
-        <ul class="card-features">
-            <li>19 grupos de stakeholders identificados</li>
-            <li>Matriz de poder e interés</li>
-            <li>Estrategias de comunicación</li>
-            <li>Métricas de engagement</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/partesInteresadas.html'">Ver Matriz de Stakeholders</button>
-    </div>
-
-    <div class="dashboard-card card-procesos">
-        <div class="card-icon">🔄</div>
-        <div class="card-title">Mapa de Procesos</div>
-        <div class="card-description">
-            Representación visual de la cadena de valor organizacional desde procesos estratégicos hasta operativos y de apoyo.
-        </div>
-        <ul class="card-features">
-            <li>Procesos estratégicos de dirección</li>
-            <li>Cadena operativa de valor</li>
-            <li>Procesos de apoyo habilitadores</li>
-            <li>Interfaces e interacciones críticas</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/mapaProcesos.html'">Explorar Mapa de Procesos</button>
-    </div>
-
-    <div class="dashboard-card card-roles">
-        <div class="card-icon">👨‍💼</div>
-        <div class="card-title">Matriz de Roles y Responsabilidades</div>
-        <div class="card-description">
-            Definición clara de roles, responsabilidades y autoridades para la implementación efectiva del SIG.
-        </div>
-        <ul class="card-features">
-            <li>Estructura organizacional SIG</li>
-            <li>Autoridades y responsabilidades</li>
-            <li>Líneas de reporte claras</li>
-            <li>Segregación de funciones</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/rolesYResponsabilidades.html'">Consultar Matriz de Roles</button>
-    </div>
-
-    <div class="dashboard-card card-riesgos">
-        <div class="card-icon">⚠️</div>
-        <div class="card-title">Matriz de Riesgos y Oportunidades</div>
-        <div class="card-description">
-            Identificación, evaluación y gestión proactiva de riesgos estratégicos y oportunidades de mejora.
-        </div>
-        <ul class="card-features">
-            <li>Riesgos estratégicos y operativos</li>
-            <li>Evaluación de probabilidad e impacto</li>
-            <li>Medidas de mitigación</li>
-            <li>Monitoreo continuo</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/matrizRiengosOportunidades.html'">Gestionar Riesgos</button>
-    </div>
-
-    <div class="dashboard-card card-objetivos">
-        <div class="card-icon">🎯</div>
-        <div class="card-title">Planes de Acción para Objetivos</div>
-        <div class="card-description">
-            Roadmap detallado para el logro de objetivos integrados con cronogramas, responsables y métricas de seguimiento.
-        </div>
-        <ul class="card-features">
-            <li>Objetivos SMART definidos</li>
-            <li>Planes de acción específicos</li>
-            <li>Cronogramas y milestones</li>
-            <li>Asignación de responsabilidades</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/planesDeAccionObjetivos.html'">Ver Planes de Acción</button>
-    </div>
-
-    <div class="dashboard-card card-alcance">
-        <div class="card-icon">🎯</div>
-        <div class="card-title">Alcance de Sistemas Integrados</div>
-        <div class="card-description">
-            Definición precisa del alcance, cobertura y límites del Sistema Integrado de Gestión de FEMSA.
-        </div>
-        <ul class="card-features">
-            <li>Sistemas incluidos (ISO 9001, 14001, 45001)</li>
-            <li>Procesos críticos cubiertos</li>
-            <li>Ubicaciones y exclusiones</li>
-            <li>Criterios de aplicabilidad</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/alcanceSistemaIntegradosGestion.html'">Definir Alcance</button>
-    </div>
-
-    <div class="dashboard-card card-kpis">
-        <div class="card-icon">📈</div>
-        <div class="card-title">Indicadores de Desempeño (KPIs)</div>
-        <div class="card-description">
-            Dashboard integral de métricas financieras, operativas, sostenibilidad y calidad para monitoreo del desempeño.
-        </div>
-        <ul class="card-features">
-            <li>KPIs financieros y operativos</li>
-            <li>Métricas de sostenibilidad</li>
-            <li>Indicadores de calidad</li>
-            <li>Tableros de control en tiempo real</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/IndicadoresKpi.html'">Monitorear KPIs</button>
-    </div>
-
-    <div class="dashboard-card card-legal">
-        <div class="card-icon">⚖️</div>
-        <div class="card-title">Matriz de Requisitos Legales</div>
-        <div class="card-description">
-            Registro actualizado de normativas aplicables con evidencias de cumplimiento y responsables de seguimiento.
-        </div>
-        <ul class="card-features">
-            <li>Normativas laborales y ambientales</li>
-            <li>Requisitos de seguridad y salud</li>
-            <li>Evidencias de cumplimiento</li>
-            <li>Actualizaciones regulatorias</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/requisitosLegales.html'">Verificar Cumplimiento</button>
-    </div>
-
-    <div class="dashboard-card card-cambio">
-        <div class="card-icon">🔄</div>
-        <div class="card-title">Metodología de Gestión del Cambio</div>
-        <div class="card-description">
-            Framework estructurado para gestionar transformaciones organizacionales y operativas de manera efectiva.
-        </div>
-        <ul class="card-features">
-            <li>Proceso de gestión de cambios</li>
-            <li>Evaluación de impactos</li>
-            <li>Plan de comunicación</li>
-            <li>Seguimiento y control</li>
-        </ul>
-        <button class="card-action" onclick="location.href='/pages/metodologiaGestionCambio.html'">Gestionar Cambios</button>
-    </div>
-</div>
-
-        
-        <div class="footer-info">
-            <h3>Equipo de Desarrollo SIG</h3>
-            <div class="team-info">
-                <div class="team-member">
-                    <strong>Esteban Camilo Parra Jacobo</strong><br>
-                  
+            <!-- PROCEDIMIENTO 3 -->
+            <div class="procedimiento">
+                <div class="procedimiento-header">
+                    <h2 class="procedimiento-title">3. Auditoría Interna del Sistema Integrado</h2>
+                    <div class="normas-aplicables">
+                        <span class="norma-tag">ISO 9001:2015 - 9.2</span>
+                        <span class="norma-tag">ISO 14001:2015 - 9.2</span>
+                        <span class="norma-tag">ISO 45001:2018 - 9.2</span>
+                    </div>
                 </div>
-                <div class="team-member">
-                    <strong>Andrés Felipe Galeano Garzón</strong><br>
-             
+
+                <div class="descripcion">
+                    <strong>Objetivo:</strong> Verificar que el Sistema Integrado de Gestión de FEMSA cumple con los requisitos de las normas ISO 9001, ISO 14001 e ISO 45001, se implementa eficazmente y se mantiene de forma efectiva, proporcionando información para la mejora continua.
+                    <br><br>
+                    <strong>Alcance:</strong> Todas las áreas, procesos y ubicaciones incluidas en el alcance de certificación del Sistema Integrado de Gestión de FEMSA, con énfasis en procesos críticos de producción, distribución y atención al cliente.
+                    <br><br>
+                    <strong>Aplicación en FEMSA:</strong> Auditorías programadas en plantas de embotellado para verificar controles de calidad y BPM, inspecciones a centros de distribución para evaluar gestión de residuos y emisiones de flotilla, revisión de tiendas OXXO para verificar condiciones de seguridad y almacenamiento de productos.
                 </div>
-                <div class="team-member">
-                    <strong>Santiago Orlando Martínez</strong><br>
+
+                <div class="indicadores-section">
+                    <h3 class="indicadores-title">📊 Indicadores del Procedimiento</h3>
+                    
+                    <div class="indicador">
+                        <div class="indicador-nombre">🔍 Cumplimiento del Programa de Auditorías</div>
+                        <div class="indicador-formula">
+                            % Cumplimiento = (Auditorías realizadas / Auditorías programadas) × 100
+                        </div>
+                        <div class="indicador-meta">
+                            <span class="meta-label">Meta:</span> = 100% | 
+                            <span class="meta-label">Frecuencia:</span> Trimestral | 
+                            <span class="meta-label">Responsable:</span> Líder de Auditoría Interna | 
+                            <span class="meta-label">Aplica:</span> Todas las normas ISO
+                        </div>
+                    </div>
+
+                    <div class="indicador">
+                        <div class="indicador-nombre">✔️ Cierre de Hallazgos de Auditoría</div>
+                        <div class="indicador-formula">
+                            % Cierre = (Hallazgos cerrados en tiempo / Total hallazgos identificados) × 100
+                        </div>
+                        <div class="indicador-meta">
+                            <span class="meta-label">Meta:</span> ≥ 90% | 
+                            <span class="meta-label">Frecuencia:</span> Mensual | 
+                            <span class="meta-label">Responsable:</span> Coordinadores de Área | 
+                            <span class="meta-label">Aplica:</span> Todas las normas ISO
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INDICADORES POR SISTEMA ISO -->
+            <div class="sistemas-section">
+                <h2 class="sistemas-title">📈 Indicadores Específicos por Sistema de Gestión</h2>
                 
+                <div class="sistema-grid">
+                    <!-- ISO 9001 - CALIDAD -->
+                    <div class="sistema-card sistema-calidad">
+                        <h3>🏆 ISO 9001:2015 - Gestión de Calidad</h3>
+                        
+                        <div class="sistema-indicador">
+                            <div class="sistema-indicador-nombre">1. Índice de Satisfacción del Cliente (ISC)</div>
+                            <div class="sistema-indicador-detalle">
+                                <strong>Fórmula:</strong> ISC = (Σ Calificaciones / N° encuestas) × 100
+                                <br><strong>Meta:</strong> ≥ 92%
+                                <br><strong>Aplicación:</strong> Medición trimestral a través de encuestas a clientes mayoristas, distribuidores y consumidores finales sobre calidad de producto, servicio y entregas.
+                            </div>
+                        </div>
+
+                        <div class="sistema-indicador">
+                            <div class="sistema-indicador-nombre">2. Tasa de Producto No Conforme</div>
+                            <div class="sistema-indicador-detalle">
+                                <strong>Fórmula:</strong> % PNC = (Unidades rechazadas / Unidades producidas) × 100
+                                <br><strong>Meta:</strong> ≤ 0.5%
+                                <br><strong>Aplicación:</strong> Control semanal en líneas de producción para identificar productos fuera de especificación (sabor, carbonatación, llenado) y generar acciones correctivas inmediatas.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ISO 14001 - AMBIENTAL -->
+                    <div class="sistema-card sistema-ambiental">
+                        <h3>🌿 ISO 14001:2015 - Gestión Ambiental</h3>
+                        
+                        <div class="sistema-indicador">
+                            <div class="sistema-indicador-nombre">1. Porcentaje de Reciclaje de Residuos</div>
+                            <div class="sistema-indicador-detalle">
+                                <strong>Fórmula:</strong> % Reciclaje = (Toneladas recicladas / Total residuos generados) × 100
+                                <br><strong>Meta:</strong> ≥ 85%
+                                <br><strong>Aplicación:</strong> Seguimiento mensual de reciclaje de PET, cartón, vidrio y aluminio en plantas y centros de distribución, con programa de economía circular para botellas retornables.
+                            </div>
+                        </div>
+
+                        <div class="sistema-indicador">
+                            <div class="sistema-indicador-nombre">2. Huella de Carbono por Litro Producido</div>
+                            <div class="sistema-indicador-detalle">
+                                <strong>Fórmula:</strong> HC = (Ton CO₂ eq. totales / Millones de litros producidos)
+                                <br><strong>Meta:</strong> ≤ 25 kg CO₂/L (reducción 3% anual)
+                                <br><strong>Aplicación:</strong> Medición trimestral de emisiones de alcance 1, 2 y 3 incluyendo producción, flotilla de distribución y cadena de suministro, con proyectos de energías renovables.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ISO 45001 - SEGURIDAD -->
+                    <div class="sistema-card sistema-seguridad">
+                        <h3>🛡️ ISO 45001:2018 - Seguridad y Salud</h3>
+                        
+                        <div class="sistema-indicador">
+                            <div class="sistema-indicador-nombre">1. Índice de Frecuencia de Accidentabilidad (IFA)</div>
+                            <div class="sistema-indicador-detalle">
+                                <strong>Fórmula:</strong> IFA = (N° accidentes con incapacidad × 1,000,000) / Horas hombre trabajadas
+                                <br><strong>Meta:</strong> ≤ 1.5
+                                <br><strong>Aplicación:</strong> Reporte mensual de accidentes laborales en plantas, almacenes y flotilla, con análisis de causas raíz y programas preventivos (ergonomía, manejo de montacargas, trabajo en alturas).
+                            </div>
+                        </div>
+
+                        <div class="sistema-indicador">
+                            <div class="sistema-indicador-nombre">2. Porcentaje de Cumplimiento de Observaciones de Seguridad</div>
+                            <div class="sistema-indicador-detalle">
+                                <strong>Fórmula:</strong> % Cumplimiento = (Observaciones cerradas / Observaciones identificadas) × 100
+                                <br><strong>Meta:</strong> ≥ 95%
+                                <br><strong>Aplicación:</strong> Seguimiento semanal de observaciones de seguridad preventivas (inspecciones STOP, recorridos gerenciales) con participación de trabajadores y brigadas de seguridad.
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="team-member">
-                    <strong>Juan Pablo Gómez Barreto</strong><br>
-                  
-                </div>
-            </div>
-            <div class="university-info">
-                <strong>Universidad Libre - Bogotá</strong><br>
-                Sistemas Integrados de Gestión | 2025
             </div>
         </div>
+
+        <!-- TAB 2: RESOLUCIÓN 0312 -->
+        <div id="tab2" class="tab-content">
+            <div class="resolucion-header">
+                <h2 class="resolucion-title">Cumplimiento Resolución 0312 de 2019</h2>
+                <p style="font-size: 1.2em; color: #666;">Estándares Mínimos del Sistema de Gestión de Seguridad y Salud en el Trabajo</p>
+                
+                <div class="resolucion-info">
+                    <strong>📍 Empresa:</strong> FEMSA Colombia S.A.S. | 
+                    <strong>👥 Trabajadores:</strong> 3,500+ | 
+                    <strong>⚠️ Nivel de Riesgo:</strong> III (Medio) | 
+                    <strong>📅 Última evaluación:</strong> Octubre 2024
+                </div>
+            </div>
+
+            <div class="puntuacion-container">
+                <div class="puntuacion-total">
+                    <div class="puntuacion-numero">92.5</div>
+                    <div class="puntuacion-label">Puntos de 100</div>
+                    <div class="puntuacion-estado">✓ CUMPLIMIENTO SATISFACTORIO</div>
+                    <p style="margin-top: 15px; color: #666; font-size: 1.1em;">
+                        Sistema implementado y en mejora continua
+                    </p>
+                </div>
+            </div>
+
+            <!-- ESTÁNDAR 1: RECURSOS -->
+            <div class="estandar">
+                <div class="estandar-header">
+                    <div class="estandar-titulo">1️⃣ Recursos (10%)</div>
+                    <div class="estandar-puntaje">
+                        <span class="puntaje-obtenido">10.0</span>
+                        <span class="puntaje-maximo">de 10 puntos</span>
+                    </div>
+                </div>
+
+                <div class="criterios-list">
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>1.1.1 Responsable SG-SST:</strong> FEMSA ha designado al Ing. Carlos Méndez como Responsable del SG-SST con licencia vigente en SST (Licencia No. 4523), cumpliendo mínimo 2 horas diarias dedicadas al sistema.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>1.1.2 Responsabilidades Alta Dirección:</strong> Acta de compromiso firmada por el Gerente General y asignación de recursos anuales (presupuesto 2024: $850 millones COP) para implementación del SG-SST.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>1.1.3 Recursos financieros:</strong> Presupuesto anual aprobado para capacitación, EPP, exámenes médicos, mejoras locativas y asesoría técnica especializada.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>1.1.4 Personal competente:</strong> Equipo SST conformado por 8 profesionales (2 especialistas SST, 3 enfermeras ocupacionales, 3 técnicos seguridad industrial).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evidencias-box">
+                    <div class="evidencias-title">Evidencias Disponibles</div>
+                    <div class="evidencia-item">Acta de designación del Responsable SG-SST</div>
+                    <div class="evidencia-item">Licencia en SST vigente del responsable</div>
+                    <div class="evidencia-item">Presupuesto anual SG-SST aprobado</div>
+                    <div class="evidencia-item">Organigrama con equipo SST</div>
+                </div>
+            </div>
+
+            <!-- ESTÁNDAR 2: GESTIÓN INTEGRAL -->
+            <div class="estandar">
+                <div class="estandar-header">
+                    <div class="estandar-titulo">2️⃣ Gestión Integral del SG-SST (15%)</div>
+                    <div class="estandar-puntaje">
+                        <span class="puntaje-obtenido">14.5</span>
+                        <span class="puntaje-maximo">de 15 puntos</span>
+                    </div>
+                </div>
+
+                <div class="criterios-list">
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>1.2.1 Política SST:</strong> Política firmada, comunicada y actualizada anualmente. Publicada en todas las instalaciones y plataformas digitales internas.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>1.2.2 Objetivos SG-SST:</strong> 8 objetivos SMART establecidos: reducir IFA a ≤1.5, capacitar 100% trabajadores, implementar 12 inspecciones mensuales, entre otros.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>1.2.3 Plan de trabajo anual:</strong> Plan 2024 aprobado con cronograma, responsables, recursos y seguimiento trimestral. Incluye 45 actividades programadas.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item parcial">
+                        <span class="criterio-check">⚠️</span>
+                        <div class="criterio-texto">
+                            <strong>1.2.4 Archivo documental:</strong> Sistema de gestión documental implementado en SharePoint. En proceso de digitalización completa de registros históricos (80% digitalizado).
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>1.2.5 Rendición de cuentas:</strong> Reuniones trimestrales con Alta Dirección. Última presentación: Septiembre 2024 con resultados de indicadores y planes de acción.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evidencias-box">
+                    <div class="evidencias-title">Evidencias Disponibles</div>
+                    <div class="evidencia-item">Política de SST firmada (Rev. 05 - 2024)</div>
+                    <div class="evidencia-item">Matriz de objetivos e indicadores SST</div>
+                    <div class="evidencia-item">Plan de trabajo anual SG-SST 2024</div>
+                    <div class="evidencia-item">Actas de rendición de cuentas trimestrales</div>
+                    <div class="evidencia-item">Acceso al repositorio documental digital</div>
+                </div>
+            </div>
+
+            <!-- ESTÁNDAR 3: GESTIÓN DE LA SALUD -->
+            <div class="estandar">
+                <div class="estandar-header">
+                    <div class="estandar-titulo">3️⃣ Gestión de la Salud (20%)</div>
+                    <div class="estandar-puntaje">
+                        <span class="puntaje-obtenido">18.5</span>
+                        <span class="puntaje-maximo">de 20 puntos</span>
+                    </div>
+                </div>
+
+                <div class="criterios-list">
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>2.1 Evaluaciones médicas:</strong> 100% de trabajadores con exámenes de ingreso, periódicos y egreso. Contrato con IPS Salud Total Ocupacional.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>2.2 Restricciones médicas:</strong> Sistema de seguimiento activo. 45 trabajadores con restricciones laborales actualmente con reubicación efectiva.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>2.3 Estilos de vida saludable:</strong> Programa integral: pausas activas diarias, gimnasio corporativo, asesoría nutricional, jornadas de salud mental, campaña antitabaco.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>2.4 Agua potable y servicios:</strong> Estaciones de hidratación en todas las áreas, baños y vestidores en óptimas condiciones, servicio de cafetería con menú balanceado.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item parcial">
+                        <span class="criterio-check">⚠️</span>
+                        <div class="criterio-texto">
+                            <strong>2.5 Eliminación residuos:</strong> Programa de gestión de residuos implementado. Pendiente mejorar segregación en áreas de producción (plan de acción en curso).
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>2.6 Reporte AT/EL:</strong> Procedimiento establecido y divulgado. 18 ATEL reportados en 2024, todos investigados y con acciones correctivas.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evidencias-box">
+                    <div class="evidencias-title">Evidencias Disponibles</div>
+                    <div class="evidencia-item">Profesiogramas por cargo</div>
+                    <div class="evidencia-item">Base de datos de exámenes médicos ocupacionales</div>
+                    <div class="evidencia-item">Programa de vigilancia epidemiológica (PVE)</div>
+                    <div class="evidencia-item">Programa estilos de vida saludable 2024</div>
+                    <div class="evidencia-item">Reportes ATEL a ARL y Ministerio</div>
+                </div>
+            </div>
+
+            <!-- ESTÁNDAR 4: GESTIÓN DE PELIGROS -->
+            <div class="estandar">
+                <div class="estandar-header">
+                    <div class="estandar-titulo">4️⃣ Gestión de Peligros y Riesgos (30%)</div>
+                    <div class="estandar-puntaje">
+                        <span class="puntaje-obtenido">28.0</span>
+                        <span class="puntaje-maximo">de 30 puntos</span>
+                    </div>
+                </div>
+
+                <div class="criterios-list">
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>3.1 Identificación de peligros:</strong> Matriz GTC 45 actualizada con 287 peligros identificados en todas las áreas operativas y administrativas.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>3.2 Medidas de prevención:</strong> Controles implementados: eliminación (15%), sustitución (12%), controles de ingeniería (35%), administrativos (25%), EPP (13%).
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>3.3 Mantenimiento preventivo:</strong> Plan anual de mantenimiento al 95% de ejecución. Incluye equipos críticos: montacargas, líneas de producción, sistemas eléctricos.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>3.4 Entrega EPP:</strong> 100% de trabajadores dotados según matriz de EPP. Control mediante sistema SAP. Registro digital de entregas y reposiciones.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>3.5 Capacitación SST:</strong> 3,500 trabajadores capacitados (cobertura 100%). Temas: inducción SST, manejo de cargas, prevención de caídas, emergencias.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item parcial">
+                        <span class="criterio-check">⚠️</span>
+                        <div class="criterio-texto">
+                            <strong>3.6 Contratistas:</strong> Protocolo de evaluación implementado. Verificación de SG-SST de 87% de contratistas. Meta: llegar al 100% en Q1-2025.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evidencias-box">
+                    <div class="evidencias-title">Evidencias Disponibles</div>
+                    <div class="evidencia-item">Matriz de identificación de peligros GTC 45</div>
+                    <div class="evidencia-item">Matriz de controles operacionales</div>
+                    <div class="evidencia-item">Plan de mantenimiento preventivo 2024</div>
+                    <div class="evidencia-item">Matriz de EPP por cargo</div>
+                    <div class="evidencia-item">Registros de capacitación SST</div>
+                    <div class="evidencia-item">Evaluación de SG-SST contratistas</div>
+                </div>
+            </div>
+
+            <!-- ESTÁNDAR 5: AMENAZAS -->
+            <div class="estandar">
+                <div class="estandar-header">
+                    <div class="estandar-titulo">5️⃣ Gestión de Amenazas (10%)</div>
+                    <div class="estandar-puntaje">
+                        <span class="puntaje-obtenido">9.5</span>
+                        <span class="puntaje-maximo">de 10 puntos</span>
+                    </div>
+                </div>
+
+                <div class="criterios-list">
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>4.1 Plan de emergencias:</strong> Plan actualizado 2024 con análisis de vulnerabilidad. Amenazas identificadas: sismo, incendio, derrame químico, disturbios civiles.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>4.2 Brigada de emergencias:</strong> 85 brigadistas certificados (12 por turno). Entrenamiento trimestral con bomberos y defensa civil.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>4.3 Simulacros:</strong> 4 simulacros realizados en 2024 (sismo, incendio, derrame, evacuación). Informes con hallazgos y planes de mejora.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item parcial">
+                        <span class="criterio-check">⚠️</span>
+                        <div class="criterio-texto">
+                            <strong>4.4 Recursos emergencia:</strong> Equipos disponibles: extintores (revisión al día), camillas, botiquines, señalización. Pendiente renovación de algunos extintores obsoletos.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evidencias-box">
+                    <div class="evidencias-title">Evidencias Disponibles</div>
+                    <div class="evidencia-item">Plan de Prevención, Preparación y Respuesta ante Emergencias</div>
+                    <div class="evidencia-item">Análisis de vulnerabilidad por amenazas</div>
+                    <div class="evidencia-item">Conformación y capacitación de brigadas</div>
+                    <div class="evidencia-item">Informes de simulacros 2024</div>
+                    <div class="evidencia-item">Inventario de equipos de emergencia</div>
+                </div>
+            </div>
+
+            <!-- ESTÁNDAR 6: VERIFICACIÓN -->
+            <div class="estandar">
+                <div class="estandar-header">
+                    <div class="estandar-titulo">6️⃣ Verificación del SG-SST (5%)</div>
+                    <div class="estandar-puntaje">
+                        <span class="puntaje-obtenido">5.0</span>
+                        <span class="puntaje-maximo">de 5 puntos</span>
+                    </div>
+                </div>
+
+                <div class="criterios-list">
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>6.1 Auditoría anual:</strong> Auditoría interna realizada en agosto 2024 por equipo auditor certificado. Cumplimiento: 90%. Plan de mejora en ejecución.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>6.2 Revisión por dirección:</strong> Reunión anual realizada en septiembre 2024. Participación de Gerencia General y equipo directivo. Acta con decisiones aprobada.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>6.3 Investigación incidentes:</strong> 18 accidentes laborales investigados en 2024 con metodología ICAM. Acciones correctivas implementadas y verificadas.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evidencias-box">
+                    <div class="evidencias-title">Evidencias Disponibles</div>
+                    <div class="evidencia-item">Informe de auditoría interna SG-SST 2024</div>
+                    <div class="evidencia-item">Acta de revisión por la dirección</div>
+                    <div class="evidencia-item">Investigaciones de ATEL con análisis causal</div>
+                    <div class="evidencia-item">Seguimiento a acciones correctivas y preventivas</div>
+                </div>
+            </div>
+
+            <!-- ESTÁNDAR 7: MEJORAMIENTO -->
+            <div class="estandar">
+                <div class="estandar-header">
+                    <div class="estandar-titulo">7️⃣ Mejoramiento (10%)</div>
+                    <div class="estandar-puntaje">
+                        <span class="puntaje-obtenido">7.0</span>
+                        <span class="puntaje-maximo">de 10 puntos</span>
+                    </div>
+                </div>
+
+                <div class="criterios-list">
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>7.1 Acciones correctivas:</strong> 28 acciones correctivas generadas de auditorías y revisión gerencial. 85% cerradas efectivamente. Seguimiento en plataforma digital.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item parcial">
+                        <span class="criterio-check">⚠️</span>
+                        <div class="criterio-texto">
+                            <strong>7.2 Plan de mejora:</strong> Plan de mejoramiento 2024-2025 formulado con 15 iniciativas estratégicas. Avance: 60%. Requiere mayor seguimiento y recursos.
+                        </div>
+                    </div>
+
+                    <div class="criterio-item">
+                        <span class="criterio-check">✅</span>
+                        <div class="criterio-texto">
+                            <strong>7.3 Indicadores de gestión:</strong> 12 indicadores definidos y monitoreados mensualmente: IFA, IFA, prevalencia EL, cobertura capacitación, cumplimiento plan de trabajo, etc.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evidencias-box">
+                    <div class="evidencias-title">Evidencias Disponibles</div>
+                    <div class="evidencia-item">Matriz de acciones correctivas, preventivas y de mejora</div>
+                    <div class="evidencia-item">Plan de mejoramiento 2024-2025</div>
+                    <div class="evidencia-item">Tablero de indicadores SG-SST</div>
+                    <div class="evidencia-item">Informes de seguimiento trimestral</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>FEMSA</strong> - Comprometidos con la Excelencia Operacional, la Sustentabilidad y el Bienestar de Nuestra Gente</p>
+            <p style="font-size: 0.85em; margin-top: 15px;">Sistema Integrado de Gestión | ISO 9001:2015 | ISO 14001:2015 | ISO 45001:2018 | Resolución 0312 de 2019</p>
+            <p style="font-size: 0.8em; margin-top: 10px; opacity: 0.9;">Presente en más de 13 países con operaciones de Coca-Cola FEMSA, FEMSA Comercio (OXXO) y Negocios Estratégicos</p>
+        </footer>
     </div>
-    
+
     <script>
-        // Efectos de interactividad
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.dashboard-card');
-            
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-10px) scale(1.02)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
-                });
-            });
-            
-            // Animación de números en las estadísticas
-            const statNumbers = document.querySelectorAll('.stat-number');
-            const observerOptions = {
-                threshold: 0.7
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animateNumber(entry.target);
-                    }
-                });
-            }, observerOptions);
-            
-            statNumbers.forEach(stat => observer.observe(stat));
-        });
-        
-        function animateNumber(element) {
-            const finalNumber = element.textContent;
-            const duration = 2000;
-            const startTime = performance.now();
-            
-            function update(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                if (finalNumber.includes('Ps.')) {
-                    element.textContent = 'Ps. ' + (279.8 * progress).toFixed(1) + 'B';
-                } else if (finalNumber.includes('M')) {
-                    const num = parseFloat(finalNumber.replace('M', ''));
-                    element.textContent = (num * progress).toFixed(0) + 'M';
-                } else if (finalNumber.includes('%')) {
-                    const num = parseFloat(finalNumber.replace('%', ''));
-                    element.textContent = (num * progress).toFixed(0) + '%';
-                } else {
-                    const num = parseFloat(finalNumber.replace(/[^0-9.]/g, ''));
-                    element.textContent = (num * progress).toLocaleString();
-                }
-                
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                } else {
-                    element.textContent = finalNumber;
-                }
+        function openTab(evt, tabName) {
+            // Ocultar todos los contenidos de tabs
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
             }
-            
-            requestAnimationFrame(update);
+
+            // Remover clase active de todos los tabs
+            var tabs = document.getElementsByClassName("tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+
+            // Mostrar el contenido del tab seleccionado
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+
+            // Scroll suave hacia arriba
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
